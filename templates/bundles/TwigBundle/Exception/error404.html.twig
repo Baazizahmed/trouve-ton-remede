@@ -1,0 +1,43 @@
+{% extends "themes/base_visitor.html.twig" %}
+
+{% block title %}Page Introuvable (Erreur 404) - Oumi Blog{% endblock %}
+{% block description %}La page que vous recherchez sur le blog Oumi n'existe pas ou a été déplacée.{% endblock %}
+
+{# On dit à Google de ne pas indexer cette page #}
+{% block meta_robots %}
+    <meta name="robots" content="noindex, follow">
+{% endblock %}
+
+
+{% block main %}
+<div class="container my-5">
+    <div class="row align-items-center justify-content-center">
+        
+        <div class="col-md-5 d-none d-md-block">
+            {# Cherchez une illustration sur undraw.co comme "lost", "nature", "404" #}
+            {# Placez-la dans public/images/static/errors/ et changez le nom du fichier #}
+            <img src="/images/static/errors/404-illustration.svg" class="img-fluid" alt="Illustration d'une personne perdue dans la nature">
+        </div>
+
+        <div class="col-md-6 text-center text-md-start">
+            
+            <h1 class="display-1 fw-bold text-primary">404</h1>
+            <h2 class="h3 mb-3">Un chemin inexploré...</h2>
+            <p class="lead text-muted mb-4">
+                La page que vous cherchez a peut-être pris racine ailleurs, ou n'a tout simplement jamais fleuri.
+            </p>
+            
+            <div class="mt-4">
+                <a href="{{ path('app_visitor_welcome') }}" class="btn btn-primary shadow-sm">
+                    <i class="fas fa-home me-2"></i>
+                    Retourner à l'accueil
+                </a>
+                <a href="{{ path('app_visitor_blog_index') }}" class="btn btn-outline-secondary ms-2">
+                    Explorer les articles
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
