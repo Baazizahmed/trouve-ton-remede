@@ -1,13 +1,8 @@
 TODO – Projet TrouveTonRemede
-
-Symfony • Docker • MySQL
-
-📅 Date : 10 mars 2026
-
-🧩 SPRINT 1 – Infrastructure Docker + Base MySQL + Configuration
-
+Symfony - Docker - MySQL
+Date : 11 Mars 2026
+SPRINT 1 – Infrastructure Docker + Base MySQL + Configuration
 ✅ Terminé
-
 Ticket 1.1 – Initialisation du projet
 
  Cloner le projet oumi-blog
@@ -16,401 +11,243 @@ Ticket 1.1 – Initialisation du projet
 
  Créer la branche feature/panier
 
- Créer la branche de travail sprint1-ticket1-docker-launch
+ Créer la branche sprint1-ticket1-docker-launch
 
- Lancer Docker
+ Lancer Docker : docker-compose up -d --build
 
-docker-compose up -d --build
-
-5 conteneurs actifs :
-
-app
-
-nginx
-
-db
-
-adminer
-
-phpmyadmin
+ 5 conteneurs actifs : app, nginx, db, adminer, phpmyadmin
 
 Ticket 1.2 – Base de données
 
  Créer la branche sprint1-ticket2-create-database
 
- Créer la base MySQL :
+ Créer la base MySQL trouve_ton_remede en utf8mb4
 
-trouve_ton_remede
-
-Encodage :
-
-utf8mb4
 Ticket 1.3 – Configuration environnement
 
  Créer la branche sprint1-ticket3-env-local
 
  Générer un nouveau APP_SECRET
 
- Créer .env.dev.local
-
- Configurer DATABASE_URL
+ Créer .env.dev.local avec DATABASE_URL
 
  Mettre à jour APP_SECRET dans .env.dev
 
  Ajouter schema_panier.sql dans /documentation
 
- Vérifier la connexion Symfony → MySQL
+ Vérifier la connexion Symfony → MySQL (doctrine:schema:validate)
 
-docker-compose exec app php bin/console doctrine:schema:validate
+ Merger tous les tickets dans feature/panier + push GitHub
 
- Merger tous les tickets dans feature/panier
-
- Push sur GitHub
-
-🧩 SPRINT 2 – Entités Doctrine + Migration
-
+SPRINT 2 – Entités Doctrine + Migration
 ✅ Terminé
-
 Ticket 2.1 – Entité Product
 
  Créer branche sprint2-ticket1-entity-product
 
- Créer l'entité Product
-
-Champs :
-
-name
-
-slug
-
-description
-
-price
-
-createdAt
-
-updatedAt
+ Créer l'entité Product (name, slug, description, price, createdAt, updatedAt)
 
 Ticket 2.2 – Entité Cart
 
  Créer branche sprint2-ticket2-entity-cart
 
- Créer l'entité Cart
-
-Champs :
-
-status
-
-sessionId
-
-createdAt
-
-updatedAt
+ Créer l'entité Cart (status, sessionId, createdAt, updatedAt)
 
 Ticket 2.3 – Entité CartItem
 
  Créer branche sprint2-ticket3-entity-cartitem
 
- Créer l'entité CartItem
+ Créer l'entité CartItem (quantity, unitPrice)
 
-Champs :
+ Relation ManyToOne → Cart
 
-quantity
-
-unitPrice
-
-Relations :
-
-ManyToOne → Cart
-
-ManyToOne → Product
+ Relation ManyToOne → Product
 
 Ticket 2.4 – Migration
 
  Créer branche sprint2-ticket4-migration
 
-Commandes :
+ Générer la migration : make:migration
 
-docker-compose exec app php bin/console make:migration
-docker-compose exec app php bin/console doctrine:migrations:migrate
+ Exécuter : doctrine:migrations:migrate
 
-Correction :
+ Correction : doctrine:schema:update --force
 
-docker-compose exec app php bin/console doctrine:schema:update --force
+ Validation : Mapping OK + Database OK
 
-Validation :
+ Merger dans feature/panier + push GitHub
 
-docker-compose exec app php bin/console doctrine:schema:validate
+Tables créées dans trouve_ton_remede :
+user, category, tag, post, post_tag, comment, like, contact, setting, reset_password_request, product, cart, cart_item, doctrine_migration_versions, messenger_messages
 
-Résultat :
-
-Mapping OK
-Database OK
-
- Merge dans feature/panier
-
- Push GitHub
-
-🗄 Tables créées dans la base trouve_ton_remede
-
-user
-
-category
-
-tag
-
-post
-
-post_tag
-
-comment
-
-like
-
-contact
-
-setting
-
-reset_password_request
-
-product
-
-cart
-
-cart_item
-
-doctrine_migration_versions
-
-messenger_messages
-
-🧩 SPRINT 3 – Catalogue Produits
-
-⏳ À faire
-
-Ticket 3.1 – ProductController
+SPRINT 3 – Catalogue Produits
+✅ Terminé
+Ticket 3.1 – ProductController + Fixtures
 
  Créer branche sprint3-ticket1-product-controller
 
- Créer ProductController
+ Créer ProductController dans src/Controller/Visitor/Product/
 
-Routes :
+ Route /produits → liste des produits
 
-/produits
-/produits/{slug}
+ Route /produits/{slug} → détail produit
 
-Fonctions :
+ Créer ProductFixtures avec 4 produits (Camomille, Thym, Nigelle, Moringa)
 
-liste produits
-
-détail produit
+ Charger les fixtures : doctrine:fixtures:load --append
 
 Ticket 3.2 – Vue liste produits
 
- Créer branche sprint3-ticket2-product-list-view
+ Créer templates/pages/visitor/product/index.html.twig
 
- Créer template
+ Grille Bootstrap des produits (nom, description, prix, bouton détail)
 
-templates/pages/visitor/product/list.html.twig
-
-Contenu :
-
-grille produits
-
-image
-
-nom
-
-prix
-
-bouton détail
+ Correction bloc {% block main %} (au lieu de {% block body %})
 
 Ticket 3.3 – Vue détail produit
 
- Créer branche sprint3-ticket3-product-show-view
+ Créer templates/pages/visitor/product/show.html.twig
 
- Créer template
+ Affichage nom, description, prix
 
-templates/pages/visitor/product/show.html.twig
+ Breadcrumb fonctionnel
 
-Contenu :
+ Bouton "Ajouter au panier" activé
 
-image
+Merger + push GitHub ✓
 
-description
-
-prix
-
-bouton panier
-
-Ticket 3.4 – Bouton Ajouter au panier
-
- Créer branche sprint3-ticket4-add-to-cart-button
-
- Ajouter bouton
-
-Ajouter au panier
-
-Sur la page détail produit
-
-🧩 SPRINT 4 – Panier
-
-⏳ À faire
-
+SPRINT 4 – Panier
+✅ Terminé
 Ticket 4.1 – CartService
 
- Créer CartService
+ Créer branche sprint4-ticket1-cart-service
 
-Responsabilités :
+ Créer src/Service/CartService.php
 
-ajouter produit
+ Méthode getOrCreateCart() (user connecté ou session)
 
-modifier quantité
+ Méthode addProduct()
 
-supprimer produit
+ Méthode removeProduct()
 
-calcul total
+ Méthode updateQuantity()
 
-Ticket 4.2 – CartController
+ Méthode getTotal()
 
- Créer CartController
+Ticket 4.2 – CartController + Vue panier
 
-Routes :
+ Créer branche sprint4-ticket2-cart-controller
 
-/panier
-/panier/ajouter/{id}
-/panier/modifier/{id}
-/panier/supprimer/{id}
-Ticket 4.3 – Vue panier
+ Créer src/Controller/User/Cart/CartController.php
 
-Créer template :
+ Route /panier → afficher le panier
 
-templates/pages/user/cart/index.html.twig
+ Route /panier/ajouter/{id} → ajouter un produit
 
-Contenu :
+ Route /panier/modifier/{id} → modifier la quantité
 
-liste produits
+ Route /panier/supprimer/{id} → supprimer un article
 
-quantité
+ Créer templates/pages/user/cart/index.html.twig
 
-prix
+ Affichage lignes panier (produit, prix unitaire, quantité, total ligne)
 
-total panier
+ Calcul du total général
 
-Ticket 4.4 – Tests fonctionnels
+ Messages flash
 
- Ajouter produit
+ Correction use App\Entity\Product inutilisé dans ProductController
 
- Modifier quantité
+Ticket 4.3 – Tests fonctionnels
 
- Supprimer produit
+ Ajouter un produit au panier ✓
 
- Vérifier total panier
+ Modifier la quantité ✓
 
-🧩 SPRINT 5 – Commandes
+ Supprimer un article ✓
 
+ Vérifier le total ✓
+
+Merger + push GitHub ✓
+
+SPRINT 5 – Commandes
 ⏳ À faire
-
 Ticket 5.1 – Entités commandes
 
-Créer :
+ Créer branche sprint5-ticket1-entity-order
 
-Order
+ Créer entité Order (user, subtotalHt, taxAmount, totalTtc, status, createdAt)
 
-OrderItem
+ Créer entité OrderItem (order, product, productName, quantity, unitPriceHt, taxRate, totalHt, totalTtc)
+
+ Générer et exécuter la migration
 
 Ticket 5.2 – Validation commande
 
-Créer OrderController
+ Créer branche sprint5-ticket2-order-controller
 
-Route :
+ Créer OrderController
 
-/commande/valider
+ Route /commande/valider → transformer panier en commande
 
-Fonction :
+ Créer OrderService (logique de validation)
 
-transformer panier → commande
+ Vue confirmation commande
 
 Ticket 5.3 – Espace utilisateur
 
-Page :
+ Créer branche sprint5-ticket3-order-history
 
-Mes commandes
+ Page "Mes commandes" (historique)
 
-Fonctions :
+ Page détail d'une commande
 
-historique commandes
-
-détail commande
-
-🧩 SPRINT 6 – Dashboard Admin
-
+SPRINT 6 – Dashboard Admin
 ⏳ À faire
+Ticket 6.1 – Gestion produits admin
 
-Ticket 6.1 – Gestion produits
+ Créer branche sprint6-ticket1-admin-product
 
-CRUD produits :
+ CRUD produits : créer, lister, modifier, supprimer
 
-créer
+ Restreindre accès ROLE_ADMIN
 
-modifier
+Ticket 6.2 – Gestion commandes admin
 
-supprimer
+ Créer branche sprint6-ticket2-admin-order
 
-lister
+ Liste toutes les commandes
 
-Ticket 6.2 – Gestion commandes
+ Détail d'une commande
 
-Admin :
+ Modifier le statut d'une commande
 
-liste commandes
+Notes techniques importantes
+Commandes Symfony → toujours via Docker :
 
-détail commande
+bash
+docker-compose exec app php bin/console mmande>
+Commandes sans DB → possible avec symfony CLI :
 
-statut commande
-
-⚙️ Notes techniques importantes
-Commandes Symfony avec Docker
-
-Toujours utiliser :
-
-docker-compose exec app php bin/console
-
-Exemple :
-
-docker-compose exec app php bin/console doctrine:migrations:migrate
-Commandes sans base de données
-
-Possible avec :
-
-symfony console
-
-Exemple :
-
+bash
 symfony console make:entity
-Gestion des fichiers .env
-.env.dev.local
+Fichiers .env :
 
-❌ Jamais commité
+.env.dev.local → jamais commité (secrets)
 
-Ignoré par .gitignore
+.env.dev → commité (APP_SECRET uniquement)
 
-.env.dev
+Configuration projet :
 
-✔ Committé
+APP_SECRET : c2a686b46f3a061514e79042309cb5d0
 
-Contient uniquement :
+DATABASE_URL : mysql://root:root@db:3306/trouve_ton_remede?serverVersion=8.0&charset=utf8mb4
 
-APP_SECRET
-🔐 Configuration projet
-APP_SECRET
-c2a686b46f3a061514e79042309cb5d0
-DATABASE_URL
-mysql://root:root@db:3306/trouve_ton_remede?serverVersion=8.0&charset=utf8mb4
-🐳 Ports Docker
+Ports Docker :
+
 Service	Port
 Symfony	8000
 Adminer	8080
 phpMyAdmin	8081
 MySQL	33066
-
-✅ Projet prêt pour Sprint 3 – Catalogue Produits
+✅ Sprint 1, 2, 3, 4 terminés → Prêt pour Sprint 5 – Commandes
