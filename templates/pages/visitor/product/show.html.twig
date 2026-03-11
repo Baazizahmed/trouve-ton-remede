@@ -1,0 +1,29 @@
+{% extends 'themes/base_visitor.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            >
+                <a href="{{ path('app_visitor_product_index') }}">Produits</a>
+            </li>
+            >{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p class="fs-4 fw-bold">{{ product.price }} €</p>
+
+            {# TODO Sprint 4 : bouton panier #}
+            <button class="btn btn-primary btn-lg" disabled>
+                Ajouter au panier (disponible bientôt)
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
