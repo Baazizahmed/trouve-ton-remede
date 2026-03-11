@@ -19,10 +19,20 @@
             <p>{{ product.description }}</p>
             <p class="fs-4 fw-bold">{{ product.price }} €</p>
 
-            {# TODO Sprint 4 : bouton panier #}
-            <button class="btn btn-primary btn-lg" disabled>
-                Ajouter au panier (disponible bientôt)
-            </button>
+            <form action="{{ path('app_cart_add', {'id': product.id}) }}" method="post">
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantité</label>
+                    <input type="number"
+                           name="quantity"
+                           id="quantity"
+                           class="form-control w-25"
+                           value="1"
+                           min="1">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Ajouter au panier
+                </button>
+            </form>
         </div>
     </div>
 </div>
