@@ -1,6 +1,6 @@
 TODO – Projet TrouveTonRemede
 Symfony - Docker - MySQL
-Date : 11 Mars 2026
+Date : 12 Mars 2026
 SPRINT 1 – Infrastructure Docker + Base MySQL + Configuration
 ✅ Terminé
 Ticket 1.1 – Initialisation du projet
@@ -53,6 +53,8 @@ Ticket 2.2 – Entité Cart
 
  Créer l'entité Cart (status, sessionId, createdAt, updatedAt)
 
+ Ajout relation ManyToOne → User (correction sprint 5)
+
 Ticket 2.3 – Entité CartItem
 
  Créer branche sprint2-ticket3-entity-cartitem
@@ -78,7 +80,7 @@ Ticket 2.4 – Migration
  Merger dans feature/panier + push GitHub
 
 Tables créées dans trouve_ton_remede :
-user, category, tag, post, post_tag, comment, like, contact, setting, reset_password_request, product, cart, cart_item, doctrine_migration_versions, messenger_messages
+user, category, tag, post, post_tag, comment, like, contact, setting, reset_password_request, product, cart, cart_item, order, order_item, doctrine_migration_versions, messenger_messages
 
 SPRINT 3 – Catalogue Produits
 ✅ Terminé
@@ -156,7 +158,7 @@ Ticket 4.2 – CartController + Vue panier
 
  Messages flash
 
- Correction use App\Entity\Product inutilisé dans ProductController
+ Bouton "Valider la commande" activé
 
 Ticket 4.3 – Tests fonctionnels
 
@@ -171,46 +173,72 @@ Ticket 4.3 – Tests fonctionnels
 Merger + push GitHub ✓
 
 SPRINT 5 – Commandes
-⏳ À faire
+✅ Terminé
 Ticket 5.1 – Entités commandes
 
  Créer branche sprint5-ticket1-entity-order
 
  Créer entité Order (user, subtotalHt, taxAmount, totalTtc, status, createdAt)
 
- Créer entité OrderItem (order, product, productName, quantity, unitPriceHt, taxRate, totalHt, totalTtc)
+ Créer entité OrderItem (orderRef, product, productName, quantity, unitPriceHt, taxRate, totalHt, totalTtc)
+
+ Relation OneToMany Order → OrderItem avec cascade: ['persist']
 
  Générer et exécuter la migration
+
+ Tables order et order_item créées
 
 Ticket 5.2 – Validation commande
 
  Créer branche sprint5-ticket2-order-controller
 
- Créer OrderController
+ Créer src/Service/OrderService.php
+
+ Méthode createOrderFromCart() (calcul TVA 20%, totaux HT/TTC)
+
+ Méthode getUserOrders()
+
+ Créer src/Controller/User/Order/OrderController.php
 
  Route /commande/valider → transformer panier en commande
 
- Créer OrderService (logique de validation)
+ Route /commande/{id} → détail commande
 
- Vue confirmation commande
+ Route /mes-commandes → historique commandes
 
-Ticket 5.3 – Espace utilisateur
+ Vue templates/pages/user/order/show.html.twig
 
- Créer branche sprint5-ticket3-order-history
+ Vue templates/pages/user/order/index.html.twig
 
- Page "Mes commandes" (historique)
+ Tests fonctionnels : commande validée, TVA calculée, historique affiché ✓
 
- Page détail d'une commande
+Merger + push GitHub ✓
+
+Fix Docker cache
+
+ Ajout volumes dédiés app_cache et app_logs dans docker-compose.yml
+
+ Résolution problème rmdir: Directory not empty sous Windows
 
 SPRINT 6 – Dashboard Admin
-⏳ À faire
+🚧 En cours
 Ticket 6.1 – Gestion produits admin
 
  Créer branche sprint6-ticket1-admin-product
 
- CRUD produits : créer, lister, modifier, supprimer
+ Créer ProductController dans src/Controller/Admin/Product/
+
+ Route /admin/produits → liste produits
+
+ Route /admin/produits/nouveau → créer produit
+
+ Route /admin/produits/{id}/modifier → modifier produit
+
+ Route /admin/produits/{id}/supprimer → supprimer produit
 
  Restreindre accès ROLE_ADMIN
+
+ Vues CRUD admin produits
 
 Ticket 6.2 – Gestion commandes admin
 
@@ -250,4 +278,4 @@ Symfony	8000
 Adminer	8080
 phpMyAdmin	8081
 MySQL	33066
-✅ Sprint 1, 2, 3, 4 terminés → Prêt pour Sprint 5 – Commandes
+✅ Sprint 1, 2, 3, 4, 5 terminés → 🚧 Sprint 6 en cours – Dashboard Admin
