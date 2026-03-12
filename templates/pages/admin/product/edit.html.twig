@@ -1,0 +1,26 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}Modifier {{ product.name }}{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h1>Modifier : {{ product.name }}</h1>
+
+    <form action="{{ path('app_admin_product_edit', {'id': product.id}) }}" method="post">
+        <div class="mb-3">
+            abel for="name" class="form-label">Nom</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ product.name }}" required>
+        </div>
+        <div class="mb-3">
+            abel for="description" class="form-label">Description</label>
+            <textarea name="description" id="description" class="form-control" rows="4" required>{{ product.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            abel for="price" class="form-label">Prix HT (€)</label>
+            <input type="number" name="price" id="price" class="form-control" step="0.01" value="{{ product.price }}" required>
+        </div>
+        <button type="submit" class="btn btn-warning">Modifier le produit</button>
+        <a href="{{ path('app_admin_product_index') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

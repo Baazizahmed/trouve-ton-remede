@@ -1,0 +1,55 @@
+{% extends 'themes/base_admin.html.twig' %}
+
+{% block title %}Gestion des Produits{% endblock %}
+
+{% block main %}
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gestion des Produits</h1>
+        <a href="{{ path('app_admin_product_new') }}" class="btn btn-primary">
+            + Nouveau produit
+        </a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Slug</th>
+                <th>Prix HT</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.slug }}</td>
+                <td>{{ product.price }} €</td>
+                <td>
+                    <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-warning">
+                        Modifier
+                    </a>
+                    <form action="{{ path('app_admin_product_delete', {'id': product.id}) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Supprimer ce produit ?')">
+                            Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">Aucun produit.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
