@@ -58,9 +58,12 @@
             <a href="{{ path('app_visitor_product_index') }}" class="btn btn-outline-secondary">
                 Continuer mes achats
             </a>
-            <button class="btn btn-success btn-lg" disabled>
-                Valider la commande (bientôt disponible)
-            </button>
+            <form action="{{ path('app_order_validate') }}" method="post">
+                <button type="submit" class="btn btn-success btn-lg">
+                    Valider la commande
+                </button>
+            </form>
+
         </div>
     {% endif %}
 </div>
