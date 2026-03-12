@@ -2,8 +2,8 @@
 
 namespace App\Controller\User\Cart;
 
-use App\Repository\ProductRepository;
 use App\Repository\CartItemRepository;
+use App\Repository\ProductRepository;
 use App\Service\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,8 @@ class CartController extends AbstractController
 {
     public function __construct(
         private CartService $cartService,
-    ) {}
+    ) {
+    }
 
     #[Route('/panier', name: 'app_cart_index')]
     public function index(): Response
@@ -41,7 +42,7 @@ class CartController extends AbstractController
         $cart = $this->cartService->getOrCreateCart($this->getUser());
         $this->cartService->addProduct($cart, $product, $quantity);
 
-        $this->addFlash('success', $product->getName() . ' ajouté au panier.');
+        $this->addFlash('success', $product->getName().' ajouté au panier.');
 
         return $this->redirectToRoute('app_cart_index');
     }

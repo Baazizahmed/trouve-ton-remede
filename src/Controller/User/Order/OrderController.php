@@ -16,7 +16,8 @@ class OrderController extends AbstractController
     public function __construct(
         private CartService $cartService,
         private OrderService $orderService,
-    ) {}
+    ) {
+    }
 
     #[Route('/commande/valider', name: 'app_order_validate', methods: ['POST'])]
     public function validate(): Response
@@ -26,6 +27,7 @@ class OrderController extends AbstractController
 
         if ($cart->getCartItems()->isEmpty()) {
             $this->addFlash('error', 'Votre panier est vide.');
+
             return $this->redirectToRoute('app_cart_index');
         }
 

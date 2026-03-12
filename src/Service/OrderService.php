@@ -2,24 +2,30 @@
 
 namespace App\Service;
 
+use App\Entity\Cart;
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Entity\Cart;
 use App\Entity\User;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class OrderService
 {
     public function __construct(
         private EntityManagerInterface $em,
         private OrderRepository $orderRepository,
-    ) {}
+    ) {
+    }
 
-    public function createOrderFromCart(Cart $cart, User $user): Order
+    public function createOrderFromCart(Cart $cart, UserInterface $user): Order
     {
         $order = new Order();
-        $order->setUser($user);
+
+        if ($user instanceof User) {
+            $order->setUser($user);
+        }
+
         $order->setStatus('PENDING');
         $order->setCreatedAt(new \DateTimeImmutable());
 
@@ -30,7 +36,7 @@ class OrderService
             $orderItem->setProductName($cartItem->getProduct()->getName());
             $orderItem->setQuantity($cartItem->getQuantity());
             $orderItem->setUnitPriceHt($cartItem->getUnitPrice());
-            $orderItem->setTaxRate('20.00'); // TVA 20% par défaut
+            $orderItem->setTaxRate('20.00');
             $orderItem->setProduct($cartItem->getProduct());
 
             $totalHt = $cartItem->getUnitPrice() * $cartItem->getQuantity();
@@ -57,7 +63,7 @@ class OrderService
         return $order;
     }
 
-    public function getUserOrders(User $user): array
+    public function getUserOrders(UserInterface $user): array
     {
         return $this->orderRepository->findBy(
             ['user' => $user],

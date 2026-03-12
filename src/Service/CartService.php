@@ -5,11 +5,11 @@ namespace App\Service;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
-use App\Entity\User;
-use App\Repository\CartRepository;
 use App\Repository\CartItemRepository;
+use App\Repository\CartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class CartService
 {
@@ -18,10 +18,11 @@ class CartService
         private CartRepository $cartRepository,
         private CartItemRepository $cartItemRepository,
         private RequestStack $requestStack,
-    ) {}
+    ) {
+    }
 
     // Récupère ou crée un panier pour l'utilisateur ou la session
-    public function getOrCreateCart(?User $user): Cart
+    public function getOrCreateCart(?UserInterface $user): Cart
     {
         $session = $this->requestStack->getSession();
         $sessionId = $session->getId();
@@ -44,7 +45,7 @@ class CartService
             $cart->setCreatedAt(new \DateTimeImmutable());
             $cart->setUpdatedAt(new \DateTimeImmutable());
 
-            if ($user) {
+            if ($user instanceof \App\Entity\User) {
                 $cart->setUser($user);
             } else {
                 $cart->setSessionId($sessionId);
@@ -106,6 +107,7 @@ class CartService
         foreach ($cart->getCartItems() as $item) {
             $total += $item->getUnitPrice() * $item->getQuantity();
         }
+
         return $total;
     }
 }
