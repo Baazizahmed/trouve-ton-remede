@@ -15,10 +15,11 @@
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
 
-    <table class="table table-striped">
+    <table class="table table-striped align-middle">
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Image</th>
                 <th>Nom</th>
                 <th>Slug</th>
                 <th>Prix HT</th>
@@ -29,6 +30,17 @@
             {% for product in products %}
             <tr>
                 <td>{{ product.id }}</td>
+                <td>
+                    {% if product.imageName %}
+                        <img
+                            src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                            alt="{{ product.name }}"
+                            style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;"
+                        >
+                    {% else %}
+                        <span class="text-muted">Aucune image</span>
+                    {% endif %}
+                </td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.slug }}</td>
                 <td>{{ product.price }} €</td>
@@ -37,6 +49,7 @@
                         Modifier
                     </a>
                     <form action="{{ path('app_admin_product_delete', {'id': product.id}) }}" method="post" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete_product_' ~ product.id) }}">
                         <button type="submit" class="btn btn-sm btn-danger"
                             onclick="return confirm('Supprimer ce produit ?')">
                             Supprimer
@@ -46,7 +59,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="5">Aucun produit.</td>
+                <td colspan="6">Aucun produit.</td>
             </tr>
             {% endfor %}
         </tbody>
