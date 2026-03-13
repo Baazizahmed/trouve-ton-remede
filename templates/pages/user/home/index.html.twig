@@ -1,43 +1,241 @@
 {% extends 'themes/base_user.html.twig' %}
 
-{% block title %}{% endblock %}
+{% block title %}Dashboard utilisateur{% endblock %}
 
-{% block description %}Accueil
-{% endblock %}
+{% block description %}Accueil{% endblock %}
 
 {% block main %}
-	<h1 class="text-center text-primary my-3 display-5">🌿
-		{{app.user.firstName}}
-		{{app.user.lastName}}
-	</h1>
 
-	<div class="container my-5">
-		<div class="row">
-			<div
-				class="col-md-6 mb-3">
-				{# On utilise text-bg-primary pour le style vert et blanc, et h-100 pour la hauteur égale #}
-				<div class="card text-bg-primary h-100">
-					<div class="card-body d-flex flex-column">
-						<span class="card-title">Liste des commentaires</span>
-						{# On ajoute l'icône à côté du nombre #}
-						<p class="h3 mt-auto">{{ app.user.comments|length }}
-							<i class="fa-solid fa-comments"></i>
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 mb-3">
-				<div class="card text-bg-primary h-100">
-					<div class="card-body d-flex flex-column">
-						<span class="card-title">Liste des likes</span>
-						{# On ajoute l'icône à côté du nombre #}
-						<p class="h3 mt-auto">{{ app.user.likes|length }}
-							<i class="fa-solid fa-heart"></i>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="container my-5">
+
+    {# HEADER UTILISATEUR #}
+{% set currentHour = "now"|date('H') %}
+
+<div class="text-center mb-5">
+    <h1 class="fw-bold display-5 text-success">
+        🌿
+        {% if currentHour < 18 %}
+            Bonne journée
+        {% else %}
+            Bonne soirée
+        {% endif %}
+        {{ app.user.firstName }}
+    </h1>
+
+    <p class="text-muted">
+        Retrouvez ici vos activités, commandes et informations personnelles.
+    </p>
+</div>
+
+
+
+    {# STATISTIQUES BLOG #}
+    <div class="row mb-5 g-4">
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+
+                    <div>
+                        <p class="text-muted mb-1">Commentaires publiés</p>
+                        <h2 class="fw-bold">{{ app.user.comments|length }}</h2>
+                    </div>
+
+                    <div class="fs-1 text-primary">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+
+                    <div>
+                        <p class="text-muted mb-1">Articles likés</p>
+                        <h2 class="fw-bold">{{ app.user.likes|length }}</h2>
+                    </div>
+
+                    <div class="fs-1 text-danger">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    {# ACCÈS RAPIDE #}
+    <div class="row mb-5 g-4">
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-3">
+
+                <div class="mb-3 text-success fs-1">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                </div>
+
+                <h5 class="fw-bold">Mon panier</h5>
+
+                <p class="text-muted small">
+                    Consultez les plantes médicinales que vous avez ajoutées.
+                </p>
+
+                <a href="{{ path('app_cart_index') }}"
+                   class="btn btn-success mt-auto">
+                   Voir mon panier
+                </a>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-3">
+
+                <div class="mb-3 text-primary fs-1">
+                    <i class="fa-solid fa-box"></i>
+                </div>
+
+                <h5 class="fw-bold">Mes commandes</h5>
+
+                <p class="text-muted small">
+                    Consultez l'historique de vos commandes.
+                </p>
+
+                <a href="{{ path('app_order_index') }}"
+                   class="btn btn-primary mt-auto">
+                   Voir mes commandes
+                </a>
+
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 text-center p-3">
+
+                <div class="mb-3 text-info fs-1">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <h5 class="fw-bold">Mon profil</h5>
+
+                <p class="text-muted small">
+                    Modifier mes informations personnelles.
+                </p>
+
+                <a href="{{ path('app_user_profile_index') }}"
+                   class="btn btn-outline-info mt-auto">
+                   Gérer mon profil
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {# DERNIÈRES COMMANDES #}
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h4 class="mb-4">
+                <i class="fa-solid fa-clock-rotate-left me-2"></i>
+                Mes dernières commandes
+            </h4>
+
+            {% if last_orders is not empty %}
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Référence</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                                <th>Total TTC</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        {% for order in last_orders %}
+
+                            <tr>
+
+                                <td class="fw-semibold">
+                                    #{{ order.id }}
+                                </td>
+
+                                <td>
+                                    {{ order.createdAt|date('d/m/Y H:i') }}
+                                </td>
+
+                                <td>
+
+                                    {% if order.status == 'paid' %}
+                                        <span class="badge bg-success">Payée</span>
+
+                                    {% elseif order.status == 'pending' %}
+                                        <span class="badge bg-warning text-dark">En attente</span>
+
+                                    {% else %}
+                                        <span class="badge bg-secondary">
+                                            {{ order.status|capitalize }}
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                                <td class="fw-bold text-success">
+                                    {{ order.totalTtc|number_format(2, ',', ' ') }} €
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a href="{{ path('app_order_show', { id: order.id }) }}"
+                                       class="btn btn-sm btn-outline-primary">
+                                       Détails
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center text-muted py-4">
+                    <i class="fa-solid fa-box-open fa-2x mb-3"></i>
+                    <p class="mb-0">
+                        Vous n'avez pas encore passé de commande.
+                    </p>
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
 {% endblock %}
-
