@@ -6,7 +6,9 @@ use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ContactRepository;
 use App\Repository\LikeRepository;
+use App\Repository\OrderRepository;
 use App\Repository\PostRepository;
+use App\Repository\ProductRepository;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +26,8 @@ final class HomeController extends AbstractController
         private UserRepository $userRepository,
         private ContactRepository $contactRepository,
         private LikeRepository $likeRepository,
+        private ProductRepository $productRepository,
+        private OrderRepository $orderRepository,
     ) {
     }
 
@@ -31,6 +35,7 @@ final class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('pages/admin/home/index.html.twig', [
+            // Blog
             'categories_count' => $this->categoryRepository->count(),
             'posts_count' => $this->postRepository->count(),
             'tags_count' => $this->tagRepository->count(),
@@ -38,6 +43,12 @@ final class HomeController extends AbstractController
             'users_count' => $this->userRepository->count(),
             'contacts_count' => $this->contactRepository->count(),
             'likes_count' => $this->likeRepository->count(),
+
+            // Boutique
+            'products_count' => $this->productRepository->count(),
+            'orders_count' => $this->orderRepository->count(),
+            'pending_orders_count' => $this->orderRepository->count(['status' => 'pending']),
+            'paid_orders_count' => $this->orderRepository->count(['status' => 'paid']),
         ]);
     }
 }

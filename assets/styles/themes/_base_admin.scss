@@ -1,0 +1,17 @@
+// assets/styles/themes/_base_admin.scss
+
+.admin-dashboard {
+  .card {
+    border-radius: 0.75rem;
+  }
+
+  .card-title {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+  }
+
+  .display-6 {
+    font-family: 'Poppins', sans-serif;
+  }
+}
