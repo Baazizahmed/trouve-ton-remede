@@ -26,6 +26,12 @@ class Product
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $benefits = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $usage = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
@@ -38,7 +44,7 @@ class Product
     /**
      * Fichier image non mappé en base, géré par VichUploader.
      */
-    #[Vich\UploadableField(mapping: 'product_image', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping : 'product_image', fileNameProperty : 'imageName')]
     private ?File $imageFile = null;
 
     /**
@@ -150,6 +156,30 @@ class Product
     public function setImageName(?string $imageName): static
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getBenefits(): ?string
+    {
+        return $this->benefits;
+    }
+
+    public function setBenefits(?string $benefits): static
+    {
+        $this->benefits = $benefits;
+
+        return $this;
+    }
+
+    public function getUsage(): ?string
+    {
+        return $this->usage;
+    }
+
+    public function setUsage(?string $usage): static
+    {
+        $this->usage = $usage;
 
         return $this;
     }
