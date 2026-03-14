@@ -33,7 +33,7 @@ final class WelcomeController extends AbstractController
         );
 
         return $this->render('pages/visitor/welcome/index.html.twig', [
-            'posts'            => $posts,
+            'posts' => $posts,
             'featuredProducts' => $featuredProducts,
         ]);
     }
