@@ -64,14 +64,14 @@ final class ProductController extends AbstractController
 
         return $this->render('pages/admin/product/edit.html.twig', [
             'product' => $product,
-            'form'    => $form->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/{id}/supprimer', name: 'app_admin_product_delete', methods: ['POST'])]
     public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
     {
-        if ($this->isCsrfTokenValid('delete_product_' . $product->getId(), (string) $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete_product_'.$product->getId(), (string) $request->request->get('_token'))) {
             $em->remove($product);
             $em->flush();
 

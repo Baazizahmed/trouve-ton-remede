@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[Vich\Uploadable]
 class Product
@@ -132,7 +131,7 @@ class Product
     {
         $this->imageFile = $imageFile;
 
-        if ($imageFile !== null) {
+        if (null !== $imageFile) {
             // Important : forcer un changement pour que Doctrine déclenche l’update
             $this->updatedAt = new \DateTimeImmutable();
         }
