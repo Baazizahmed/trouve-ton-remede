@@ -73,29 +73,28 @@ class PostFixtures extends Fixture
     }
 
     private function createPost(ObjectManager $manager, Category $category, array $allTags, array $data): Post
-{
-    $post = new Post();
-    $post->setTitle($data['title']);
-    $post->setCategory($category);
-    $post->setDescription($data['description']);
-    $post->setKeywords($data['keywords']);
-    $post->setContent($data['content']);
+    {
+        $post = new Post();
+        $post->setTitle($data['title']);
+        $post->setCategory($category);
+        $post->setDescription($data['description']);
+        $post->setKeywords($data['keywords']);
+        $post->setContent($data['content']);
 
-    // Tags spécifiques
-    foreach ($data['tags'] as $tagName) {
-        if (isset($allTags[$tagName])) {
-            $post->addTag($allTags[$tagName]); // <-- au lieu de setTags()
+        // Tags spécifiques
+        foreach ($data['tags'] as $tagName) {
+            if (isset($allTags[$tagName])) {
+                $post->addTag($allTags[$tagName]); // <-- au lieu de setTags()
+            }
         }
+
+        $manager->persist($post);
+
+        $slug = strtolower(str_replace(' ', '-', $data['title']));
+        $this->addReference('post-'.$slug, $post);
+
+        return $post;
     }
-
-    $manager->persist($post);
-
-    $slug = strtolower(str_replace(' ', '-', $data['title']));
-    $this->addReference('post-' . $slug, $post);
-
-    return $post;
-}
-
 
     private function getCamomilleContent(): string
     {

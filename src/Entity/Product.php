@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
@@ -93,14 +94,15 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
-        return $this->price;
+        return null !== $this->price ? (float) $this->price : null;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(float $price): static
     {
-        $this->price = $price;
+        // On stocke en string car colonne DECIMAL, mais on tape en float côté PHP
+        $this->price = (string) $price;
 
         return $this;
     }

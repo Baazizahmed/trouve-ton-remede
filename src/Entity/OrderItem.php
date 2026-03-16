@@ -56,14 +56,14 @@ class OrderItem
         return $this;
     }
 
-    public function getUnitPriceHt(): ?string
+    public function getUnitPriceHt(): ?float
     {
-        return $this->unitPriceHt;
+        return null !== $this->unitPriceHt ? (float) $this->unitPriceHt : null;
     }
 
-    public function setUnitPriceHt(string $unitPriceHt): static
+    public function setUnitPriceHt(float $unitPriceHt): static
     {
-        $this->unitPriceHt = $unitPriceHt;
+        $this->unitPriceHt = (string) $unitPriceHt;
 
         return $this;
     }
