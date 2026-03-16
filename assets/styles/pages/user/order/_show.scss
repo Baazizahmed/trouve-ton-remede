@@ -1,0 +1,27 @@
+.section-order-show {
+  background-color: $fond-nature;
+  padding-bottom: 4rem;
+}
+
+.order-card,
+.order-summary {
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+
+.order-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #888888;
+  border-bottom-width: 1px;
+}
+
+.order-table td {
+  font-size: 0.95rem;
+}
+
+/* Couleur du # + numéro de commande */
+.order-number {
+  color: $primary-dark;
+  font-weight: 700;
+}

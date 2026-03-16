@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
@@ -29,7 +28,7 @@ class Product
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $benefits = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'usage_text', type: Types::TEXT, nullable: true)]
     private ?string $usage = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

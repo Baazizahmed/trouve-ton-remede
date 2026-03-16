@@ -1,0 +1,21 @@
+.section-orders {
+  background-color: $fond-nature;
+  padding-bottom: 4rem;
+}
+
+.orders-card,
+.orders-empty-card {
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+
+.orders-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #888888;
+  border-bottom-width: 1px;
+}
+
+.orders-table td {
+  font-size: 0.95rem;
+}
