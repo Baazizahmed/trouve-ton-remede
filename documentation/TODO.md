@@ -1,56 +1,45 @@
-
 TODO – Projet TrouveTonRemede
 Symfony - Docker - MySQL
 Date : 16 Mars 2026
 
 SPRINT 1 – Infrastructure Docker + Base MySQL + Configuration
 ✅ Terminé
-
-(inchangé, juste conservé)
+(inchangé)
 
 SPRINT 2 – Entités Doctrine + Migration
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 3 – Catalogue Produits
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 4 – Panier
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 5 – Commandes
 ✅ Terminé
-
 (inchangé)
 
 Fix Docker cache
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 6 – Dashboard Admin (CRUD Admin de base)
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 7 – Layouts et navigation
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 8 – Dashboards Admin & Utilisateur
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 9 – Page d’accueil & produits mis en avant
 ✅ Terminé
-
 (inchangé)
 
 SPRINT 10 – Améliorations UX boutique
@@ -58,107 +47,124 @@ SPRINT 10 – Améliorations UX boutique
 
 Ticket 10.1 – Compteur d’articles dans le panier (navbar)
 ✅ Terminé
-
-Créer branche sprint10-ticket1-cart-counter
-
-Utiliser CartService / repository pour récupérer le total d’items du panier courant (user connecté ou session).
-​
-
-Exposer ce total à la vue (par ex. via un Twig global / EventSubscriber / contrôleur de base).
-
-Adapter les layouts base_visitor et base_user pour afficher “Panier (X)” dans la navbar.
-
-Gérer le cas panier vide (affichage “Panier (0)” ou icône seule).
-
-Tests manuels :
-
-panier vide → affichage correct,
-
-ajout d’un produit → compteur mis à jour,
-
-modification / suppression → compteur mis à jour.
-
-Commit, push et PR mergée dans feature/panier.
+(inchangé)
 
 Ticket 10.2 – Amélioration fiche produit
-🚧 À faire
+🚧 À faire (à reprendre après SPRINT 11)
 
-Sur /produits/{slug}, afficher l’image du produit (si disponible).
+Sur /produits/{slug}, compléter l’UX :
 
-Mettre en avant le bouton “Ajouter au panier” (taille, couleur, position).
+vérifier l’affichage de l’image produit (déjà en place côté thème visitor),
 
-Ajouter une petite zone “Bienfaits / Utilisation” (texte basé sur la description ou futur champ dédié).
+renforcer encore le bouton “Ajouter au panier” (position / comportement sur mobile),
 
-Tests UX : lisibilité, responsive, cohérence avec la home.
+enrichir la zone “Bienfaits / Utilisation” à partir des nouveaux champs Product (benefits / usage).
+
+Tests UX : lisibilité, responsive, cohérence avec la nouvelle home visitor.
+
+Commit futur : feat(product): amélioration fiche produit (ticket 10.2).
 
 Ticket 10.3 – Messages UX / confirmations
 🚧 À faire
 
-Ajouter un message flash visuel après ajout au panier (toast Bootstrap, alerte, etc.).
+Ajouter un message flash / toast visuel après ajout au panier (Bootstrap ou composant custom).
 
 Sur le dashboard utilisateur, ajouter un encart “Dernière commande” avec lien rapide vers /mes-commandes ou /commande/{id}.
 
 Sur la home, ajouter un bloc “Comment ça marche ?” (3 étapes : Choisir → Ajouter au panier → Commander).
 
-Vérifier la cohérence des messages et traductions.
+Vérifier cohérence des messages et traductions FR.
 
 SPRINT 11 – Flux commandes & post-commande
 🚧 Démarré
 
 Ticket 11.1 – Vider le panier après validation de la commande
 ✅ Terminé
+(inchangé)
 
-Créer branche sprint11-ticket1-clear-cart-after-order.
+Ticket 11.2 – Thème visitor e‑commerce (home, blog, contact, produits, panier, commandes)
+✅ GROSSE avancée aujourd’hui (presque terminé, à relire + commit)
 
-Mettre à jour CartService :
+Objectif : harmoniser tout le front visitor et une partie user avec un thème e‑commerce plantes médicinales.
 
-ajouter clearCart(Cart $cart) qui supprime tous les CartItem du panier,
+Créer/mettre à jour le header visitor :
 
-vider la collection cartItems côté objet,
+composant header-visitor.html.twig avec badge, titre, sous‑titre, option image,
 
-passer le Cart au statut ORDERED,
+SCSS dédié (_header_visitor.scss) avec fond dégradé ou fond vert plein selon le contexte.
 
-mettre à jour updatedAt,
+Home visitor :
 
-flush() global.
+hero e‑commerce avec image TrouveTonRemede, double CTA (voir plantes / lire les conseils),
 
-Mettre à jour OrderController (user) :
+section “Plantes médicinales populaires” avec cartes produits,
 
-dans /commande/valider, après createOrderFromCart(), appeler $this->cartService->clearCart($cart),
+section “Qui est Oumi ?”, articles récents, contact, sur fond cohérent.
 
-conserver la redirection vers la page détail de commande.
+Page Contact visitor :
 
-Vérifier que les commandes sont créées en statut PENDING (logique de future intégration paiement).
-​
+header visitor cohérent,
 
-Tests manuels :
+fond de section vert doux + carte blanche centrale,
 
-valider une commande → la nouvelle commande apparaît dans “Mes commandes”,
+formulaire aligné (labels, champs, bouton CTA, microcopy de confiance),
 
-le panier est vide après validation,
+colonne de droite avec coordonnées + Google Maps responsive.
 
-le badge du panier revient à 0 / n’apparaît plus,
+Blog visitor :
 
-en base, le Cart associé à la commande est bien en ORDERED et les CartItem supprimés.
+index : header visitor, filtres catégories/tags en dropdown, cartes article (image gauche, texte droite, tags, bouton “Lire l’article”), fond vert doux + cartes blanches,
 
-Commit : feat(order): vider le panier après validation (ticket 11.1)
+show : à harmoniser (fond / carte) sur le même thème.
 
-Push et PR créée sur GitHub (sprint11-ticket1-clear-cart-after-order).
+Produits visitor :
 
-Ticket 11.2 – Intégration paiement (Stripe) & statut PAID
+index : header visitor, fond de section vert doux, réutilisation des card-produit avec bouton btn-cta.
+
+Panier & commandes (user / visitor) :
+
+panier : refonte en page e‑commerce (header, tableau des items, résumé de commande en carte latérale, CTA clair),
+
+liste commandes : carte “Historique de vos commandes” avec tableau stylé, badges de statut,
+
+détail commande : cartes “Infos commande” + “Articles commandés” + résumé latéral, coloration du #id de commande.
+
+SCSS :
+
+nouveaux fichiers de page (section-contact, section-blog-index, section-products-index, section-cart, section-orders, section-order-show),
+
+_forms.scss pour harmoniser tous les champs et boutons (btn-cta).
+
+À faire pour clôturer le ticket 11.2 :
+
+Relire les Twig/SCSS modifiés (home, blog, contact, produits, panier, orders).
+
+Lancer un tour de tests manuels :
+
+home, contact, blog, produits index/show,
+
+panier (ajout, suppression), commandes index/show.
+
+Nettoyer les fichiers inutiles éventuels, vérifier les imports SCSS dans app.scss.
+
+git add de tous les fichiers (incl. nouveaux SCSS, fixtures, images, migration) puis :
+
+commit : feat(visitor): thème e-commerce (ticket 11.2)
+
+push + PR.
+
+Ticket 11.3 – Intégration paiement (Stripe) & statut PAID
 📝 À définir / prochain sujet
 
-Choisir le mode d’intégration Stripe (Checkout ou Payment Intent).
-​
+Choisir le mode d’intégration Stripe (Checkout ou PaymentIntent).
 
-Ajouter les champs nécessaires sur Order (ex : paidAt, paymentId / paymentMethod, éventuellement paymentStatus).
+Ajouter les champs nécessaires sur Order (paidAt, paymentId, paymentStatus, etc.).
 
-Créer le contrôleur de retour / webhook Stripe qui passera la commande de PENDING à PAID en cas de succès.
-​
+Créer le contrôleur de retour / webhook Stripe qui passe la commande de PENDING à PAID.
 
-Adapter l’admin pour visualiser clairement les commandes PAID vs PENDING.
+Adapter l’admin pour visualiser PAID vs PENDING.
 
-Mettre à jour les tests manuels (scénario complet : panier → commande PENDING → paiement → commande PAID).
+Mettre à jour les tests manuels (panier → commande PENDING → paiement → commande PAID).
 
 Notes techniques importantes
-(inchangé, toujours valable pour le projet : Docker, ports, .env, commandes console, etc.)
+(inchangé, toujours valable : Docker, ports, .env, DATABASE_URL avec host db, usage de docker compose exec app php bin/console …, etc.)
