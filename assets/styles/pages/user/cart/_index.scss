@@ -1,0 +1,27 @@
+.section-cart {
+  background-color: $fond-nature;
+  padding-bottom: 4rem;
+}
+
+.cart-card,
+.cart-summary,
+.cart-empty-card {
+  border-radius: 1rem;
+  background-color: #ffffff;
+}
+
+.cart-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #888888;
+  border-bottom-width: 1px;
+}
+
+.cart-table td {
+  font-size: 0.95rem;
+}
+
+.cart-qty-input {
+  max-width: 70px;
+  text-align: center;
+}

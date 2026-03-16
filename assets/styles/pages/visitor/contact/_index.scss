@@ -1,0 +1,44 @@
+// Fond global de la section contact
+.section-contact {
+  background-color: $accent; // fond doux cohérent avec le reste du site
+  padding-bottom: 4rem;
+}
+
+// Carte principale (formulaire + aside)
+.contact-card {
+  border-radius: 1rem;
+  background-color: #ffffff; // cartes blanches
+}
+
+// Colonne de droite
+.contact-aside {
+  border-radius: 0 1rem 1rem 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+// Carte Google Maps
+.contact-map-wrapper {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}
+
+.contact-map-responsive {
+  position: relative;
+  padding-bottom: 60%; // ratio 5:3
+  height: 0;
+}
+
+.contact-map-responsive iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// Mobile : bouton pleine largeur
+@media (max-width: 768px) {
+  .contact-card button.btn-cta {
+    width: 100%;
+  }
+}
