@@ -1,19 +1,21 @@
 .footer-oumi-simple {
-    background-color: $primary;
-    border-top: 1px solid darken($fond-beige-clair, 10%); // Ajoute une fine ligne de séparation
+  background-color: $primary-dark;
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 
-    .copyright-text {
-        color: $vert-medicinal;
-        font-size: 0.9rem;
+  .copyright-text {
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .footer-social-link {
+    color: $beige-naturel;
+    font-size: 1.2rem;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: $secondary; // vert doux au survol
     }
-
-    .footer-social-link {
-        color: $texte-gris-fonce;
-        font-size: 1.2rem;
-        transition: color 0.2s ease-in-out;
-
-        &:hover {
-            color: $vert-medicinal; // Les icônes deviennent vertes au survol
-        }
-    }
+  }
 }
