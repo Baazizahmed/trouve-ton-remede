@@ -1,248 +1,210 @@
 {% extends 'themes/base_visitor.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
-
-{% block description %}Découvrez les plantes médicinales naturelles d’Oumi{% endblock %}
+{% block description %}Boutique de plantes médicinales naturelles – TrouveTonRemede{% endblock %}
 
 {% block main %}
 
-{# HERO SECTION #}
-<header class="py-5 bg-light">
+{# HERO E-COMMERCE #}
+<section class="hero py-5">
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center g-4">
 
             <div class="col-md-6 text-center text-md-start">
-                <h1 class="display-4 fw-bold mb-4">
-                    🌿 Le bienfait des plantes pour votre bien-être
+                <span class="badge bg-success-subtle text-success mb-3">
+                    🌿 Plantes médicinales sélectionnées avec soin
+                </span>
+
+                <h1 class="display-5 fw-bold mb-3">
+                    Prenez soin de votre santé avec les plantes d’Oumi
                 </h1>
 
-                <p class="lead text-muted">
-                    Découvrez les remèdes naturels d’Oumi : des plantes médicinales
-                    sélectionnées avec soin pour prendre soin de votre santé
-                    de manière naturelle et durable.
+                <p class="lead mb-4">
+                    Une sélection de plantes médicinales naturelles pour apaiser, renforcer et équilibrer votre corps, avec des conseils simples à appliquer au quotidien.
                 </p>
 
-                <div class="mt-4">
+                <div class="d-flex flex-column flex-sm-row gap-2">
                     <a href="{{ path('app_visitor_product_index') }}"
-                       class="btn btn-success btn-lg shadow me-2">
-                        🌿 Découvrir la boutique
+                       class="btn btn-cta btn-lg">
+                        🛒 Découvrir les plantes médicinales
                     </a>
 
                     <a href="{{ path('app_visitor_blog_index') }}"
-                       class="btn btn-outline-primary btn-lg">
-                        Lire les conseils
+                       class="btn btn-outline-light btn-lg">
+                        Lire les conseils bien-être
                     </a>
                 </div>
+
+                <p class="small text-muted mt-3">
+                    Livraison rapide • Produits naturels • Conseils personnalisés
+                </p>
             </div>
 
-            <div class="col-md-6 text-center mt-4 mt-md-0">
+            <div class="col-md-6 text-center">
                 <img src="/images/static/welcome/Nature.png"
-                     class="img-fluid"
+                     class="img-fluid hero-image"
                      alt="Plantes médicinales naturelles">
             </div>
 
         </div>
     </div>
-</header>
+</section>
 
-
-{# ABOUT SECTION #}
-<section class="py-5">
+{# PRODUITS MIS EN AVANT #}
+<section class="section-plantes py-5">
     <div class="container">
 
-        <h2 class="text-center display-6 mb-5">
-            🌿 Qui est Oumi ?
-        </h2>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+            <div>
+                <h2 class="h3 fw-bold mb-1">
+                    🌿 Plantes médicinales populaires
+                </h2>
+                <p class="text-muted mb-0">
+                    Les remèdes préférés des clients d’Oumi pour le sommeil, la digestion et l’immunité.
+                </p>
+            </div>
 
-        <div class="row align-items-center">
+            <a href="{{ path('app_visitor_product_index') }}" class="btn btn-outline-success">
+                Voir toute la boutique
+            </a>
+        </div>
 
-            <div class="col-md-6 text-center">
+        {% if featuredProducts is not empty %}
+            <div class="row g-4">
+                {% for product in featuredProducts %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <article class="card-produit h-100">
+
+                            {% if product.imageName %}
+                                <div class="card-produit__image-wrapper">
+                                    <img
+                                        src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                        class="card-produit__image"
+                                        alt="{{ product.name }}"
+                                    >
+                                </div>
+                            {% endif %}
+
+                            <div class="card-produit__body">
+                                <h3 class="card-produit__title">
+                                    {{ product.name }}
+                                </h3>
+
+                                <p class="card-produit__excerpt">
+                                    {{ product.description|u.truncate(90,'...') }}
+                                </p>
+
+                                <div class="card-produit__footer">
+                                    <span class="card-produit__price">
+                                        {{ product.price|number_format(2, ',', ' ') }} €
+                                    </span>
+
+                                    <a href="{{ path('app_visitor_product_show',{slug:product.slug}) }}"
+                                       class="btn btn-sm btn-primary">
+                                        Voir la plante
+                                    </a>
+                                </div>
+                            </div>
+
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-muted">
+                Les plantes seront bientôt disponibles.
+            </p>
+        {% endif %}
+
+    </div>
+</section>
+
+{# ABOUT SECTION (PLUS COURT) #}
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+
+            <div class="col-md-5 text-center">
                 <img src="/images/static/welcome/about.png"
-                     class="img-fluid rounded shadow"
+                     class="img-fluid rounded shadow-sm"
                      alt="Oumi experte en plantes médicinales">
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-7">
+                <h2 class="h4 fw-bold mb-3">
+                    Qui est Oumi ?
+                </h2>
 
                 <p class="mb-3">
-                    Passionnée par les plantes médicinales depuis l’enfance,
-                    Oumi a grandi dans une culture où les remèdes naturels
-                    faisaient partie du quotidien.
-                </p>
-
-                <p class="mb-3">
-                    Après une formation spécialisée, elle partage aujourd’hui
-                    ses connaissances pour aider chacun à prendre soin
-                    de sa santé grâce aux bienfaits des plantes.
+                    Passionnée par les plantes médicinales depuis l’enfance, Oumi a grandi dans une culture où les remèdes naturels faisaient partie du quotidien.
                 </p>
 
                 <p class="mb-4">
-                    Sur ce blog et cette boutique, vous trouverez
-                    des conseils, des recettes naturelles
-                    et une sélection de plantes soigneusement choisies.
+                    Sur TrouveTonRemede, elle partage ses conseils, ses recettes naturelles et une sélection de plantes qu’elle utilise elle-même.
                 </p>
 
                 <a href="{{ path('app_visitor_blog_index') }}"
                    class="btn btn-outline-success">
-                   Découvrir les articles
+                    Découvrir les articles
                 </a>
-
             </div>
 
         </div>
-
     </div>
 </section>
-
-
-{# PRODUITS MIS EN AVANT #}
-<section class="py-5 bg-light">
-
-    <h2 class="text-center display-6 mb-5">
-        🌿 Nos plantes médicinales populaires
-    </h2>
-
-    <div class="container">
-
-        {% if featuredProducts is not empty %}
-
-        <div class="row g-4">
-
-            {% for product in featuredProducts %}
-
-            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                <div class="card h-100 shadow-sm border-0">
-
-                    {% if product.imageName %}
-                        <img
-                            src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
-                            class="card-img-top"
-                            alt="{{ product.name }}"
-                            style="height:220px; object-fit:cover;"
-                        >
-                    {% endif %}
-
-                    <div class="card-body d-flex flex-column">
-
-                        <h3 class="h6 fw-bold mb-2">
-                            {{ product.name }}
-                        </h3>
-
-                        <p class="small text-muted mb-3 flex-grow-1">
-                            {{ product.description|u.truncate(90,'...') }}
-                        </p>
-
-                        <div class="d-flex justify-content-between align-items-center">
-
-                            <span class="fw-bold text-success fs-5">
-                                {{ product.price|number_format(2, ',', ' ') }} €
-                            </span>
-
-                            <a href="{{ path('app_visitor_product_show',{slug:product.slug}) }}"
-                               class="btn btn-sm btn-success">
-                               Voir
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-        <div class="text-center mt-5">
-            <a href="{{ path('app_visitor_product_index') }}"
-               class="btn btn-lg btn-success shadow">
-               🌿 Voir toute la boutique
-            </a>
-        </div>
-
-        {% else %}
-
-        <p class="text-center text-muted">
-            Les plantes seront bientôt disponibles.
-        </p>
-
-        {% endif %}
-
-    </div>
-
-</section>
-
 
 {# ARTICLES RECENTS #}
-<section class="py-5">
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="h3 fw-bold text-center mb-5">
+            🌿 Conseils et bien-être naturel
+        </h2>
 
-<h2 class="text-center display-6 mb-5">
-🌿 Conseils et bien-être naturel
-</h2>
+        <div class="row g-4">
+            {% for post in posts %}
+                <div class="col-md-4">
+                    <article class="card h-100 shadow-sm border-0">
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="h5 mb-2">
+                                {{ post.title|u.truncate(60,'...') }}
+                            </h3>
 
-<div class="container">
+                            <p class="small text-muted mb-1">
+                                Catégorie : {{ post.category.name }}
+                            </p>
 
-<div class="row g-4">
+                            <p class="small text-muted mb-3">
+                                Publié {{ post.publishedAt|ago() }}
+                            </p>
 
-{% for post in posts %}
-
-<div class="col-md-4">
-
-<div class="card h-100 shadow-sm">
-
-<div class="card-body d-flex flex-column">
-
-<h3 class="h5 mb-3">
-{{ post.title|u.truncate(60,'...') }}
-</h3>
-
-<p class="small text-muted">
-Catégorie : {{ post.category.name }}
-</p>
-
-<p class="small text-muted">
-Publié {{ post.publishedAt|ago() }}
-</p>
-
-<a href="{{ path('app_visitor_blog_post_show',{'id':post.id,'slug':post.slug}) }}"
-   class="btn btn-outline-primary mt-auto">
-   Lire l'article
-</a>
-
-</div>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-</div>
-
-</div>
-
+                            <a href="{{ path('app_visitor_blog_post_show',{'id':post.id,'slug':post.slug}) }}"
+                               class="btn btn-outline-primary mt-auto">
+                                Lire l'article
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </section>
 
-
 {# CONTACT / CTA #}
-<section class="py-5 text-center bg-light">
+<section class="py-5 text-center">
+    <div class="container">
+        <h2 class="h4 mb-3">
+            Besoin de conseils personnalisés ?
+        </h2>
 
-<h2 class="mb-3">
-Besoin de conseils personnalisés ?
-</h2>
+        <p class="text-muted mb-4">
+            Oumi peut vous guider dans le choix des plantes adaptées à votre besoin.
+        </p>
 
-<p class="text-muted mb-4">
-Oumi peut vous guider dans le choix des plantes adaptées à votre besoin.
-</p>
-
-<a href="{{ path('app_visitor_contact_create') }}"
-   class="btn btn-lg btn-primary shadow">
-   📩 Contacter Oumi
-</a>
-
+        <a href="{{ path('app_visitor_contact_create') }}"
+           class="btn btn-lg btn-primary">
+            📩 Contacter Oumi
+        </a>
+    </div>
 </section>
 
 {% endblock %}
