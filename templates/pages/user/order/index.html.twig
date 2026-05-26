@@ -1,0 +1,47 @@
+{% extends 'themes/base_visitor.html.twig' %}
+
+{% block title %}Mes Commandes{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h1>Mes Commandes</h1>
+
+    {% if orders is empty %}
+        <div class="alert alert-info">
+            Vous n'avez pas encore de commandes.
+            <a href="{{ path('app_visitor_product_index') }}">Voir nos produits</a>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>N° Commande</th>
+                    <th>Date</th>
+                    <th>Total TTC</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.createdAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ order.totalTtc|number_format(2, ',', ' ') }} €</td>
+                    <td>
+                        <span class="badge bg-{{ order.status == 'PENDING' ? 'warning' : 'success' }}">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_order_show', {'id': order.id}) }}" class="btn btn-sm btn-primary">
+                            Voir détail
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}

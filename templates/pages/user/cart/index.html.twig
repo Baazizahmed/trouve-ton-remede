@@ -1,0 +1,70 @@
+{% extends 'themes/base_visitor.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h1>Mon Panier</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {% if cart.cartItems is empty %}
+        <div class="alert alert-info">
+            Votre panier est vide.
+            <a href="{{ path('app_visitor_product_index') }}">Voir nos produits</a>
+        </div>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Total ligne</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.cartItems %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.unitPrice }} €</td>
+                    <td>
+                        <form action="{{ path('app_cart_update', {'id': item.id}) }}" method="post" class="d-flex align-items-center gap-2">
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control w-25">
+                            <button type="submit" class="btn btn-sm btn-outline-primary">Modifier</button>
+                        </form>
+                    </td>
+                    <td>{{ (item.unitPrice * item.quantity)|number_format(2, ',', ' ') }} €</td>
+                    <td>
+                        <form action="{{ path('app_cart_remove', {'id': item.id}) }}" method="post">
+                            <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-end fw-bold">Total :</td>
+                    <td colspan="2" class="fw-bold">{{ total|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{{ path('app_visitor_product_index') }}" class="btn btn-outline-secondary">
+                Continuer mes achats
+            </a>
+            <form action="{{ path('app_order_validate') }}" method="post">
+                <button type="submit" class="btn btn-success btn-lg">
+                    Valider la commande
+                </button>
+            </form>
+
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

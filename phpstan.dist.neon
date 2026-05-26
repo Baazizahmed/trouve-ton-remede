@@ -4,7 +4,6 @@ parameters:
         - src/
         - tests/
     ignoreErrors:
-        - '#Call to function method_exists\(\) with .*Symfony\\\\Component\\\\Dotenv\\\\Dotenv.*bootEnv.*will always evaluate to true#'
         - '#Property App\\Entity\\User::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
         - '#Property App\\Entity\\ResetPasswordRequest::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
         - '#Property App\\Entity\\Category::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
@@ -18,7 +17,8 @@ parameters:
         - '#Property App\\Entity\\Like::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
         - '#Property App\\Entity\\Comment::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
         - '#Property App\\Entity\\Comment::\$isActivated \(bool\|null\) is never assigned null so it can be removed from the property type#'
-        
-        
-
-
+        - '#Property App\\Entity\\Cart::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
+        - '#Property App\\Entity\\CartItem::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
+        - '#Property App\\Entity\\Order::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
+        - '#Property App\\Entity\\OrderItem::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
+        - '#Property App\\Entity\\Product::\$id \(int\|null\) is never assigned int so it can be removed from the property type#'
