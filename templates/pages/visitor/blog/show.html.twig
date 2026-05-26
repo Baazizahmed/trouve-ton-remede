@@ -1,14 +1,13 @@
 {% extends 'themes/base_visitor.html.twig' %}
 
 {% block title %}
-    article num:{{ post.id }}: {{ post.title }}
+    {{ post.title }} - TrouveTonRemede
 {% endblock %}
 
 {% block description %}
     {{ post.description }}
 {% endblock %}
 
-{# Font awesome #}
 {% block fontAwesome %}
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -19,106 +18,184 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container mt-5">
-        <div class="jd-container-img text-center">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ path('app_visitor_blog_index') }}">🌿Liste des articles</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        {{ post.title|u.truncate('60', '...') }}
-                    </li>
-                </ol>
-            </nav>
+    <section class="blog-post-page py-5">
+        <div class="container">
 
-            <div>
-                {% if post.image %}
-                    <img src="{{ vich_uploader_asset(post, 'imageFile') }}"
-                         class="rounded-start w-100 h-100"
-                         alt="{{ post.title }}">
-                {% endif %}
-            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
 
-            <div>
-                <h1>{{ post.title }}</h1>
-                <small>
-                    Publié {{ post.publishedAt|ago }} par <strong>Oumi</strong>
-                </small>
-            </div>
-        </div>
+                    <nav aria-label="breadcrumb" class="blog-post-breadcrumb mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item">
+                                <a href="{{ path('app_visitor_blog_index') }}">
+                                    Blog
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ post.title|u.truncate(60, '…') }}
+                            </li>
+                        </ol>
+                    </nav>
 
-        <div class="jd-container-post my-5">
-            {# Contenu HTML du post (fiable : admin uniquement) #}
-            {{ post.content|raw }}
+                    <article class="blog-post-hero">
 
-            <div class="my-4">
-                <a id="like-link" href="{{ path('app_visitor_blog_post_like', {'id': post.id, 'slug': post.slug}) }}">
-                    {% if app.user and post.isLikedBy(app.user) %}
-                        <i class="fa-solid fa-thumbs-up"></i>
-                    {% else %}
-                        <i class="fa-regular fa-thumbs-up"></i>
-                    {% endif %}
-                </a>
-                <span id="total-likes-container">{{ post.likes|length }}</span>
-                <span>J'aime</span>
-            </div>
-
-            {% if app.user %}
-                <div class="my-5">
-                    {{ form_start(form, {'action': path('app_visitor_blog_post_show', {'id': post.id, 'slug': post.slug}) ~ '#comments-container'}) }}
-                    <div class="mb-3">
-                        <label for="comment_form_content">Laisser un commentaire</label>
-                        <div class="text-danger">{{ form_errors(form.content) }}</div>
-                        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                    <div>
-                        <input type="submit" class="btn btn-primary shadow">
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            {% else %}
-                <p class="text-center my-5">
-                    Connectez-vous ou inscrivez-vous pour donner votre avis :
-                    <a href="{{ path('app_login') }}" class="btn btn-secondary shadow">Me connecter</a>
-                    <a href="{{ path('app_register') }}" class="btn btn-secondary shadow">M'inscrire</a>
-                </p>
-            {% endif %}
-
-            {% if post.comments|length > 0 %}
-                <div id="comments-container" class="my-5">
-                    {% for comment in post.comments|reverse %}
-                        {% if comment.isActivated %}
-                            <div class="shadow p-2">
-                                {% if comment.user %}
-                                    <p>
-                                        <strong>{{ comment.user.firstName }}{{ comment.user.lastName }}</strong>
-                                        <small class="text-secondary">
-                                            <i>
-                                                {{ comment.activatedAt ? ' (Envoyé ' ~ comment.activatedAt|ago ~ ')' : '' }}
-                                            </i>
-                                        </small>
-                                    </p>
-                                {% else %}
-                                    <p>
-                                        <strong>Utilisateur inconnu</strong>
-                                        <small class="text-secondary">
-                                            <i>
-                                                {{ comment.activatedAt ? ' (Envoyé ' ~ comment.activatedAt|ago ~ ')' : '' }}
-                                            </i>
-                                        </small>
-                                    </p>
-                                {% endif %}
-
-                                <p>{{ comment.content|nl2br }}</p>
+                        {% if post.image %}
+                            <div class="blog-post-hero__image-wrap">
+                                <img src="{{ vich_uploader_asset(post, 'imageFile') }}"
+                                     class="blog-post-hero__image"
+                                     alt="{{ post.title }}">
                             </div>
-                            <hr class="my-3">
                         {% endif %}
-                    {% endfor %}
+
+                        <div class="blog-post-hero__content">
+                            {% if post.category %}
+                                <span class="blog-post-hero__category">
+                                    {{ post.category.name }}
+                                </span>
+                            {% endif %}
+
+                            <h1 class="blog-post-hero__title">
+                                {{ post.title }}
+                            </h1>
+
+                            <p class="blog-post-hero__description">
+                                {{ post.description }}
+                            </p>
+
+                            <div class="blog-post-hero__meta">
+                                <span>Publié {{ post.publishedAt|ago }}</span>
+                                <span>Par <strong>Oumi</strong></span>
+                            </div>
+
+                            {% if post.tags is not empty %}
+                                <div class="blog-post-hero__tags">
+                                    {% for tag in post.tags %}
+                                        <span class="blog-post-hero__tag">
+                                            #{{ tag.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </article>
+
+                    <div class="blog-post-layout mt-5">
+
+                        <div class="blog-post-content-card">
+                            <div class="blog-post-content">
+                                {{ post.content|raw }}
+                            </div>
+
+                            <div class="blog-post-reactions">
+                                <a id="like-link"
+                                   class="blog-post-like-btn"
+                                   href="{{ path('app_visitor_blog_post_like', {'id': post.id, 'slug': post.slug}) }}">
+                                    {% if app.user and post.isLikedBy(app.user) %}
+                                        <i class="fa-solid fa-thumbs-up"></i>
+                                    {% else %}
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                    {% endif %}
+                                    <span id="total-likes-container">{{ post.likes|length }}</span>
+                                    <span>J'aime</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="blog-post-comments-card mt-4" id="comments-container">
+                            <div class="blog-post-comments-card__head">
+                                <h2 class="blog-post-comments-card__title">
+                                    Commentaires
+                                </h2>
+                                <p class="blog-post-comments-card__text mb-0">
+                                    Partagez votre retour sur cet article.
+                                </p>
+                            </div>
+
+                            {% if app.user %}
+                                <div class="blog-post-comment-form">
+                                    {{ form_start(form, {'action': path('app_visitor_blog_post_show', {'id': post.id, 'slug': post.slug}) ~ '#comments-container'}) }}
+
+                                    <div class="mb-3">
+                                        <label for="comment_form_content" class="form-label">
+                                            Laisser un commentaire
+                                        </label>
+                                        <div class="text-danger small mb-2">
+                                            {{ form_errors(form.content) }}
+                                        </div>
+                                        {{ form_widget(form.content, {
+                                            'attr': {
+                                                'class': 'form-control blog-post-textarea',
+                                                'rows': 5,
+                                                'placeholder': 'Écrivez votre commentaire ici...'
+                                            }
+                                        }) }}
+                                    </div>
+
+                                    <div>
+                                        <input type="submit" class="btn btn-cta rounded-pill px-4" value="Publier mon commentaire">
+                                    </div>
+
+                                    {{ form_end(form) }}
+                                </div>
+                            {% else %}
+                                <div class="blog-post-login-box">
+                                    <p class="mb-3">
+                                        Connectez-vous ou inscrivez-vous pour donner votre avis.
+                                    </p>
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="{{ path('app_login') }}" class="btn btn-outline-success rounded-pill px-4">
+                                            Me connecter
+                                        </a>
+                                        <a href="{{ path('app_register') }}" class="btn btn-success rounded-pill px-4">
+                                            M'inscrire
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% set activeComments = post.comments|filter(comment => comment.isActivated) %}
+                            {% if activeComments|length > 0 %}
+                                <div class="blog-post-comments-list mt-4">
+                                    {% for comment in post.comments|reverse %}
+                                        {% if comment.isActivated %}
+                                            <div class="blog-post-comment">
+                                                <div class="blog-post-comment__head">
+                                                    <div>
+                                                        <p class="blog-post-comment__author mb-0">
+                                                            {% if comment.user %}
+                                                                {{ comment.user.firstName }} {{ comment.user.lastName }}
+                                                            {% else %}
+                                                                Utilisateur inconnu
+                                                            {% endif %}
+                                                        </p>
+                                                        <p class="blog-post-comment__date mb-0">
+                                                            {{ comment.activatedAt ? 'Publié ' ~ comment.activatedAt|ago : '' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="blog-post-comment__content">
+                                                    {{ comment.content|nl2br }}
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="blog-post-empty-comments mt-4">
+                                    Aucun commentaire pour le moment.
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
                 </div>
-            {% endif %}
+            </div>
+
         </div>
-    </div>
+    </section>
 {% endblock %}
 
 {% block j_Query %}
@@ -134,18 +211,18 @@
             $('#like-link').on('click', function (event) {
                 event.preventDefault();
 
+                const icon = $(this).find('i');
+
                 $.ajax({
                     url: this.href,
                     type: 'GET',
                     success: function (response) {
                         $("#total-likes-container").html(response.totalLikesUpdated);
 
-                        if ($('i').hasClass('fa-regular')) {
-                            $('i').removeClass('fa-regular');
-                            $('i').addClass('fa-solid');
+                        if (icon.hasClass('fa-regular')) {
+                            icon.removeClass('fa-regular').addClass('fa-solid');
                         } else {
-                            $('i').removeClass('fa-solid');
-                            $('i').addClass('fa-regular');
+                            icon.removeClass('fa-solid').addClass('fa-regular');
                         }
                     },
                     error: function (response) {

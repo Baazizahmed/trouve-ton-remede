@@ -32,6 +32,7 @@ $border-color: $border;
 
 
 // Pages
+@import "./pages/visitor/blog/index";
 @import "./pages/visitor/blog/show";
 @import "./pages/visitor/home";
 @import "./pages/visitor/product/show";
