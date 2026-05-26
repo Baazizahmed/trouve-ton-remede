@@ -1,29 +1,76 @@
 {% extends 'themes/base_visitor.html.twig' %}
 
-{% block title %}Nos Plantes Médicinales{% endblock %}
+{% block title %}Nos plantes médicinales{% endblock %}
+
+{% block description %}
+Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
+{% endblock %}
 
 {% block main %}
-<div class="container mt-4">
-    <h1>Nos Plantes Médicinales</h1>
+    {% include 'components/visitor/header-visitor.html.twig' with {
+        h1: 'Nos plantes médicinales',
+        subtitle: 'Choisissez les plantes qui correspondent à vos besoins au quotidien.'
+    } %}
 
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.description|slice(0, 100) }}...</p>
-                    <p class="fw-bold">{{ product.price }} €</p>
-                    <a href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}" 
-                       class="btn btn-primary">
-                        Voir le produit
-                    </a>
+    <section class="py-5 section-products-index">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <div>
+                    <h2 class="h4 fw-bold mb-1">La sélection d’Oumi</h2>
+                    <p class="text-muted mb-0">
+                        Des plantes choisies pour le sommeil, la digestion, l’immunité et plus encore.
+                    </p>
                 </div>
             </div>
+
+            {% if products is not empty %}
+                <div class="row g-4">
+                    {% for product in products %}
+                        <div class="col-md-4 col-sm-6">
+                            <article class="card-produit h-100">
+
+                                {% if product.imageName %}
+                                    <div class="card-produit__image-wrapper">
+                                        <img
+                                            src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                            class="card-produit__image"
+                                            alt="{{ product.name }}"
+                                        >
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-produit__body">
+                                    <h2 class="card-produit__title">
+                                        {{ product.name }}
+                                    </h2>
+
+                                    <p class="card-produit__excerpt">
+                                        {{ product.description|u.truncate(90, '...') }}
+                                    </p>
+
+                                    <div class="card-produit__footer">
+                                        <span class="card-produit__price">
+                                            {{ product.price|number_format(2, ',', ' ') }} €
+                                        </span>
+
+                                        <a href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
+                                           class="btn btn-cta btn-sm">
+                                            Voir la plante
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </article>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">
+                    Aucun produit disponible pour le moment.
+                </p>
+            {% endif %}
+
         </div>
-        {% else %}
-        <p>Aucun produit disponible pour le moment.</p>
-        {% endfor %}
-    </div>
-</div>
+    </section>
 {% endblock %}

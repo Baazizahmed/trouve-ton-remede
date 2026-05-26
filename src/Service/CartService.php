@@ -97,6 +97,7 @@ class CartService
         } else {
             $cartItem->setQuantity($quantity);
         }
+
         $this->em->flush();
     }
 
@@ -104,10 +105,28 @@ class CartService
     public function getTotal(Cart $cart): float
     {
         $total = 0;
+
         foreach ($cart->getCartItems() as $item) {
             $total += $item->getUnitPrice() * $item->getQuantity();
         }
 
         return $total;
+    }
+
+    // Vider le panier après validation de la commande
+    public function clearCart(Cart $cart): void
+    {
+        foreach ($cart->getCartItems() as $item) {
+            $this->em->remove($item);
+        }
+
+        // Vide la collection côté objet
+        $cart->getCartItems()->clear();
+
+        // Marque le panier comme commandé (plus considéré comme OPEN)
+        $cart->setStatus('ORDERED');
+        $cart->setUpdatedAt(new \DateTimeImmutable());
+
+        $this->em->flush();
     }
 }

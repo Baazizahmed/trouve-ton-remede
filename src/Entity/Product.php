@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[Vich\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -23,6 +26,12 @@ class Product
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $benefits = null;
+
+    #[ORM\Column(name: 'usage_text', type: Types::TEXT, nullable: true)]
+    private ?string $usage = null;
+
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
@@ -31,6 +40,18 @@ class Product
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    /**
+     * Fichier image non mappé en base, géré par VichUploader.
+     */
+    #[Vich\UploadableField(mapping : 'product_image', fileNameProperty : 'imageName')]
+    private ?File $imageFile = null;
+
+    /**
+     * Nom de fichier stocké en base (colonne image_name).
+     */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
 
     public function getId(): ?int
     {
@@ -73,14 +94,15 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?string
+    public function getPrice(): ?float
     {
-        return $this->price;
+        return null !== $this->price ? (float) $this->price : null;
     }
 
-    public function setPrice(string $price): static
+    public function setPrice(float $price): static
     {
-        $this->price = $price;
+        // On stocke en string car colonne DECIMAL, mais on tape en float côté PHP
+        $this->price = (string) $price;
 
         return $this;
     }
@@ -105,6 +127,60 @@ class Product
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Fichier image uploadé (non persistant).
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // Important : forcer un changement pour que Doctrine déclenche l’update
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getBenefits(): ?string
+    {
+        return $this->benefits;
+    }
+
+    public function setBenefits(?string $benefits): static
+    {
+        $this->benefits = $benefits;
+
+        return $this;
+    }
+
+    public function getUsage(): ?string
+    {
+        return $this->usage;
+    }
+
+    public function setUsage(?string $usage): static
+    {
+        $this->usage = $usage;
 
         return $this;
     }

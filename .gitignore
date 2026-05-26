@@ -44,3 +44,7 @@ yarn-error.log
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+###> vich/uploader-bundle ###
+/public/images/dynamic/products/
+###< vich/uploader-bundle ###

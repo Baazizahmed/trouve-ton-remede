@@ -43,7 +43,7 @@ class Post
 
     #[Assert\NotBlank(message: 'La description est obligatoire.')]
     #[Assert\Length(
-        max: 160,
+        max: 255,
         maxMessage: 'La description ne doit pas dépasser {{ limit }} caractères.',
     )]
     #[ORM\Column(length: 255)]

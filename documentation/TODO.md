@@ -1,281 +1,170 @@
 TODO – Projet TrouveTonRemede
 Symfony - Docker - MySQL
-Date : 12 Mars 2026
+Date : 16 Mars 2026
+
 SPRINT 1 – Infrastructure Docker + Base MySQL + Configuration
 ✅ Terminé
-Ticket 1.1 – Initialisation du projet
-
- Cloner le projet oumi-blog
-
- Initialiser le nouveau dépôt trouve-ton-remede sur GitHub
-
- Créer la branche feature/panier
-
- Créer la branche sprint1-ticket1-docker-launch
-
- Lancer Docker : docker-compose up -d --build
-
- 5 conteneurs actifs : app, nginx, db, adminer, phpmyadmin
-
-Ticket 1.2 – Base de données
-
- Créer la branche sprint1-ticket2-create-database
-
- Créer la base MySQL trouve_ton_remede en utf8mb4
-
-Ticket 1.3 – Configuration environnement
-
- Créer la branche sprint1-ticket3-env-local
-
- Générer un nouveau APP_SECRET
-
- Créer .env.dev.local avec DATABASE_URL
-
- Mettre à jour APP_SECRET dans .env.dev
-
- Ajouter schema_panier.sql dans /documentation
-
- Vérifier la connexion Symfony → MySQL (doctrine:schema:validate)
-
- Merger tous les tickets dans feature/panier + push GitHub
+(inchangé)
 
 SPRINT 2 – Entités Doctrine + Migration
 ✅ Terminé
-Ticket 2.1 – Entité Product
-
- Créer branche sprint2-ticket1-entity-product
-
- Créer l'entité Product (name, slug, description, price, createdAt, updatedAt)
-
-Ticket 2.2 – Entité Cart
-
- Créer branche sprint2-ticket2-entity-cart
-
- Créer l'entité Cart (status, sessionId, createdAt, updatedAt)
-
- Ajout relation ManyToOne → User (correction sprint 5)
-
-Ticket 2.3 – Entité CartItem
-
- Créer branche sprint2-ticket3-entity-cartitem
-
- Créer l'entité CartItem (quantity, unitPrice)
-
- Relation ManyToOne → Cart
-
- Relation ManyToOne → Product
-
-Ticket 2.4 – Migration
-
- Créer branche sprint2-ticket4-migration
-
- Générer la migration : make:migration
-
- Exécuter : doctrine:migrations:migrate
-
- Correction : doctrine:schema:update --force
-
- Validation : Mapping OK + Database OK
-
- Merger dans feature/panier + push GitHub
-
-Tables créées dans trouve_ton_remede :
-user, category, tag, post, post_tag, comment, like, contact, setting, reset_password_request, product, cart, cart_item, order, order_item, doctrine_migration_versions, messenger_messages
+(inchangé)
 
 SPRINT 3 – Catalogue Produits
 ✅ Terminé
-Ticket 3.1 – ProductController + Fixtures
-
- Créer branche sprint3-ticket1-product-controller
-
- Créer ProductController dans src/Controller/Visitor/Product/
-
- Route /produits → liste des produits
-
- Route /produits/{slug} → détail produit
-
- Créer ProductFixtures avec 4 produits (Camomille, Thym, Nigelle, Moringa)
-
- Charger les fixtures : doctrine:fixtures:load --append
-
-Ticket 3.2 – Vue liste produits
-
- Créer templates/pages/visitor/product/index.html.twig
-
- Grille Bootstrap des produits (nom, description, prix, bouton détail)
-
- Correction bloc {% block main %} (au lieu de {% block body %})
-
-Ticket 3.3 – Vue détail produit
-
- Créer templates/pages/visitor/product/show.html.twig
-
- Affichage nom, description, prix
-
- Breadcrumb fonctionnel
-
- Bouton "Ajouter au panier" activé
-
-Merger + push GitHub ✓
+(inchangé)
 
 SPRINT 4 – Panier
 ✅ Terminé
-Ticket 4.1 – CartService
-
- Créer branche sprint4-ticket1-cart-service
-
- Créer src/Service/CartService.php
-
- Méthode getOrCreateCart() (user connecté ou session)
-
- Méthode addProduct()
-
- Méthode removeProduct()
-
- Méthode updateQuantity()
-
- Méthode getTotal()
-
-Ticket 4.2 – CartController + Vue panier
-
- Créer branche sprint4-ticket2-cart-controller
-
- Créer src/Controller/User/Cart/CartController.php
-
- Route /panier → afficher le panier
-
- Route /panier/ajouter/{id} → ajouter un produit
-
- Route /panier/modifier/{id} → modifier la quantité
-
- Route /panier/supprimer/{id} → supprimer un article
-
- Créer templates/pages/user/cart/index.html.twig
-
- Affichage lignes panier (produit, prix unitaire, quantité, total ligne)
-
- Calcul du total général
-
- Messages flash
-
- Bouton "Valider la commande" activé
-
-Ticket 4.3 – Tests fonctionnels
-
- Ajouter un produit au panier ✓
-
- Modifier la quantité ✓
-
- Supprimer un article ✓
-
- Vérifier le total ✓
-
-Merger + push GitHub ✓
+(inchangé)
 
 SPRINT 5 – Commandes
 ✅ Terminé
-Ticket 5.1 – Entités commandes
-
- Créer branche sprint5-ticket1-entity-order
-
- Créer entité Order (user, subtotalHt, taxAmount, totalTtc, status, createdAt)
-
- Créer entité OrderItem (orderRef, product, productName, quantity, unitPriceHt, taxRate, totalHt, totalTtc)
-
- Relation OneToMany Order → OrderItem avec cascade: ['persist']
-
- Générer et exécuter la migration
-
- Tables order et order_item créées
-
-Ticket 5.2 – Validation commande
-
- Créer branche sprint5-ticket2-order-controller
-
- Créer src/Service/OrderService.php
-
- Méthode createOrderFromCart() (calcul TVA 20%, totaux HT/TTC)
-
- Méthode getUserOrders()
-
- Créer src/Controller/User/Order/OrderController.php
-
- Route /commande/valider → transformer panier en commande
-
- Route /commande/{id} → détail commande
-
- Route /mes-commandes → historique commandes
-
- Vue templates/pages/user/order/show.html.twig
-
- Vue templates/pages/user/order/index.html.twig
-
- Tests fonctionnels : commande validée, TVA calculée, historique affiché ✓
-
-Merger + push GitHub ✓
+(inchangé)
 
 Fix Docker cache
+✅ Terminé
+(inchangé)
 
- Ajout volumes dédiés app_cache et app_logs dans docker-compose.yml
+SPRINT 6 – Dashboard Admin (CRUD Admin de base)
+✅ Terminé
+(inchangé)
 
- Résolution problème rmdir: Directory not empty sous Windows
+SPRINT 7 – Layouts et navigation
+✅ Terminé
+(inchangé)
 
-SPRINT 6 – Dashboard Admin
+SPRINT 8 – Dashboards Admin & Utilisateur
+✅ Terminé
+(inchangé)
+
+SPRINT 9 – Page d’accueil & produits mis en avant
+✅ Terminé
+(inchangé)
+
+SPRINT 10 – Améliorations UX boutique
 🚧 En cours
-Ticket 6.1 – Gestion produits admin
 
- Créer branche sprint6-ticket1-admin-product
+Ticket 10.1 – Compteur d’articles dans le panier (navbar)
+✅ Terminé
+(inchangé)
 
- Créer ProductController dans src/Controller/Admin/Product/
+Ticket 10.2 – Amélioration fiche produit
+🚧 À faire (à reprendre après SPRINT 11)
 
- Route /admin/produits → liste produits
+Sur /produits/{slug}, compléter l’UX :
 
- Route /admin/produits/nouveau → créer produit
+vérifier l’affichage de l’image produit (déjà en place côté thème visitor),
 
- Route /admin/produits/{id}/modifier → modifier produit
+renforcer encore le bouton “Ajouter au panier” (position / comportement sur mobile),
 
- Route /admin/produits/{id}/supprimer → supprimer produit
+enrichir la zone “Bienfaits / Utilisation” à partir des nouveaux champs Product (benefits / usage).
 
- Restreindre accès ROLE_ADMIN
+Tests UX : lisibilité, responsive, cohérence avec la nouvelle home visitor.
 
- Vues CRUD admin produits
+Commit futur : feat(product): amélioration fiche produit (ticket 10.2).
 
-Ticket 6.2 – Gestion commandes admin
+Ticket 10.3 – Messages UX / confirmations
+🚧 À faire
 
- Créer branche sprint6-ticket2-admin-order
+Ajouter un message flash / toast visuel après ajout au panier (Bootstrap ou composant custom).
 
- Liste toutes les commandes
+Sur le dashboard utilisateur, ajouter un encart “Dernière commande” avec lien rapide vers /mes-commandes ou /commande/{id}.
 
- Détail d'une commande
+Sur la home, ajouter un bloc “Comment ça marche ?” (3 étapes : Choisir → Ajouter au panier → Commander).
 
- Modifier le statut d'une commande
+Vérifier cohérence des messages et traductions FR.
+
+SPRINT 11 – Flux commandes & post-commande
+🚧 Démarré
+
+Ticket 11.1 – Vider le panier après validation de la commande
+✅ Terminé
+(inchangé)
+
+Ticket 11.2 – Thème visitor e‑commerce (home, blog, contact, produits, panier, commandes)
+✅ GROSSE avancée aujourd’hui (presque terminé, à relire + commit)
+
+Objectif : harmoniser tout le front visitor et une partie user avec un thème e‑commerce plantes médicinales.
+
+Créer/mettre à jour le header visitor :
+
+composant header-visitor.html.twig avec badge, titre, sous‑titre, option image,
+
+SCSS dédié (_header_visitor.scss) avec fond dégradé ou fond vert plein selon le contexte.
+
+Home visitor :
+
+hero e‑commerce avec image TrouveTonRemede, double CTA (voir plantes / lire les conseils),
+
+section “Plantes médicinales populaires” avec cartes produits,
+
+section “Qui est Oumi ?”, articles récents, contact, sur fond cohérent.
+
+Page Contact visitor :
+
+header visitor cohérent,
+
+fond de section vert doux + carte blanche centrale,
+
+formulaire aligné (labels, champs, bouton CTA, microcopy de confiance),
+
+colonne de droite avec coordonnées + Google Maps responsive.
+
+Blog visitor :
+
+index : header visitor, filtres catégories/tags en dropdown, cartes article (image gauche, texte droite, tags, bouton “Lire l’article”), fond vert doux + cartes blanches,
+
+show : à harmoniser (fond / carte) sur le même thème.
+
+Produits visitor :
+
+index : header visitor, fond de section vert doux, réutilisation des card-produit avec bouton btn-cta.
+
+Panier & commandes (user / visitor) :
+
+panier : refonte en page e‑commerce (header, tableau des items, résumé de commande en carte latérale, CTA clair),
+
+liste commandes : carte “Historique de vos commandes” avec tableau stylé, badges de statut,
+
+détail commande : cartes “Infos commande” + “Articles commandés” + résumé latéral, coloration du #id de commande.
+
+SCSS :
+
+nouveaux fichiers de page (section-contact, section-blog-index, section-products-index, section-cart, section-orders, section-order-show),
+
+_forms.scss pour harmoniser tous les champs et boutons (btn-cta).
+
+À faire pour clôturer le ticket 11.2 :
+
+Relire les Twig/SCSS modifiés (home, blog, contact, produits, panier, orders).
+
+Lancer un tour de tests manuels :
+
+home, contact, blog, produits index/show,
+
+panier (ajout, suppression), commandes index/show.
+
+Nettoyer les fichiers inutiles éventuels, vérifier les imports SCSS dans app.scss.
+
+git add de tous les fichiers (incl. nouveaux SCSS, fixtures, images, migration) puis :
+
+commit : feat(visitor): thème e-commerce (ticket 11.2)
+
+push + PR.
+
+Ticket 11.3 – Intégration paiement (Stripe) & statut PAID
+📝 À définir / prochain sujet
+
+Choisir le mode d’intégration Stripe (Checkout ou PaymentIntent).
+
+Ajouter les champs nécessaires sur Order (paidAt, paymentId, paymentStatus, etc.).
+
+Créer le contrôleur de retour / webhook Stripe qui passe la commande de PENDING à PAID.
+
+Adapter l’admin pour visualiser PAID vs PENDING.
+
+Mettre à jour les tests manuels (panier → commande PENDING → paiement → commande PAID).
 
 Notes techniques importantes
-Commandes Symfony → toujours via Docker :
-
-bash
-docker-compose exec app php bin/console mmande>
-Commandes sans DB → possible avec symfony CLI :
-
-bash
-symfony console make:entity
-Fichiers .env :
-
-.env.dev.local → jamais commité (secrets)
-
-.env.dev → commité (APP_SECRET uniquement)
-
-Configuration projet :
-
-APP_SECRET : c2a686b46f3a061514e79042309cb5d0
-
-DATABASE_URL : mysql://root:root@db:3306/trouve_ton_remede?serverVersion=8.0&charset=utf8mb4
-
-Ports Docker :
-
-Service	Port
-Symfony	8000
-Adminer	8080
-phpMyAdmin	8081
-MySQL	33066
-✅ Sprint 1, 2, 3, 4, 5 terminés → 🚧 Sprint 6 en cours – Dashboard Admin
+(inchangé, toujours valable : Docker, ports, .env, DATABASE_URL avec host db, usage de docker compose exec app php bin/console …, etc.)

@@ -1,4 +1,30 @@
-$primary:#2e7d32;
-$fond-beige-clair: hsl(60, 88%, 47%);
-$vert-medicinal: #ffffff;
-$texte-gris-fonce: #333333;
+// 🌿 Palette plantes médicinales + e‑commerce
+
+// Couleurs marque / nature
+$primary: #2e7d32;          // vert naturel principal (navbar, boutons)
+$primary-dark: #1b5e20;     // hover / boutons
+
+$secondary: #81c784;        // vert doux (hover, accents)
+$accent: #a5d6a7;           // badges, petits éléments
+
+// Fonds
+$fond-page: #f6f8f5;        // fond très doux global
+$fond-nature: #eef5ea;      // sections "nature" (bienfaits, story)
+$beige-naturel: #f5f1e8;    // cartes produits, encarts
+
+// Texte
+$texte-principal: #1f2933;  // titres
+$texte-secondaire: #4b5563; // paragraphes
+$texte-gris-fonce: #555555; // si déjà utilisé ailleurs
+
+// Bordures
+$border: #e5e7eb;
+
+// États
+$success: #43a047;
+$danger: #e53935;
+$warning: #fbc02d;
+$info: #29b6f6;
+
+// Optionnel : bouton CTA bien visible
+$cta-orange: #f97316;

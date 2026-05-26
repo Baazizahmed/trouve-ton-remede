@@ -2,24 +2,47 @@
 @import "./abstracts/variables";
 @import "./abstracts/classes";
 
+// 🔗 Mapping vers Bootstrap
+$body-bg: $fond-page;
+$body-color: $texte-secondaire;
+$primary: $primary;
+$secondary: $secondary;
+$success: $success;
+$danger: $danger;
+$warning: $warning;
+$info: $info;
+$border-color: $border;
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 
 
+
 // Base
 @import "./base/typography";
 
-// components
 
+// components
 @import "./components/visitor/header_visitor";
+
 
 // layout
 @import "./layout/login-form";
 @import "./layout/footer";
 
+
 // Pages
 @import "./pages/visitor/blog/show";
+@import "./pages/visitor/home";
+@import "./pages/visitor/product/show";
+@import "./pages/visitor/product/index";
+@import "./pages/visitor/contact/index";
+@import "./pages/user/cart/index";
+@import "./pages/user/order/index";
+@import "./pages/user/order/show";
+
+
+
 
 
 // Themes

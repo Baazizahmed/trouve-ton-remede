@@ -45,14 +45,14 @@ class CartItem
         return $this;
     }
 
-    public function getUnitPrice(): ?string
+    public function getUnitPrice(): ?float
     {
-        return $this->unitPrice;
+        return null !== $this->unitPrice ? (float) $this->unitPrice : null;
     }
 
-    public function setUnitPrice(string $unitPrice): static
+    public function setUnitPrice(float $unitPrice): static
     {
-        $this->unitPrice = $unitPrice;
+        $this->unitPrice = (string) $unitPrice;
 
         return $this;
     }

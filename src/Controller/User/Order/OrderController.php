@@ -34,7 +34,7 @@ class OrderController extends AbstractController
         $order = $this->orderService->createOrderFromCart($cart, $user);
 
         // Vider le panier après validation
-        $cart->setStatus('ORDERED');
+        $this->cartService->clearCart($cart);
 
         $this->addFlash('success', 'Commande validée avec succès !');
 

@@ -1,0 +1,42 @@
+.product-image-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid $border;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image-main {
+  max-height: 320px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.product-image-placeholder {
+  font-size: 3rem;
+  color: $secondary;
+}
+
+.product-price-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.product-price-main {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: $primary;
+}
+
+.product-price-note {
+  font-size: 0.9rem;
+  color: $texte-secondaire;
+}
+
+.product-short-desc {
+  font-size: 0.98rem;
+  color: $texte-secondaire;
+}
