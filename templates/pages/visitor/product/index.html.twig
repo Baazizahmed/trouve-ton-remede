@@ -7,70 +7,241 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
 {% endblock %}
 
 {% block main %}
-    {% include 'components/visitor/header-visitor.html.twig' with {
-        h1: 'Nos plantes médicinales',
-        subtitle: 'Choisissez les plantes qui correspondent à vos besoins au quotidien.'
-    } %}
 
-    <section class="py-5 section-products-index">
-        <div class="container">
+{% include 'components/visitor/header-visitor.html.twig' with {
+    h1: 'Nos plantes médicinales',
+    subtitle: 'Découvrez des plantes soigneusement sélectionnées pour accompagner votre bien-être naturellement.'
+} %}
 
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <div>
-                    <h2 class="h4 fw-bold mb-1">La sélection d’Oumi</h2>
-                    <p class="text-muted mb-0">
-                        Des plantes choisies pour le sommeil, la digestion, l’immunité et plus encore.
+{# SECTION AVANTAGES #}
+<section class="products-benefits py-5">
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        🌿
+                    </div>
+
+                    <h2 class="benefit-title">
+                        Sélection naturelle
+                    </h2>
+
+                    <p class="benefit-text">
+                        Oumi choisit des plantes reconnues et appréciées pour leurs usages traditionnels du quotidien.
                     </p>
                 </div>
             </div>
 
-            {% if products is not empty %}
-                <div class="row g-4">
-                    {% for product in products %}
-                        <div class="col-md-4 col-sm-6">
-                            <article class="card-produit h-100">
+            <div class="col-md-4">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        💚
+                    </div>
+
+                    <h2 class="benefit-title">
+                        Bien-être quotidien
+                    </h2>
+
+                    <p class="benefit-text">
+                        Sommeil, digestion, immunité ou vitalité : trouvez la plante adaptée à vos besoins.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="benefit-card h-100">
+                    <div class="benefit-icon">
+                        💬
+                    </div>
+
+                    <h2 class="benefit-title">
+                        Conseils d’Oumi
+                    </h2>
+
+                    <p class="benefit-text">
+                        Des conseils simples et accessibles pour mieux comprendre les plantes médicinales.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{# SECTION PRODUITS #}
+<section class="section-products-index py-5">
+
+    <div class="container">
+
+        <div class="products-heading mb-5">
+
+            <span class="products-badge">
+                🌿 La sélection d’Oumi
+            </span>
+
+            <h2 class="products-title">
+                Des plantes pensées pour votre bien-être
+            </h2>
+
+            <p class="products-subtitle">
+                Découvrez une sélection naturelle pour accompagner votre quotidien :
+                sommeil, digestion, immunité, détente et équilibre.
+            </p>
+
+        </div>
+
+        {% if products is not empty %}
+
+            <div class="row g-4">
+
+                {% for product in products %}
+
+                    <div class="col-xl-3 col-lg-4 col-md-6">
+
+                        <article class="card-produit h-100">
+
+                            {# IMAGE #}
+                            <div class="card-produit__image-wrapper">
 
                                 {% if product.imageName %}
-                                    <div class="card-produit__image-wrapper">
-                                        <img
-                                            src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
-                                            class="card-produit__image"
-                                            alt="{{ product.name }}"
-                                        >
+                                    <img
+                                        src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                        class="card-produit__image"
+                                        alt="{{ product.name }}"
+                                    >
+                                {% else %}
+                                    <div class="card-produit__placeholder">
+                                        🌿
                                     </div>
                                 {% endif %}
 
-                                <div class="card-produit__body">
-                                    <h2 class="card-produit__title">
-                                        {{ product.name }}
-                                    </h2>
+                                <div class="card-produit__overlay">
+                                    <a
+                                        href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
+                                        class="btn btn-light rounded-pill px-4"
+                                    >
+                                        Découvrir
+                                    </a>
+                                </div>
 
-                                    <p class="card-produit__excerpt">
-                                        {{ product.description|u.truncate(90, '...') }}
-                                    </p>
+                            </div>
 
-                                    <div class="card-produit__footer">
+                            {# CONTENU #}
+                            <div class="card-produit__body">
+
+                                <div class="card-produit__badge">
+                                    Naturel
+                                </div>
+
+                                <h3 class="card-produit__title">
+                                    {{ product.name }}
+                                </h3>
+
+                                <p class="card-produit__excerpt">
+                                    {{ product.description|u.truncate(100, '...') }}
+                                </p>
+
+                                <div class="card-produit__footer">
+
+                                    <div>
                                         <span class="card-produit__price">
                                             {{ product.price|number_format(2, ',', ' ') }} €
                                         </span>
 
-                                        <a href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
-                                           class="btn btn-cta btn-sm">
-                                            Voir la plante
-                                        </a>
+                                        <small class="d-block text-muted">
+                                            TTC incluse
+                                        </small>
                                     </div>
+
+                                    <a
+                                        href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
+                                        class="btn btn-success rounded-pill px-3"
+                                    >
+                                        Voir
+                                    </a>
+
                                 </div>
 
-                            </article>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="text-muted">
-                    Aucun produit disponible pour le moment.
-                </p>
-            {% endif %}
+                            </div>
 
-        </div>
-    </section>
+                        </article>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            {# CTA BAS PAGE #}
+            <div class="products-cta mt-5">
+
+                <div class="products-cta-box">
+
+                    <h2 class="products-cta-title">
+                        Besoin d’aide pour choisir une plante ?
+                    </h2>
+
+                    <p class="products-cta-text">
+                        Découvrez les conseils d’Oumi sur le blog ou contactez-nous
+                        pour être guidé vers la plante la plus adaptée à votre besoin.
+                    </p>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+                        <a
+                            href="{{ path('app_visitor_blog_index') }}"
+                            class="btn btn-outline-success rounded-pill px-4"
+                        >
+                            Lire les conseils
+                        </a>
+
+                        <a
+                            href="{{ path('app_visitor_contact_create') }}"
+                            class="btn btn-success rounded-pill px-4"
+                        >
+                            Contacter Oumi
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="products-empty">
+
+                <div class="products-empty-icon">
+                    🌿
+                </div>
+
+                <h2 class="products-empty-title">
+                    Aucune plante disponible pour le moment
+                </h2>
+
+                <p class="products-empty-text">
+                    La sélection est en préparation.
+                    Revenez bientôt pour découvrir les prochaines plantes naturelles d’Oumi.
+                </p>
+
+                <a
+                    href="{{ path('app_visitor_blog_index') }}"
+                    class="btn btn-outline-success rounded-pill px-4"
+                >
+                    Lire les conseils bien-être
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
 {% endblock %}

@@ -11,146 +11,265 @@ Lisez les articles d’Oumi sur les remèdes naturels, le bien-être et les plan
 {% endblock %}
 
 {% block main %}
+
     {% include 'components/visitor/header-visitor.html.twig' with {
         h1: 'Articles & conseils',
-        subtitle: 'Explorez les remèdes, les conseils de bien-être et les plantes médicinales d’Oumi.'
+        subtitle: 'Explorez les remèdes naturels, les conseils bien-être et les plantes médicinales sélectionnées par Oumi.'
     } %}
 
-    <section class="py-5 section-blog-index">
+    <section class="blog-page py-5">
         <div class="container">
 
-            {# Filtres catégories / tags #}
+            {# INTRO #}
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-10">
-                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-between">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-success dropdown-toggle" type="button"
-                                    id="dropdownCategories" data-bs-toggle="dropdown" aria-expanded="false">
-                                Catégories
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownCategories">
-                                {% if categories is not empty %}
-                                    {% for category in categories %}
-                                        {% set categoryPostsLength = category.posts|length %}
-                                        <li>
-                                            <a class="dropdown-item"
-                                               href="{{ path('app_visitor_blog_filter_by_category', {
-                                                   id: category.id,
-                                                   slug: category.slug
-                                               }) }}">
-                                                {{ category.name }}
-                                                ({{ categoryPostsLength }} article{{ categoryPostsLength > 1 ? 's' : '' }})
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li><span class="dropdown-item text-muted">Aucune catégorie disponible</span></li>
-                                {% endif %}
-                            </ul>
-                        </div>
+                    <div class="blog-intro">
+                        <span class="blog-intro__badge">
+                            🌿 Le journal d’Oumi
+                        </span>
 
-                        <div class="dropdown">
-                            <button class="btn btn-outline-success dropdown-toggle" type="button"
-                                    id="dropdownTags" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tags
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownTags">
-                                {% if tags is not empty %}
-                                    {% for tag in tags %}
-                                        {% set tagPostsLength = tag.posts|length %}
-                                        <li>
-                                            <a class="dropdown-item"
-                                               href="{{ path('app_visitor_blog_filter_by_tag', {
-                                                   id: tag.id,
-                                                   slug: tag.slug
-                                               }) }}">
-                                                {{ tag.name }}
-                                                ({{ tagPostsLength }} article{{ tagPostsLength > 1 ? 's' : '' }})
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li><span class="dropdown-item text-muted">Aucun tag disponible</span></li>
-                                {% endif %}
-                            </ul>
-                        </div>
+                        <h2 class="blog-intro__title">
+                            Des conseils naturels pour mieux comprendre les plantes
+                        </h2>
+
+                        <p class="blog-intro__text">
+                            Découvrez les articles d’Oumi autour des remèdes traditionnels, du bien-être au quotidien
+                            et des plantes médicinales sélectionnées avec soin.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            {# Liste des articles #}
-            <div class="row">
-                <div class="col-lg-10 mx-auto">
-                    {% for post in posts %}
-                        <article class="card blog-card mb-4 border-0 shadow-sm">
-                            <div class="row g-0">
-                                <div class="col-md-4">
-                                    {% if post.image %}
-                                        <img
-                                            src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('visitor_post_thumb') }}"
-                                            class="blog-card__image"
-                                            alt="{{ post.title }}"
-                                        >
-                                    {% else %}
-                                        <img
-                                            src="/images/static/blog/default_post_image.png"
-                                            class="blog-card__image"
-                                            alt="{{ post.title }}"
-                                        >
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body blog-card__body">
-                                        <h2 class="blog-card__title">
-                                            {{ post.title|u.truncate(80, '…') }}
-                                        </h2>
+            {# FILTRES AVEC DROPDOWNS #}
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-10">
+                    <div class="blog-filters">
+                        <div class="blog-filters__head">
+                            <div>
+                                <p class="blog-filters__title mb-1">
+                                    Explorer les articles
+                                </p>
+                                <p class="blog-filters__text mb-0">
+                                    Filtrez les contenus par catégories ou par thèmes.
+                                </p>
+                            </div>
 
-                                        <p class="blog-card__excerpt">
-                                            {{ post.description|u.truncate(140, '…') }}
-                                        </p>
+                            <div class="blog-filters__actions d-flex flex-wrap gap-2">
 
-                                        <p class="blog-card__meta mb-2">
-                                            <span class="me-2">
-                                                🌿 {{ post.category.name }}
-                                            </span>
-                                            <span class="text-muted">
-                                                Publié {{ post.publishedAt|ago }}
-                                            </span>
-                                        </p>
+                                {# CATEGORIES #}
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-outline-success rounded-pill px-4 dropdown-toggle"
+                                        type="button"
+                                        id="dropdownCategories"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Catégories
+                                    </button>
 
-                                        {% if post.tags is not empty %}
-                                            <p class="mb-3">
-                                                {% for tag in post.tags %}
-                                                    <span class="badge rounded-pill bg-success-subtle text-success me-1">
-                                                        {{ tag.name }}
-                                                    </span>
-                                                {% endfor %}
-                                            </p>
+                                    <ul
+                                        class="dropdown-menu border-0 shadow rounded-4 p-2"
+                                        aria-labelledby="dropdownCategories">
+
+                                        {% if categories is not empty %}
+                                            {% for category in categories %}
+                                                {% set categoryPostsLength = category.posts|length %}
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item rounded-3"
+                                                        href="{{ path('app_visitor_blog_filter_by_category', {
+                                                            id: category.id,
+                                                            slug: category.slug
+                                                        }) }}">
+                                                        {{ category.name }}
+                                                        <span class="text-muted small">
+                                                            ({{ categoryPostsLength }})
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>
+                                                <span class="dropdown-item text-muted">
+                                                    Aucune catégorie disponible
+                                                </span>
+                                            </li>
                                         {% endif %}
+                                    </ul>
+                                </div>
 
-                                        <a href="{{ path('app_visitor_blog_post_show', {
-                                            id: post.id,
-                                            slug: post.slug
-                                        }) }}"
-                                           class="btn btn-cta btn-sm">
-                                            Lire l'article
+                                {# TAGS #}
+                                <div class="dropdown">
+                                    <button
+                                        class="btn btn-outline-success rounded-pill px-4 dropdown-toggle"
+                                        type="button"
+                                        id="dropdownTags"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        Tags
+                                    </button>
+
+                                    <ul
+                                        class="dropdown-menu border-0 shadow rounded-4 p-2"
+                                        aria-labelledby="dropdownTags">
+
+                                        {% if tags is not empty %}
+                                            {% for tag in tags %}
+                                                {% set tagPostsLength = tag.posts|length %}
+                                                <li>
+                                                    <a
+                                                        class="dropdown-item rounded-3"
+                                                        href="{{ path('app_visitor_blog_filter_by_tag', {
+                                                            id: tag.id,
+                                                            slug: tag.slug
+                                                        }) }}">
+                                                        #{{ tag.name }}
+                                                        <span class="text-muted small">
+                                                            ({{ tagPostsLength }})
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>
+                                                <span class="dropdown-item text-muted">
+                                                    Aucun tag disponible
+                                                </span>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {# BADGES VISIBLES DES THEMES #}
+                        {% if tags is not empty %}
+                            <div class="blog-filters__themes">
+                                <p class="blog-filters__themes-label mb-2">
+                                    Thèmes populaires
+                                </p>
+
+                                <div class="blog-filters__themes-list">
+                                    {% for tag in tags|slice(0, 6) %}
+                                        <a
+                                            href="{{ path('app_visitor_blog_filter_by_tag', {
+                                                id: tag.id,
+                                                slug: tag.slug
+                                            }) }}"
+                                            class="blog-theme-badge">
+                                            #{{ tag.name }}
                                         </a>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
-                        </article>
-                    {% else %}
-                        <p class="text-center text-muted my-5">
-                            Aucun article disponible pour le moment.
-                        </p>
-                    {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
-                    <div class="d-flex justify-content-end align-items-center mt-4">
+            {# LISTE DES ARTICLES #}
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+
+                    {% if posts|length > 0 %}
+                        <div class="row g-4 blog-grid">
+                            {% for post in posts %}
+                                <div class="col-md-6">
+                                    <article class="blog-card h-100">
+
+                                        <div class="blog-card__media">
+                                            {% if post.image %}
+                                                <img
+                                                    src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('visitor_post_thumb') }}"
+                                                    class="blog-card__image"
+                                                    alt="{{ post.title }}"
+                                                >
+                                            {% else %}
+                                                <img
+                                                    src="/images/static/blog/default_post_image.png"
+                                                    class="blog-card__image"
+                                                    alt="{{ post.title }}"
+                                                >
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="blog-card__body">
+
+                                            <div class="blog-card__meta">
+                                                <span class="blog-card__category">
+                                                    {{ post.category.name }}
+                                                </span>
+
+                                                <span class="blog-card__date">
+                                                    Publié {{ post.publishedAt|ago }}
+                                                </span>
+                                            </div>
+
+                                            <h2 class="blog-card__title">
+                                                {{ post.title|u.truncate(90, '…') }}
+                                            </h2>
+
+                                            <p class="blog-card__excerpt">
+                                                {{ post.description|u.truncate(160, '…') }}
+                                            </p>
+
+                                            {% if post.tags is not empty %}
+                                                <div class="blog-card__tags">
+                                                    {% for tag in post.tags %}
+                                                        <span class="blog-card__tag">
+                                                            #{{ tag.name }}
+                                                        </span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+
+                                            <a
+                                                href="{{ path('app_visitor_blog_post_show', {
+                                                    id: post.id,
+                                                    slug: post.slug
+                                                }) }}"
+                                                class="btn btn-cta btn-sm rounded-pill px-3">
+                                                Lire l'article
+                                            </a>
+
+                                        </div>
+
+                                    </article>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-blog-state p-5 text-center">
+                            <div class="fs-1 mb-3">
+                                📝
+                            </div>
+
+                            <h2 class="h3 fw-bold mb-3">
+                                Aucun article disponible pour le moment
+                            </h2>
+
+                            <p class="text-muted mb-4 mx-auto" style="max-width: 640px;">
+                                Les prochains conseils d’Oumi arrivent bientôt pour vous accompagner naturellement
+                                avec des contenus autour des plantes médicinales et du bien-être.
+                            </p>
+
+                            <a
+                                href="{{ path('app_visitor_product_index') }}"
+                                class="btn btn-outline-success rounded-pill px-4">
+                                Voir les plantes
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-center mt-5">
                         {{ knp_pagination_render(posts) }}
                     </div>
+
                 </div>
             </div>
 
         </div>
     </section>
+
 {% endblock %}
