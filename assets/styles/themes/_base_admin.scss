@@ -1,6 +1,8 @@
 // assets/styles/themes/_base_admin.scss
 
-.admin-dashboard {
+.admin-dashboard,
+.product-edit-page,
+.admin-settings-page {
   .card {
     border-radius: 0.75rem;
   }
@@ -13,5 +15,141 @@
 
   .display-6 {
     font-family: 'Poppins', sans-serif;
+  }
+
+  h1 {
+    line-height: 1.25;
+  }
+
+  .table-responsive {
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table.table {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+  }
+
+  table.table th,
+  table.table td {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .btn {
+    border-radius: 0.65rem;
+  }
+
+  .product-edit-current-image {
+    &__frame {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 280px;
+      min-height: 140px;
+      padding: 0.75rem;
+      margin-inline: auto;
+      background-color: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 0.75rem;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 220px;
+      max-height: 180px;
+      object-fit: contain;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    .card {
+      border-radius: 0.65rem;
+    }
+
+    .table-responsive {
+      font-size: 0.95rem;
+    }
+
+    .product-edit-current-image {
+      &__frame {
+        max-width: 240px;
+        min-height: 120px;
+      }
+
+      img {
+        max-width: 190px;
+        max-height: 150px;
+      }
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    padding-inline: 0.25rem;
+
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .table-responsive {
+      font-size: 0.875rem;
+      border-radius: 0.5rem;
+    }
+
+    table.table th,
+    table.table td {
+      padding: 0.65rem 0.5rem;
+    }
+
+    table.table th:nth-child(1),
+    table.table td:nth-child(1),
+    table.table th:last-child,
+    table.table td:last-child {
+      white-space: nowrap;
+    }
+
+    .btn {
+      min-height: 44px;
+    }
+
+    .product-edit-current-image {
+      &__frame {
+        max-width: 200px;
+        min-height: 110px;
+        padding: 0.5rem;
+      }
+
+      img {
+        max-width: 160px;
+        max-height: 120px;
+      }
+    }
+
+    .product-edit-page {
+      .card-body {
+        padding: 1rem;
+      }
+    }
+
+    .admin-settings-page {
+      .card-body {
+        padding: 1rem;
+      }
+    }
   }
 }
