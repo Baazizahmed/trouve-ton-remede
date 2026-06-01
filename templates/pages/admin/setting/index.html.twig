@@ -1,41 +1,90 @@
 {% extends 'themes/base_admin.html.twig' %}
 
-{% block title %}Les paramète du site{% endblock %}
-
-{% block description %}Les paramète du site{% endblock %}
-
-{% block jQuery %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{% endblock %}
+{% block title %}Les paramètres du site{% endblock %}
+{% block description %}Les paramètres du site{% endblock %}
 
 {% block main %}
-    <h1 class="text-center text-primary my-3 display-5">🌿Les paramète du site</h1>
+<div class="container-fluid mt-4 admin-profile-page">
+
+    <div class="admin-page-header mb-4">
+        <div>
+            <span class="admin-page-header__badge">
+                Configuration du site
+            </span>
+
+            <h1 class="admin-page-header__title">
+                Paramètres du site
+            </h1>
+
+            <p class="admin-page-header__subtitle">
+                Consultez et mettez à jour les informations générales du site.
+            </p>
+        </div>
+    </div>
 
     {% include 'components/alert.html.twig' %}
 
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm admin-profile-card">
+                <div class="card-body">
 
-    <div class="table-responsive">
-        <table id="myTable" class="table table-striped table-bordered text-center">
-        <thead class="table-primary">
-            <tr>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Options</th>
-            </tr>
-        </thead>
-        <tbody>
-           <tr>
-                <td>{{setting.email}}</td>
-                <td>{{setting.phone ? setting.phone : "Non renseignè"}}</td>
-                <td>
-                    <a href="{{path('app_admin_setting_edit',{'id': setting.id})}}" class="text-secondary text-decoration-none" title="Modifier">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
+                    <div class="admin-profile-card__header">
+                        <div class="admin-profile-card__avatar">
+                            <i class="fa-solid fa-gear"></i>
+                        </div>
 
-        </table>
+                        <div>
+                            <h2 class="admin-profile-card__name">
+                                Paramètres du site
+                            </h2>
+
+                            <p class="admin-profile-card__role mb-0">
+                                Configuration générale
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="admin-profile-card__infos">
+                        <div class="admin-profile-card__row">
+                            <div class="admin-profile-card__icon">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+
+                            <div class="admin-profile-card__content">
+                                <span class="admin-profile-card__label">Adresse email</span>
+                                <span class="admin-profile-card__value text-break">
+                                    {{ setting.email ?: 'Non renseigné' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="admin-profile-card__row">
+                            <div class="admin-profile-card__icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+
+                            <div class="admin-profile-card__content">
+                                <span class="admin-profile-card__label">Téléphone</span>
+                                <span class="admin-profile-card__value">
+                                    {{ setting.phone ?: 'Non renseigné' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-profile-card__actions">
+                        <a href="{{ path('app_admin_setting_edit', {'id': setting.id}) }}"
+                           class="btn btn-outline-primary admin-profile-btn">
+                            <i class="fa-solid fa-pen-to-square me-2"></i>
+                            Modifier les paramètres
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
+</div>
 {% endblock %}
