@@ -1,0 +1,21 @@
+{% set header_badge = badge|default('Administration') %}
+{% set header_title = title|default('Titre de page') %}
+{% set header_subtitle = subtitle|default(null) %}
+{% set header_actions = actions|default(null) %}
+
+<div class="admin-page-header">
+    <div class="admin-page-header__content">
+        <span class="admin-page-header__badge">{{ header_badge }}</span>
+        <h1 class="admin-page-header__title">{{ header_title }}</h1>
+
+        {% if header_subtitle %}
+            <p class="admin-page-header__subtitle mb-0">{{ header_subtitle }}</p>
+        {% endif %}
+    </div>
+
+    {% if header_actions is not empty %}
+        <div class="admin-page-header__actions">
+            {{ header_actions|raw }}
+        </div>
+    {% endif %}
+</div>

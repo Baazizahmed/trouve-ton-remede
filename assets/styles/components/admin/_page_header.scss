@@ -1,0 +1,101 @@
+.admin-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 0.9rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.04);
+
+  &__content {
+    min-width: 0;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0.65rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background-color: #eef6f3;
+    color: #2f6f5f;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-bottom: 0.35rem;
+    font-size: 1.9rem;
+    line-height: 1.2;
+    color: #212529;
+  }
+
+  &__subtitle {
+    max-width: 60ch;
+    font-size: 0.98rem;
+    color: #6c757d;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-shrink: 0;
+
+    .btn {
+      white-space: nowrap;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .admin-page-header {
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+
+    &__title {
+      font-size: 1.65rem;
+    }
+
+    &__subtitle {
+      font-size: 0.94rem;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .admin-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+
+    &__title {
+      font-size: 1.35rem;
+    }
+
+    &__badge {
+      font-size: 0.72rem;
+    }
+
+    &__subtitle {
+      font-size: 0.9rem;
+    }
+
+    &__actions {
+      width: 100%;
+
+      .btn {
+        width: 100%;
+        min-height: 44px;
+      }
+    }
+  }
+}

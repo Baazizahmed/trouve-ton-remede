@@ -6,21 +6,11 @@
 {% block main %}
 <div class="container-fluid mt-4 admin-profile-page">
 
-    <div class="admin-page-header mb-4">
-        <div>
-            <span class="admin-page-header__badge">
-                Compte utilisateur
-            </span>
-
-            <h1 class="admin-page-header__title">
-                Mon profil
-            </h1>
-
-            <p class="admin-page-header__subtitle">
-                Consultez et mettez à jour vos informations personnelles.
-            </p>
-        </div>
-    </div>
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Compte utilisateur',
+        title: 'Mon profil',
+        subtitle: 'Consultez et mettez à jour vos informations personnelles.'
+    } %}
 
     {% include 'components/alert.html.twig' %}
 

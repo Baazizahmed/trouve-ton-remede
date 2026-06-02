@@ -4,12 +4,12 @@
 
 {% block main %}
 <div class="container-fluid mt-4 admin-orders-page">
-    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-4">
-        <div>
-            <h1 class="mb-1">Gestion des Commandes</h1>
-            <p class="text-muted mb-0">Suivi des commandes clients et de leur statut.</p>
-        </div>
-    </div>
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Commandes',
+        title: 'Gestion des Commandes',
+        subtitle: 'Suivi des commandes clients et de leur statut.'
+    } %}
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success shadow-sm border-0" role="alert">
