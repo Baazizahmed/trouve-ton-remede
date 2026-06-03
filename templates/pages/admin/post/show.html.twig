@@ -1,33 +1,62 @@
 {% extends 'themes/base_admin.html.twig' %}
 
-{% block title %}Lire l'article {{post.title}}{% endblock %}
+{% block title %}Lire l'article {{ post.title }}{% endblock %}
 
-{% block description %}Lire l'article {{post.title}}{% endblock %}
+{% block description %}Lire l'article {{ post.title }}{% endblock %}
 
 {% block main %}
-    <div class="container">
-        <div class="text-center">
-            {% if post.image %}
-                <img class="img-fluid" src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="{{ post.title }}">
+<div class="container mt-4">
 
-                <h1 class="text-center my-3 display-5"><i class="fa-solid fa-feather-pointed"></i></i>{{post.title}}</h1>
-
-            {% endif %}
-            <small>Créé le {{post.createdAt|date()}}</small>
-            <small>| Modifié le {{post.updatedAt|date()}}</small>
-            {% if post.published %}
-                <small>| Plublié le {{post.published|date()}}</small>
-            {% endif %}
+    {% set header_actions %}
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ path('app_admin_post_index') }}" class="btn btn-outline-secondary">
+                Retour à la liste
+            </a>
+            <a href="{{ path('app_admin_post_edit', { id: post.id }) }}" class="btn btn-primary">
+                Modifier l’article
+            </a>
         </div>
+    {% endset %}
 
-        <div class="my-3">
-            {{post.content|nl2br}}
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Administration',
+        title: 'Lecture de l’article',
+        subtitle: post.title,
+        actions: header_actions
+    } %}
+
+    <div class="card border-0 shadow-sm mt-4 overflow-hidden">
+        {% if post.image %}
+            <img
+                class="img-fluid w-100"
+                src="{{ vich_uploader_asset(post, 'imageFile') }}"
+                alt="{{ post.title }}"
+            >
+        {% endif %}
+
+        <div class="card-body p-4 p-lg-5">
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-start gap-4 mb-4">
+                <div>
+                    <h1 class="h3 mb-3">{{ post.title }}</h1>
+
+                    <div class="d-flex flex-wrap gap-2 small text-muted">
+                        <span class="badge text-bg-light">ID #{{ post.id }}</span>
+                        <span>Créé le {{ post.createdAt|date('d/m/Y à H:i') }}</span>
+                        <span>Mis à jour le {{ post.updatedAt|date('d/m/Y à H:i') }}</span>
+                        {% if post.published %}
+                            <span>Publié le {{ post.published|date('d/m/Y à H:i') }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-top pt-4">
+                <div class="post-content lh-lg">
+                    {{ post.content|nl2br }}
+                </div>
+            </div>
         </div>
-
-
-        
-
     </div>
-    
-    
+
+</div>
 {% endblock %}

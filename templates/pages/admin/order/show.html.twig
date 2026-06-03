@@ -4,66 +4,110 @@
 
 {% block main %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Commande #{{ order.id }}</h1>
-        <a href="{{ path('app_admin_order_index') }}" class="btn btn-secondary">
-            Retour liste
+
+    {% set header_actions %}
+        <a href="{{ path('app_admin_order_index') }}" class="btn btn-outline-secondary">
+            Retour à la liste
         </a>
-    </div>
+    {% endset %}
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Administration',
+        title: 'Commande #' ~ order.id,
+        subtitle: 'Consultez les détails et mettez à jour le statut de la commande.',
+        actions: header_actions
+    } %}
 
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
+        {% include 'components/alert.html.twig' with {
+            type: 'success',
+            message: message
+        } %}
     {% endfor %}
 
-    <div class="card mb-4">
+    <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
-            <p><strong>Client :</strong> {{ order.user.email }}</p>
-            <p><strong>Date :</strong> {{ order.createdAt|date('d/m/Y H:i') }}</p>
-            <p><strong>Sous-total HT :</strong> {{ order.subtotalHt|number_format(2, ',', ' ') }} €</p>
-            <p><strong>TVA :</strong> {{ order.taxAmount|number_format(2, ',', ' ') }} €</p>
-            <p><strong>Total TTC :</strong> {{ order.totalTtc|number_format(2, ',', ' ') }} €</p>
+            <h2 class="h5 mb-4">Informations de la commande</h2>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>Client :</strong> {{ order.user.email }}</p>
+                    <p class="mb-2"><strong>Date :</strong> {{ order.createdAt|date('d/m/Y à H:i') }}</p>
+                    <p class="mb-0"><strong>Statut actuel :</strong> {{ order.status }}</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p class="mb-2"><strong>Sous-total HT :</strong> {{ order.subtotalHt|number_format(2, ',', ' ') }} €</p>
+                    <p class="mb-2"><strong>TVA :</strong> {{ order.taxAmount|number_format(2, ',', ' ') }} €</p>
+                    <p class="mb-0"><strong>Total TTC :</strong> {{ order.totalTtc|number_format(2, ',', ' ') }} €</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <strong>Modifier le statut</strong>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-white border-0 pb-0">
+            <h2 class="h5 mb-0">Modifier le statut</h2>
         </div>
-        <div class="card-body">
-            <form action="{{ path('app_admin_order_status', {'id': order.id}) }}" method="post" class="d-flex gap-2">
-                <select name="status" class="form-select w-auto">
-                    <option value="PENDING" {{ order.status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
-                    <option value="PAID" {{ order.status == 'PAID' ? 'selected' : '' }}>PAID</option>
-                    <option value="SHIPPED" {{ order.status == 'SHIPPED' ? 'selected' : '' }}>SHIPPED</option>
-                    <option value="CANCELLED" {{ order.status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
-                </select>
-                <button type="submit" class="btn btn-warning">Mettre à jour</button>
+        <div class="card-body pt-3">
+            <form action="{{ path('app_admin_order_status', {'id': order.id}) }}" method="post" class="row g-3 align-items-end">
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Nouveau statut</label>
+                    <select id="status" name="status" class="form-select">
+                        <option value="PENDING" {{ order.status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
+                        <option value="PAID" {{ order.status == 'PAID' ? 'selected' : '' }}>PAID</option>
+                        <option value="SHIPPED" {{ order.status == 'SHIPPED' ? 'selected' : '' }}>SHIPPED</option>
+                        <option value="CANCELLED" {{ order.status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
+                    </select>
+                </div>
+
+                <div class="col-md-auto">
+                    <button type="submit" class="btn btn-warning">
+                        Mettre à jour
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-    <h3>Articles</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Produit</th>
-                <th>Quantité</th>
-                <th>Prix HT</th>
-                <th>TVA</th>
-                <th>Total TTC</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in order.orderItems %}
-            <tr>
-                <td>{{ item.productName }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.unitPriceHt }} €</td>
-                <td>{{ item.taxRate }} %</td>
-                <td>{{ item.totalTtc|number_format(2, ',', ' ') }} €</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white border-0 pb-0">
+            <h2 class="h5 mb-0">Articles commandés</h2>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix HT</th>
+                            <th>TVA</th>
+                            <th>Total TTC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.orderItems %}
+                            <tr>
+                                <td>{{ item.productName }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.unitPriceHt|number_format(2, ',', ' ') }} €</td>
+                                <td>{{ item.taxRate }} %</td>
+                                <td>{{ item.totalTtc|number_format(2, ',', ' ') }} €</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-muted text-center py-4">
+                                    Aucun article trouvé pour cette commande.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}

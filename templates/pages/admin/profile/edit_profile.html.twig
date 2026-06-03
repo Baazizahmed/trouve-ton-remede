@@ -5,33 +5,86 @@
 {% block description %}Modifier mon profil{% endblock %}
 
 {% block main %}
-    <h1 class="text-center text-primary my-3 display-5">🌿Modifier mon profil</h1>
+<div class="container mt-4">
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                       <label for="edit_profile_form_firstName">Prénom</label>
-                       <div class="text-danger">{{ form_errors(form.firstName) }}</div>
-                       {{ form_widget(form.firstName, {'attr': {'class': 'form-control', 'autofocus': 'autofocus'}}) }} 
-                    </div>
-                    <div class="mb-3">
-                       <label for="edit_profile_form_lastName">Nom</label>
-                       <div class="text-danger">{{ form_errors(form.lastName) }}</div>
-                       {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }} 
-                    </div>
-                    <div class="mb-3">
-                       <label for="edit_profile_form_email">Email</label>
-                       <div class="text-danger">{{ form_errors(form.email) }}</div>
-                       {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }} 
-                    </div>
-                    <div>
-                        <input formnovalidate type="submit" class="btn btn-primary">
-                    </div>
-                {{ form_end(form) }}
+    {% set header_actions %}
+        <a href="{{ path('app_admin_home') }}" class="btn btn-outline-secondary">
+            Retour au dashboard
+        </a>
+    {% endset %}
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Mon compte',
+        title: 'Modifier mon profil',
+        subtitle: 'Mettez à jour vos informations personnelles.',
+        actions: header_actions
+    } %}
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-lg-5">
+                    <h2 class="h5 mb-4">Informations personnelles</h2>
+
+                    {{ form_start(form) }}
+
+                        <div class="row g-4">
+                            <div class="col-12 col-md-6">
+                                <div class="mb-3">
+                                    {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.firstName) }}</div>
+                                    {{ form_widget(form.firstName, {
+                                        attr: {
+                                            class: 'form-control',
+                                            autofocus: 'autofocus',
+                                            placeholder: 'Votre prénom'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="mb-3">
+                                    {{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.lastName) }}</div>
+                                    {{ form_widget(form.lastName, {
+                                        attr: {
+                                            class: 'form-control',
+                                            placeholder: 'Votre nom'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.email) }}</div>
+                                    {{ form_widget(form.email, {
+                                        attr: {
+                                            class: 'form-control',
+                                            placeholder: 'Votre adresse email'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pt-4 mt-4 border-top">
+                            <p class="text-muted small mb-0">
+                                Vérifiez vos informations avant d’enregistrer.
+                            </p>
+
+                            <button formnovalidate type="submit" class="btn btn-primary px-4">
+                                Enregistrer les modifications
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
 
+</div>
 {% endblock %}

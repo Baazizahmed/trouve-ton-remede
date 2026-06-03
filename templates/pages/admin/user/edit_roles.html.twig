@@ -1,8 +1,8 @@
 {% extends 'themes/base_admin.html.twig' %}
 
-{% block title %}Modifier les roles{% endblock %}
+{% block title %}Modifier les rôles{% endblock %}
 
-{% block description %}Modifier les roles{% endblock %}
+{% block description %}Modifier les rôles{% endblock %}
 
 {% block jQuery %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -13,29 +13,71 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#edit_roles_form_roles').select2();
+            $('#edit_roles_form_roles').select2({
+                width: '100%',
+                placeholder: 'Sélectionnez un ou plusieurs rôles'
+            });
         });
     </script>
 {% endblock %}
 
 {% block main %}
-    <h1 class="text-center text-primary my-3 display-5">🌿Modifier les roles</h1>
+<div class="container mt-4">
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                       <label for="edit_roles_form_roles">Les roles</label>
-                       <div class="text-danger">{{ form_errors(form.roles) }}</div>
-                       {{ form_widget(form.roles, {'attr': {'class': 'form-control', 'autofocus': 'autofocus'}}) }} 
+    {% set header_actions %}
+        <a href="{{ path('app_admin_user_index') }}" class="btn btn-outline-secondary">
+            Retour à la liste
+        </a>
+    {% endset %}
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Administration',
+        title: 'Modifier les rôles',
+        subtitle: 'Ajustez les rôles attribués à cet utilisateur.',
+        actions: header_actions
+    } %}
+
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body p-4 p-lg-5">
+            <div class="row align-items-start g-4">
+                <div class="col-lg-4">
+                    <div class="pe-lg-4">
+                        <h2 class="h4 mb-3">Gestion des autorisations</h2>
+                        <p class="text-muted mb-0">
+                            Sélectionnez les rôles à attribuer à cet utilisateur pour gérer ses accès dans l’administration.
+                        </p>
                     </div>
-                    <div>
-                        <input formnovalidate type="submit" class="btn btn-primary">
-                    </div>
-                {{ form_end(form) }}
+                </div>
+
+                <div class="col-lg-8">
+                    {{ form_start(form) }}
+
+                        <div class="mb-4">
+                            {{ form_label(form.roles, 'Les rôles', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            <div class="text-danger small mb-1">{{ form_errors(form.roles) }}</div>
+                            {{ form_widget(form.roles, {
+                                attr: {
+                                    class: 'form-control',
+                                    autofocus: 'autofocus'
+                                }
+                            }) }}
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-end align-items-sm-center gap-3 mt-4 pt-3 border-top">
+                            <span class="text-muted small">
+                                Vérifiez les rôles attribués avant validation.
+                            </span>
+
+                            <button formnovalidate type="submit" class="btn btn-primary px-4">
+                                Enregistrer les modifications
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
 
+</div>
 {% endblock %}
