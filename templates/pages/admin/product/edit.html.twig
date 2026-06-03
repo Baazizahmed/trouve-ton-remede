@@ -5,125 +5,117 @@
 
 {% block main %}
 <div class="container my-4 my-md-5 product-edit-page">
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
-            <div class="card shadow border-0">
-                <div class="card-header bg-warning py-3">
-                    <h1 class="h4 mb-0 text-dark d-flex align-items-center">
-                        <i class="fa-solid fa-pen-to-square me-2"></i>
-                        Modifier le produit
-                    </h1>
+
+    {% set header_actions %}
+        <a href="{{ path('app_admin_product_index') }}" class="btn btn-outline-secondary">
+            Retour à la liste
+        </a>
+    {% endset %}
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Administration',
+        title: 'Modifier le produit',
+        subtitle: product.name,
+        actions: header_actions
+    } %}
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body p-3 p-md-4 p-lg-5">
+            {{ form_start(form) }}
+
+            <div class="row g-4">
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.name) }}</div>
+                    </div>
                 </div>
 
-                <div class="card-body p-3 p-md-4">
-                    <h5 class="mb-4 text-muted text-break">
-                        {{ product.name }}
-                    </h5>
-
-                    {{ form_start(form) }}
-
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <div class="form-group">
-                                {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_errors(form.name) }}
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 mb-3">
-                            <div class="form-group">
-                                {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_errors(form.slug) }}
-                            </div>
-                        </div>
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.slug) }}</div>
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        <div class="form-group">
-                            {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                            {{ form_errors(form.description) }}
-                        </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        {{ form_label(form.description, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <div class="form-group">
-                                {{ form_label(form.price, null, {'label_attr': {'class': 'form-label'}}) }}
-                                <div class="input-group">
-                                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
-                                    <span class="input-group-text">€</span>
-                                </div>
-                                {{ form_errors(form.price) }}
-                            </div>
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.price, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        <div class="input-group">
+                            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                            <span class="input-group-text">€</span>
                         </div>
-
-                        <div class="col-12 col-md-6 mb-3 product-image-field">
-                            <div class="form-group">
-                                {{ form_label(form.imageFile.file, 'Nouvelle image', {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(form.imageFile.file, {'attr': {'class': 'form-control'}}) }}
-                                {{ form_errors(form.imageFile.file) }}
-
-                                {% if product.imageName %}
-                                    <div class="product-image-field__current">
-                                        <span class="product-image-field__caption">Image actuelle</span>
-                                        <img
-                                            src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
-                                            alt="{{ product.name }}"
-                                            class="product-image-field__img"
-                                        >
-                                    </div>
-                                {% endif %}
-
-                                {% if form.imageFile.delete is defined %}
-                                    <div class="product-image-field__delete form-check">
-                                        {{ form_widget(form.imageFile.delete, {'attr': {'class': 'form-check-input'}}) }}
-                                        {{ form_label(form.imageFile.delete, 'Supprimer l’image', {'label_attr': {'class': 'form-check-label'}}) }}
-                                    </div>
-                                    {{ form_errors(form.imageFile.delete) }}
-                                {% endif %}
-                            </div>
-                        </div>
+                        <div class="text-danger small mt-1">{{ form_errors(form.price) }}</div>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col-12 col-md-6 mb-3">
-                            <div class="form-group">
-                                {{ form_label(form.benefits, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(form.benefits, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                                {{ form_errors(form.benefits) }}
+                <div class="col-12 col-md-6 product-image-field">
+                    <div class="form-group">
+                        {{ form_label(form.imageFile.file, 'Nouvelle image', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.imageFile.file, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.imageFile.file) }}</div>
+
+                        {% if product.imageName %}
+                            <div class="product-image-field__current mt-3">
+                                <span class="product-image-field__caption d-block mb-2 text-muted small">Image actuelle</span>
+                                <img
+                                    src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                    alt="{{ product.name }}"
+                                    class="product-image-field__img img-fluid rounded border"
+                                >
                             </div>
-                        </div>
+                        {% endif %}
 
-                        <div class="col-12 col-md-6 mb-3">
-                            <div class="form-group">
-                                {{ form_label(form.usage, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(form.usage, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                                {{ form_errors(form.usage) }}
+                        {% if form.imageFile.delete is defined %}
+                            <div class="product-image-field__delete form-check mt-3">
+                                {{ form_widget(form.imageFile.delete, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(form.imageFile.delete, 'Supprimer l’image', {'label_attr': {'class': 'form-check-label'}}) }}
                             </div>
-                        </div>
+                            <div class="text-danger small mt-1">{{ form_errors(form.imageFile.delete) }}</div>
+                        {% endif %}
                     </div>
+                </div>
 
-                    <div class="product-edit-actions d-flex flex-column flex-md-row justify-content-between gap-2 gap-md-3 mt-4">
-                        <a href="{{ path('app_admin_product_index') }}"
-                           class="btn btn-outline-secondary product-edit-actions__btn">
-                            <i class="fa-solid fa-arrow-left me-1"></i>
-                            Retour
-                        </a>
-
-                        <button type="submit"
-                                class="btn btn-warning px-4 product-edit-actions__btn">
-                            <i class="fa-solid fa-floppy-disk me-1"></i>
-                            Modifier le produit
-                        </button>
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.benefits, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.benefits, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.benefits) }}</div>
                     </div>
+                </div>
 
-                    {{ form_rest(form) }}
-                    {{ form_end(form, {render_rest: false}) }}
+                <div class="col-12 col-md-6">
+                    <div class="form-group">
+                        {{ form_label(form.usage, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_widget(form.usage, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                        <div class="text-danger small mt-1">{{ form_errors(form.usage) }}</div>
+                    </div>
                 </div>
             </div>
+
+            <div class="product-edit-actions d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 gap-md-3 mt-4 pt-4 border-top">
+                <p class="text-muted small mb-0">
+                    Vérifiez les informations du produit avant d’enregistrer.
+                </p>
+
+                <button type="submit" class="btn btn-warning px-4 product-edit-actions__btn">
+                    <i class="fa-solid fa-floppy-disk me-1"></i>
+                    Enregistrer les modifications
+                </button>
+            </div>
+
+            {{ form_rest(form) }}
+            {{ form_end(form, { render_rest: false }) }}
         </div>
     </div>
 </div>

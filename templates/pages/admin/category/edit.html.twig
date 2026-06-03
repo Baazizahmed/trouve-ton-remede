@@ -5,23 +5,56 @@
 {% block description %}Modifier cette catégorie{% endblock %}
 
 {% block main %}
-    <h1 class="text-center text-primary my-3 display-5">🌿Modifier cette catégorie</h1>
+<div class="container mt-4">
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                {{ form_start(form) }}
-                    <div class="mb-3">
-                       <label for="admin_category_form_name">Nom</label>
-                       <div class="text-danger">{{ form_errors(form.name) }}</div>
-                       {{ form_widget(form.name, {'attr': {'class': 'form-control', 'autofocus': 'autofocus'}}) }} 
-                    </div>
-                    <div>
-                        <input formnovalidate type="submit" class="btn btn-primary">
-                    </div>
-                {{ form_end(form) }}
+    {% set header_actions %}
+        <a href="{{ path('app_admin_category_index') }}" class="btn btn-outline-secondary">
+            Retour à la liste
+        </a>
+    {% endset %}
+
+    {% include 'components/admin/page_header.html.twig' with {
+        badge: 'Administration',
+        title: 'Modifier cette catégorie',
+        subtitle: 'Mettez à jour le nom de la catégorie.',
+        actions: header_actions
+    } %}
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-4">Informations de la catégorie</h2>
+
+                    {{ form_start(form) }}
+
+                        <div class="mb-4">
+                            {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            <div class="text-danger small mb-1">{{ form_errors(form.name) }}</div>
+                            {{ form_widget(form.name, {
+                                attr: {
+                                    class: 'form-control',
+                                    autofocus: 'autofocus',
+                                    placeholder: 'Nom de la catégorie'
+                                }
+                            }) }}
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 pt-3 border-top">
+                            <p class="text-muted small mb-0">
+                                Vérifiez le nom avant d’enregistrer.
+                            </p>
+
+                            <button formnovalidate type="submit" class="btn btn-primary px-4">
+                                Enregistrer les modifications
+                            </button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
 
+</div>
 {% endblock %}
