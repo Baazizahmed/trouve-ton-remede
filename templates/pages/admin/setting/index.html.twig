@@ -45,13 +45,13 @@
     {% endset %}
 
     {% set info_card_footer %}
-        <div class="admin-info-card__footer-actions">
-            <a href="{{ path('app_admin_setting_edit', {'id': setting.id}) }}"
-               class="btn btn-outline-primary">
-                <i class="fa-solid fa-pen-to-square me-2"></i>
-                Modifier les paramètres
-            </a>
-        </div>
+        {% include 'components/admin/action_buttons.html.twig' with {
+            primary_label: 'Modifier les paramètres',
+            primary_href: path('app_admin_setting_edit', {'id': setting.id}),
+            primary_icon: 'pen-to-square',
+            align: 'end',
+            stack_mobile: true
+        } %}
     {% endset %}
 
     <div class="row justify-content-center">
