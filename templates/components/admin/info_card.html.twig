@@ -1,0 +1,40 @@
+{% set title = title|default('') %}
+{% set subtitle = subtitle|default(null) %}
+{% set icon = icon|default(null) %}
+{% set content = content|default('') %}
+{% set footer = footer|default(null) %}
+{% set card_class = card_class|default('') %}
+
+<section class="admin-info-card {{ card_class }}">
+    {% if title or subtitle or icon %}
+        <header class="admin-info-card__header">
+            <div class="admin-info-card__heading">
+                {% if icon %}
+                    <span class="admin-info-card__icon">
+                        <i class="fa-solid fa-{{ icon }}"></i>
+                    </span>
+                {% endif %}
+
+                <div class="admin-info-card__header-text">
+                    {% if title %}
+                        <h2 class="admin-info-card__title">{{ title }}</h2>
+                    {% endif %}
+
+                    {% if subtitle %}
+                        <p class="admin-info-card__subtitle mb-0">{{ subtitle }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+    {% endif %}
+
+    <div class="admin-info-card__body">
+        {{ content|raw }}
+    </div>
+
+    {% if footer %}
+        <footer class="admin-info-card__footer">
+            {{ footer|raw }}
+        </footer>
+    {% endif %}
+</section>
