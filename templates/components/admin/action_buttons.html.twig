@@ -1,0 +1,73 @@
+{# templates/components/admin/action_buttons.html.twig #}
+{% set align = align|default('end') %}
+{% set stack_mobile = stack_mobile is defined ? stack_mobile : true %}
+{% set primary_label = primary_label|default(null) %}
+{% set primary_href = primary_href|default(null) %}
+{% set primary_type = primary_type|default('button') %}
+{% set primary_icon = primary_icon|default(null) %}
+
+{% set secondary_label = secondary_label|default(null) %}
+{% set secondary_href = secondary_href|default(null) %}
+{% set secondary_type = secondary_type|default('button') %}
+{% set secondary_icon = secondary_icon|default(null) %}
+
+{% set tertiary_label = tertiary_label|default(null) %}
+{% set tertiary_href = tertiary_href|default(null) %}
+{% set tertiary_type = tertiary_type|default('button') %}
+{% set tertiary_icon = tertiary_icon|default(null) %}
+
+<div class="admin-action-buttons admin-action-buttons--{{ align }}{% if stack_mobile %} admin-action-buttons--stack-mobile{% endif %}">
+    {% if secondary_label %}
+        {% if secondary_href %}
+            <a href="{{ secondary_href }}" class="btn btn-outline-primary">
+                {% if secondary_icon %}
+                    <i class="fa-solid fa-{{ secondary_icon }} me-2"></i>
+                {% endif %}
+                {{ secondary_label }}
+            </a>
+        {% else %}
+            <button type="{{ secondary_type }}" class="btn btn-outline-primary">
+                {% if secondary_icon %}
+                    <i class="fa-solid fa-{{ secondary_icon }} me-2"></i>
+                {% endif %}
+                {{ secondary_label }}
+            </button>
+        {% endif %}
+    {% endif %}
+
+    {% if tertiary_label %}
+        {% if tertiary_href %}
+            <a href="{{ tertiary_href }}" class="btn btn-outline-secondary">
+                {% if tertiary_icon %}
+                    <i class="fa-solid fa-{{ tertiary_icon }} me-2"></i>
+                {% endif %}
+                {{ tertiary_label }}
+            </a>
+        {% else %}
+            <button type="{{ tertiary_type }}" class="btn btn-outline-secondary">
+                {% if tertiary_icon %}
+                    <i class="fa-solid fa-{{ tertiary_icon }} me-2"></i>
+                {% endif %}
+                {{ tertiary_label }}
+            </button>
+        {% endif %}
+    {% endif %}
+
+    {% if primary_label %}
+        {% if primary_href %}
+            <a href="{{ primary_href }}" class="btn btn-primary">
+                {% if primary_icon %}
+                    <i class="fa-solid fa-{{ primary_icon }} me-2"></i>
+                {% endif %}
+                {{ primary_label }}
+            </a>
+        {% else %}
+            <button type="{{ primary_type }}" class="btn btn-primary">
+                {% if primary_icon %}
+                    <i class="fa-solid fa-{{ primary_icon }} me-2"></i>
+                {% endif %}
+                {{ primary_label }}
+            </button>
+        {% endif %}
+    {% endif %}
+</div>

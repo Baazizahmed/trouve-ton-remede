@@ -69,19 +69,16 @@
     {% endset %}
 
     {% set info_card_footer %}
-        <div class="admin-info-card__footer-actions">
-            <a href="{{ path('app_admin_profile_edit_profile') }}"
-               class="btn btn-outline-primary">
-                <i class="fa-solid fa-user-pen me-2"></i>
-                Modifier mon profil
-            </a>
-
-            <a href="{{ path('app_admin_profile_edit_password') }}"
-               class="btn btn-primary">
-                <i class="fa-solid fa-lock me-2"></i>
-                Modifier mon mot de passe
-            </a>
-        </div>
+        {% include 'components/admin/action_buttons.html.twig' with {
+            secondary_label: 'Modifier mon profil',
+            secondary_href: path('app_admin_profile_edit_profile'),
+            secondary_icon: 'user-pen',
+            primary_label: 'Modifier mon mot de passe',
+            primary_href: path('app_admin_profile_edit_password'),
+            primary_icon: 'lock',
+            align: 'end',
+            stack_mobile: true
+        } %}
     {% endset %}
 
     <div class="row justify-content-center">
