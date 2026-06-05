@@ -14,65 +14,55 @@
 
     {% include 'components/alert.html.twig' %}
 
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm admin-profile-card">
-                <div class="card-body">
+    {% set info_card_content %}
+        <div class="admin-summary-list">
+            <div class="admin-summary-list__row">
+                <div class="admin-summary-list__icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
 
-                    <div class="admin-profile-card__header">
-                        <div class="admin-profile-card__avatar">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-
-                        <div>
-                            <h2 class="admin-profile-card__name">
-                                Paramètres du site
-                            </h2>
-
-                            <p class="admin-profile-card__role mb-0">
-                                Configuration générale
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="admin-profile-card__infos">
-                        <div class="admin-profile-card__row">
-                            <div class="admin-profile-card__icon">
-                                <i class="fa-solid fa-envelope"></i>
-                            </div>
-
-                            <div class="admin-profile-card__content">
-                                <span class="admin-profile-card__label">Adresse email</span>
-                                <span class="admin-profile-card__value text-break">
-                                    {{ setting.email ?: 'Non renseigné' }}
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="admin-profile-card__row">
-                            <div class="admin-profile-card__icon">
-                                <i class="fa-solid fa-phone"></i>
-                            </div>
-
-                            <div class="admin-profile-card__content">
-                                <span class="admin-profile-card__label">Téléphone</span>
-                                <span class="admin-profile-card__value">
-                                    {{ setting.phone ?: 'Non renseigné' }}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="admin-profile-card__actions">
-                        <a href="{{ path('app_admin_setting_edit', {'id': setting.id}) }}"
-                           class="btn btn-outline-primary admin-profile-btn">
-                            <i class="fa-solid fa-pen-to-square me-2"></i>
-                            Modifier les paramètres
-                        </a>
-                    </div>
-
+                <div class="admin-summary-list__content">
+                    <span class="admin-summary-list__label">Adresse email</span>
+                    <span class="admin-summary-list__value text-break">
+                        {{ setting.email ?: 'Non renseigné' }}
+                    </span>
                 </div>
             </div>
+
+            <div class="admin-summary-list__row">
+                <div class="admin-summary-list__icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+
+                <div class="admin-summary-list__content">
+                    <span class="admin-summary-list__label">Téléphone</span>
+                    <span class="admin-summary-list__value">
+                        {{ setting.phone ?: 'Non renseigné' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    {% endset %}
+
+    {% set info_card_footer %}
+        <div class="admin-info-card__footer-actions">
+            <a href="{{ path('app_admin_setting_edit', {'id': setting.id}) }}"
+               class="btn btn-outline-primary">
+                <i class="fa-solid fa-pen-to-square me-2"></i>
+                Modifier les paramètres
+            </a>
+        </div>
+    {% endset %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            {% include 'components/admin/info_card.html.twig' with {
+                title: 'Paramètres du site',
+                subtitle: 'Configuration générale',
+                icon: 'gear',
+                content: info_card_content,
+                footer: info_card_footer
+            } %}
         </div>
     </div>
 
