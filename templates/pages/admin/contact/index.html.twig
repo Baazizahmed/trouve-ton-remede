@@ -1,29 +1,50 @@
 {% extends 'themes/base_admin.html.twig' %}
 
-{% block title %}Liste des Contacts{% endblock %}
-{% block description %}Liste des Contacts{% endblock %}
+{% block title %}Liste des contacts{% endblock %}
+{% block description %}Liste des contacts{% endblock %}
 
 {% block jQuery %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
 {% endblock %}
 
 {% block dataTables %}
-    <link href="https://cdn.datatables.net/v/dt/dt-2.3.1/datatables.min.css" rel="stylesheet" integrity="sha384-euvbLDizNhjdB+SK/Ai+GY3WCCHaDJM1tnnh2IqvUY9zjhlo21JkywSg8X5hlMY8" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/v/dt/dt-2.3.1/datatables.min.css"
+          rel="stylesheet"
+          integrity="sha384-euvbLDizNhjdB+SK/Ai+GY3WCCHaDJM1tnnh2IqvUY9zjhlo21JkywSg8X5hlMY8"
+          crossorigin="anonymous">
 
-    <script src="https://cdn.datatables.net/v/dt/dt-2.3.1/datatables.min.js" integrity="sha384-1LmfH5u7+DRwux/q4YYqAi+OjwkIVYJdPQijPS9S28cj8AeFnpNCkSVlZgvRdOzb" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-2.3.1/datatables.min.js"
+            integrity="sha384-1LmfH5u7+DRwux/q4YYqAi+OjwkIVYJdPQijPS9S28cj8AeFnpNCkSVlZgvRdOzb"
+            crossorigin="anonymous"></script>
+
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
+            $('#contactsTable').DataTable({
+                responsive: true,
+                autoWidth: false,
                 language: {
-                    url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/fr-FR.json',
+                    url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/fr-FR.json'
                 },
+                columnDefs: [
+                    { responsivePriority: 1, targets: 0 },
+                    { responsivePriority: 2, targets: 2 },
+                    { responsivePriority: 5, targets: 1 },
+                    { responsivePriority: 6, targets: 3 },
+                    { responsivePriority: 4, targets: 4 },
+                    { responsivePriority: 3, targets: 5 },
+                    { responsivePriority: 1, targets: 6 },
+                    { orderable: false, targets: [4, 6] }
+                ]
             });
         });
     </script>
 {% endblock %}
 
 {% block main %}
-    <div class="container-fluid mt-4 admin-dashboard">
+    <div class="container-fluid px-2 px-md-3 mt-4 admin-dashboard">
 
         {% include 'components/admin/page_header.html.twig' with {
             badge: 'Contacts',
@@ -33,61 +54,133 @@
 
         {% include 'components/alert.html.twig' %}
 
-        <div class="table-responsive">
-            <table id="myTable" class="table table-striped table-bordered text-center">
-                <thead class="table-primary">
-                    <tr>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Email</th>
-                        <th>Téléphone</th>
-                        <th>Message</th>
-                        <th>Créé le</th>
-                        <th>Options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for contact in contacts %}
+        {% set tableContent %}
+            <div class="table-responsive">
+                <table id="contactsTable" class="table table-striped align-middle text-center w-100 mb-0">
+                    <thead>
                         <tr>
-                            <td>{{ contact.firstName }}</td>
-                            <td>{{ contact.lastName }}</td>
-                            <td>{{ contact.email }}</td>
-                            <td>{{ contact.phone }}</td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#contact-backdrop-{{ contact.id }}">
-                                    Lire
-                                </button>
+                            <th data-priority="1">Prénom</th>
+                            <th data-priority="5" class="d-none d-md-table-cell">Nom</th>
+                            <th data-priority="2">Email</th>
+                            <th data-priority="6" class="d-none d-lg-table-cell">Téléphone</th>
+                            <th data-priority="4">Message</th>
+                            <th data-priority="3" class="d-none d-md-table-cell">Créé le</th>
+                            <th data-priority="1">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                            <tr>
+                                <td>{{ contact.firstName }}</td>
 
-                                <div class="modal fade" id="contact-backdrop-{{ contact.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Le message de {{ contact.firstName }} {{ contact.lastName }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{ contact.message|nl2br }}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <td class="d-none d-md-table-cell">{{ contact.lastName }}</td>
+
+                                <td>
+                                    <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                                </td>
+
+                                <td class="d-none d-lg-table-cell">
+                                    {{ contact.phone ?: '—' }}
+                                </td>
+
+                                <td>
+                                    <button type="button"
+                                            class="btn btn-sm admin-action-btn admin-action-btn--view"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#contact-modal-{{ contact.id }}">
+                                        <i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i>
+                                        <span>Lire</span>
+                                    </button>
+
+                                    <div class="modal fade"
+                                         id="contact-modal-{{ contact.id }}"
+                                         data-bs-backdrop="static"
+                                         data-bs-keyboard="false"
+                                         tabindex="-1"
+                                         aria-labelledby="contact-modal-label-{{ contact.id }}"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2 class="modal-title fs-5"
+                                                        id="contact-modal-label-{{ contact.id }}">
+                                                        Message de {{ contact.firstName }} {{ contact.lastName }}
+                                                    </h2>
+                                                    <button type="button"
+                                                            class="btn-close"
+                                                            data-bs-dismiss="modal"
+                                                            aria-label="Fermer"></button>
+                                                </div>
+
+                                                <div class="modal-body text-start">
+                                                    {{ contact.message|nl2br }}
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                            class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        Fermer
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>{{ contact.createdAt|date() }}</td>
-                            <td>
-                                <form class="d-inline" action="{{ path('app_admin_contact_delete', {'id': contact.id}) }}" method="post">
-                                    <input type="hidden" name="csrf_token" value="{{ csrf_token('delete-contact-' ~ contact.id) }}">
-                                    <button type="submit" class="border-0 bg-transparent p-0 text-danger" onclick="return confirm('Confirmer la suppression?')" title="Supprimer">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                </td>
+
+                                <td class="d-none d-md-table-cell">
+                                    {{ contact.createdAt|date('d/m/Y H:i') }}
+                                </td>
+
+                                <td>
+                                    <div class="admin-table-actions justify-content-center">
+                                        <form class="d-inline"
+                                              action="{{ path('app_admin_contact_delete', {'id': contact.id}) }}"
+                                              method="post">
+                                            <input type="hidden"
+                                                   name="csrf_token"
+                                                   value="{{ csrf_token('delete-contact-' ~ contact.id) }}">
+
+                                            <button type="submit"
+                                                    class="btn btn-sm admin-action-btn admin-action-btn--delete"
+                                                    onclick="return confirm('Confirmer la suppression ?')"
+                                                    aria-label="Supprimer le message de {{ contact.firstName }} {{ contact.lastName }}">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                                <span>Supprimer</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endset %}
+
+        {% set emptyState %}
+            <div class="admin-empty-state">
+                <div class="admin-empty-state__icon">
+                    <i class="fa-regular fa-envelope-open" aria-hidden="true"></i>
+                </div>
+
+                <h3 class="admin-empty-state__title">Aucun message pour le moment</h3>
+
+                <p class="admin-empty-state__text">
+                    Les messages envoyés depuis le formulaire de contact apparaîtront ici.
+                </p>
+            </div>
+        {% endset %}
+
+        <div class="mt-4">
+            {% include 'components/admin/table_card.html.twig' with {
+                title: 'Messages de contact',
+                subtitle: 'Retrouvez ici les demandes reçues depuis la page contact.',
+                actions: null,
+                table: contacts|length ? tableContent : null,
+                empty_state: contacts|length ? null : emptyState,
+                body_class: contacts|length ? 'is-flush' : ''
+            } %}
         </div>
 
     </div>
