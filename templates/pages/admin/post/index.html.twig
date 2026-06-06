@@ -22,16 +22,24 @@
 
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable({
+            $('#postsTable').DataTable({
                 responsive: true,
+                scrollX: true,
+                autoWidth: false,
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/2.3.1/i18n/fr-FR.json'
                 },
                 columnDefs: [
+                    { responsivePriority: 8, targets: 0 },
+                    { responsivePriority: 9, targets: 1 },
                     { responsivePriority: 1, targets: 2 },
+                    { responsivePriority: 6, targets: 3 },
+                    { responsivePriority: 7, targets: 4 },
                     { responsivePriority: 2, targets: 5 },
-                    { responsivePriority: 3, targets: 8 },
-                    { responsivePriority: 4, targets: 0 }
+                    { responsivePriority: 10, targets: 6 },
+                    { responsivePriority: 5, targets: 7 },
+                    { responsivePriority: 1, targets: 8 },
+                    { orderable: false, targets: [1, 4, 5, 6, 8] }
                 ]
             });
         });
@@ -57,108 +65,178 @@
 
         {% include 'components/alert.html.twig' %}
 
-        <div class="table-responsive">
-            <table id="myTable" class="table table-striped table-hover table-bordered text-center align-middle w-100">
-                <thead class="table-primary">
-                    <tr>
-                        <th data-priority="4">Id</th>
-                        <th data-priority="5" class="d-none d-md-table-cell">Image</th>
-                        <th data-priority="1">Titre</th>
-                        <th data-priority="6" class="d-none d-md-table-cell">Catégorie</th>
-                        <th data-priority="7" class="d-none d-lg-table-cell">Tags</th>
-                        <th data-priority="2">Publié ?</th>
-                        <th data-priority="8" class="d-none d-lg-table-cell">Contenu</th>
-                        <th data-priority="9" class="d-none d-lg-table-cell">Créé le</th>
-                        <th data-priority="3">Options</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for post in posts %}
+        {% set tableContent %}
+            <div class="table-responsive">
+                <table id="postsTable" class="table table-striped align-middle text-center w-100 mb-0">
+                    <thead>
                         <tr>
-                            <td>{{ post.id }}</td>
-
-                            <td class="d-none d-md-table-cell">
-                                {% if post.image %}
-                                    <img src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('admin_post_thumb') }}"
-                                         alt="{{ post.title }}"
-                                         class="img-fluid rounded"
-                                         style="max-width: 70px;">
-                                {% else %}
-                                    <span>---</span>
-                                {% endif %}
-                            </td>
-
-                            <td>{{ post.title }}</td>
-
-                            <td class="d-none d-md-table-cell">{{ post.category.name }}</td>
-
-                            <td class="d-none d-lg-table-cell">
-                                {% if post.tags is not empty %}
-                                    {% for tag in post.tags %}
-                                        <span class="badge bg-secondary"># {{ tag.name }}</span>
-                                    {% endfor %}
-                                {% else %}
-                                    <span>—</span>
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {% if post.isPublished %}
-                                    <span><i class="fa-regular fa-calendar-check"></i> publié</span>
-                                {% else %}
-                                    <span class="text-danger"><i class="fa-solid fa-circle-xmark"></i></span>
-                                {% endif %}
-
-                                <form action="{{ path('app_admin_post_publish', {'id': post.id}) }}" method="post">
-                                    <div class="form-check form-switch d-flex justify-content-center align-items-center mt-2">
-                                        <input type="hidden" name="csrf_token" value="{{ csrf_token('publish-post-' ~ post.id) }}">
-                                        <input {{ post.isPublished ? 'checked' : '' }}
-                                               onclick="return confirm('Confirmer cette action ?')"
-                                               onchange="this.form.submit()"
-                                               class="form-check-input"
-                                               type="checkbox">
-                                    </div>
-                                </form>
-                            </td>
-
-                            <td class="d-none d-lg-table-cell">
-                                <a href="{{ path('app_admin_post_show', {'id': post.id}) }}" class="btn btn-sm btn-primary">
-                                    Lire
-                                </a>
-                            </td>
-
-                            <td class="d-none d-lg-table-cell">{{ post.createdAt|date() }}</td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-3 flex-nowrap">
-                                    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}"
-                                       class="text-secondary text-decoration-none"
-                                       title="Modifier"
-                                       aria-label="Modifier l'article {{ post.title }}">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-
-                                    <form action="{{ path('app_admin_post_delete', {'id': post.id}) }}"
-                                          method="post"
-                                          class="d-inline">
-                                        <input type="hidden"
-                                               name="csrf_token"
-                                               value="{{ csrf_token('delete-post-' ~ post.id) }}">
-
-                                        <button type="submit"
-                                                class="border-0 bg-transparent p-0 text-danger"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')"
-                                                title="Supprimer"
-                                                aria-label="Supprimer l'article {{ post.title }}">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th data-priority="8" class="d-none d-md-table-cell">Id</th>
+                            <th data-priority="9" class="d-none d-lg-table-cell">Image</th>
+                            <th data-priority="1">Titre</th>
+                            <th data-priority="6" class="d-none d-lg-table-cell">Catégorie</th>
+                            <th data-priority="7" class="d-none d-xl-table-cell">Tags</th>
+                            <th data-priority="2">Publié ?</th>
+                            <th data-priority="10" class="d-none d-xl-table-cell">Contenu</th>
+                            <th data-priority="5" class="d-none d-md-table-cell">Créé le</th>
+                            <th data-priority="1">Actions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                            <tr>
+                                <td class="d-none d-md-table-cell">{{ post.id }}</td>
+
+                                <td class="d-none d-lg-table-cell">
+                                    <div class="admin-post-thumb">
+                                        {% if post.image %}
+                                            <img
+                                                src="{{ vich_uploader_asset(post, 'imageFile') | imagine_filter('admin_post_thumb') }}"
+                                                alt="{{ post.title }}"
+                                                class="admin-post-thumb__image">
+                                        {% else %}
+                                            <span class="admin-post-thumb__placeholder">
+                                                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                <td class="text-start">
+                                    <div class="admin-post-title">
+                                        <span class="admin-post-title__main d-inline-block text-truncate"
+                                              title="{{ post.title }}">
+                                            {{ post.title }}
+                                        </span>
+                                    </div>
+                                </td>
+
+                                <td class="d-none d-lg-table-cell">
+                                    <span class="admin-post-category-badge">
+                                        {{ post.category.name }}
+                                    </span>
+                                </td>
+
+                                <td class="d-none d-xl-table-cell">
+                                    {% if post.tags is not empty %}
+                                        <div class="admin-post-tags">
+                                            {% for tag in post.tags|slice(0, 2) %}
+                                                <span class="admin-post-tag"># {{ tag.name }}</span>
+                                            {% endfor %}
+                                            {% if post.tags|length > 2 %}
+                                                <span class="admin-post-tag">+{{ post.tags|length - 2 }}</span>
+                                            {% endif %}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted">—</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <div class="admin-post-status">
+                                        {% if post.isPublished %}
+                                            <span class="badge rounded-pill admin-post-status-badge admin-post-status-badge--published">
+                                                <i class="fa-regular fa-calendar-check me-1" aria-hidden="true"></i>
+                                                Publié
+                                            </span>
+                                        {% else %}
+                                            <span class="badge rounded-pill admin-post-status-badge admin-post-status-badge--draft">
+                                                <i class="fa-solid fa-circle-xmark me-1" aria-hidden="true"></i>
+                                                Brouillon
+                                            </span>
+                                        {% endif %}
+
+                                        <form action="{{ path('app_admin_post_publish', {'id': post.id}) }}"
+                                              method="post"
+                                              class="admin-post-switch-form">
+                                            <div class="form-check form-switch d-flex justify-content-center align-items-center mt-2">
+                                                <input type="hidden"
+                                                       name="csrf_token"
+                                                       value="{{ csrf_token('publish-post-' ~ post.id) }}">
+
+                                                <input {{ post.isPublished ? 'checked' : '' }}
+                                                       onclick="return confirm('Confirmer cette action ?')"
+                                                       onchange="this.form.submit()"
+                                                       class="form-check-input"
+                                                       type="checkbox"
+                                                       aria-label="Changer le statut de publication de l'article {{ post.title }}">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+
+                                <td class="d-none d-xl-table-cell">
+                                    <a href="{{ path('app_admin_post_show', {'id': post.id}) }}"
+                                       class="btn btn-sm admin-action-btn admin-action-btn--view">
+                                        <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                                        <span>Lire</span>
+                                    </a>
+                                </td>
+
+                                <td class="d-none d-md-table-cell">
+                                    {{ post.createdAt|date('d/m/Y') }}
+                                </td>
+
+                                <td>
+                                    <div class="admin-table-actions">
+                                        <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}"
+                                           class="btn btn-sm admin-action-btn admin-action-btn--edit"
+                                           aria-label="Modifier l'article {{ post.title }}">
+                                            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                                            <span>Modifier</span>
+                                        </a>
+
+                                        <form action="{{ path('app_admin_post_delete', {'id': post.id}) }}"
+                                              method="post"
+                                              class="d-inline">
+                                            <input type="hidden"
+                                                   name="csrf_token"
+                                                   value="{{ csrf_token('delete-post-' ~ post.id) }}">
+
+                                            <button type="submit"
+                                                    class="btn btn-sm admin-action-btn admin-action-btn--delete"
+                                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')"
+                                                    aria-label="Supprimer l'article {{ post.title }}">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                                <span>Supprimer</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endset %}
+
+        {% set emptyState %}
+            <div class="admin-empty-state">
+                <div class="admin-empty-state__icon">
+                    <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
+                </div>
+
+                <h3 class="admin-empty-state__title">Aucun article pour le moment</h3>
+
+                <p class="admin-empty-state__text">
+                    Créez un premier article pour alimenter le blog et enrichir le contenu du site.
+                </p>
+
+                <a href="{{ path('app_admin_post_create') }}" class="btn btn-primary">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Ajouter un article
+                </a>
+            </div>
+        {% endset %}
+
+        <div class="mt-4">
+            {% include 'components/admin/table_card.html.twig' with {
+                title: 'Articles du blog',
+                subtitle: 'Retrouvez ici les articles, leur état de publication et leurs principales informations.',
+                actions: null,
+                table: posts|length ? tableContent : null,
+                empty_state: posts|length ? null : emptyState,
+                body_class: posts|length ? 'is-flush' : ''
+            } %}
         </div>
     </div>
 {% endblock %}

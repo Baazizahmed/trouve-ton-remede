@@ -1,0 +1,40 @@
+{% set title = title|default('') %}
+{% set subtitle = subtitle|default(null) %}
+{% set actions = actions|default(null) %}
+{% set table = table|default(null) %}
+{% set empty_state = empty_state|default(null) %}
+{% set card_class = card_class|default('')|trim %}
+{% set body_class = body_class|default('')|trim %}
+{% set is_empty = table is empty and empty_state is not empty %}
+
+<section class="admin-table-card{% if card_class %} {{ card_class }}{% endif %}{% if is_empty %} admin-table-card--empty{% endif %}">
+    {% if title or subtitle or actions %}
+        <header class="admin-table-card__header">
+            <div class="admin-table-card__heading">
+                {% if title %}
+                    <h2 class="admin-table-card__title">{{ title }}</h2>
+                {% endif %}
+
+                {% if subtitle %}
+                    <p class="admin-table-card__subtitle mb-0">{{ subtitle }}</p>
+                {% endif %}
+            </div>
+
+            {% if actions %}
+                <div class="admin-table-card__actions">
+                    {{ actions|raw }}
+                </div>
+            {% endif %}
+        </header>
+    {% endif %}
+
+    <div class="admin-table-card__body{% if body_class %} {{ body_class }}{% endif %}">
+        {% if table %}
+            {{ table|raw }}
+        {% elseif empty_state %}
+            <div class="admin-table-card__empty">
+                {{ empty_state|raw }}
+            </div>
+        {% endif %}
+    </div>
+</section>

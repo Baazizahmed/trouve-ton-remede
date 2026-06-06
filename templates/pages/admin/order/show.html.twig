@@ -1,18 +1,34 @@
 {% extends 'themes/base_admin.html.twig' %}
 
 {% block title %}Commande #{{ order.id }}{% endblock %}
+{% block description %}Détail de la commande #{{ order.id }}{% endblock %}
 
 {% block main %}
-<div class="container mt-4">
+<div class="container-fluid px-2 px-md-3 mt-4 admin-order-show-page">
+
+    {% set statusVariant =
+        order.status == 'PENDING' ? 'pending' :
+        (order.status == 'PAID' ? 'paid' :
+        (order.status == 'SHIPPED' ? 'shipped' :
+        'cancelled'))
+    %}
+
+    {% set statusLabel =
+        order.status == 'PENDING' ? 'En attente' :
+        (order.status == 'PAID' ? 'Payée' :
+        (order.status == 'SHIPPED' ? 'Expédiée' :
+        (order.status == 'CANCELLED' ? 'Annulée' : order.status)))
+    %}
 
     {% set header_actions %}
         <a href="{{ path('app_admin_order_index') }}" class="btn btn-outline-secondary">
+            <i class="fa-solid fa-arrow-left me-2"></i>
             Retour à la liste
         </a>
     {% endset %}
 
     {% include 'components/admin/page_header.html.twig' with {
-        badge: 'Administration',
+        badge: 'Commandes',
         title: 'Commande #' ~ order.id,
         subtitle: 'Consultez les détails et mettez à jour le statut de la commande.',
         actions: header_actions
@@ -25,59 +41,89 @@
         } %}
     {% endfor %}
 
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body">
-            <h2 class="h5 mb-4">Informations de la commande</h2>
+    <div class="admin-order-show-hero mt-4">
+        <div class="row g-3">
+            <div class="col-12 col-xl-8">
+                <section class="admin-order-panel admin-order-panel--summary h-100">
+                    <div class="admin-order-panel__header">
+                        <div>
+                            <p class="admin-order-panel__eyebrow">Commande</p>
+                            <h2 class="admin-order-panel__title mb-0">Résumé général</h2>
+                        </div>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <p class="mb-2"><strong>Client :</strong> {{ order.user.email }}</p>
-                    <p class="mb-2"><strong>Date :</strong> {{ order.createdAt|date('d/m/Y à H:i') }}</p>
-                    <p class="mb-0"><strong>Statut actuel :</strong> {{ order.status }}</p>
-                </div>
+                        <span class="badge rounded-pill admin-order-status admin-order-status--{{ statusVariant }}">
+                            {{ statusLabel }}
+                        </span>
+                    </div>
 
-                <div class="col-md-6">
-                    <p class="mb-2"><strong>Sous-total HT :</strong> {{ order.subtotalHt|number_format(2, ',', ' ') }} €</p>
-                    <p class="mb-2"><strong>TVA :</strong> {{ order.taxAmount|number_format(2, ',', ' ') }} €</p>
-                    <p class="mb-0"><strong>Total TTC :</strong> {{ order.totalTtc|number_format(2, ',', ' ') }} €</p>
-                </div>
+                    <div class="admin-order-summary-grid">
+                        <article class="admin-order-kpi">
+                            <span class="admin-order-kpi__label">Client</span>
+                            <strong class="admin-order-kpi__value text-break">{{ order.user.email }}</strong>
+                        </article>
+
+                        <article class="admin-order-kpi">
+                            <span class="admin-order-kpi__label">Date</span>
+                            <strong class="admin-order-kpi__value">{{ order.createdAt|date('d/m/Y') }}</strong>
+                            <span class="admin-order-kpi__meta">{{ order.createdAt|date('H:i') }}</span>
+                        </article>
+
+                        <article class="admin-order-kpi">
+                            <span class="admin-order-kpi__label">Sous-total HT</span>
+                            <strong class="admin-order-kpi__value">{{ order.subtotalHt|number_format(2, ',', ' ') }} €</strong>
+                        </article>
+
+                        <article class="admin-order-kpi">
+                            <span class="admin-order-kpi__label">TVA</span>
+                            <strong class="admin-order-kpi__value">{{ order.taxAmount|number_format(2, ',', ' ') }} €</strong>
+                        </article>
+                    </div>
+
+                    <div class="admin-order-total-box">
+                        <span class="admin-order-total-box__label">Total TTC</span>
+                        <span class="admin-order-total-box__value">{{ order.totalTtc|number_format(2, ',', ' ') }} €</span>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-12 col-xl-4">
+                <section class="admin-order-panel h-100">
+                    <div class="admin-order-panel__header">
+                        <div>
+                            <p class="admin-order-panel__eyebrow">Statut</p>
+                            <h2 class="admin-order-panel__title mb-0">Mettre à jour</h2>
+                        </div>
+                    </div>
+
+                    <form action="{{ path('app_admin_order_status', {'id': order.id}) }}" method="post" class="admin-order-status-form">
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Nouveau statut</label>
+                            <select id="status" name="status" class="form-select admin-order-status-form__select">
+                                <option value="PENDING" {{ order.status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
+                                <option value="PAID" {{ order.status == 'PAID' ? 'selected' : '' }}>PAID</option>
+                                <option value="SHIPPED" {{ order.status == 'SHIPPED' ? 'selected' : '' }}>SHIPPED</option>
+                                <option value="CANCELLED" {{ order.status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
+                            </select>
+                        </div>
+
+                        <div class="admin-order-status-form__hint">
+                            Le changement de statut permet de suivre l’avancement de la commande dans l’administration.
+                        </div>
+
+                        <button type="submit" class="btn admin-action-btn admin-action-btn--edit w-100 justify-content-center mt-3">
+                            <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+                            <span>Mettre à jour le statut</span>
+                        </button>
+                    </form>
+                </section>
             </div>
         </div>
     </div>
 
-    <div class="card shadow-sm border-0 mb-4">
-        <div class="card-header bg-white border-0 pb-0">
-            <h2 class="h5 mb-0">Modifier le statut</h2>
-        </div>
-        <div class="card-body pt-3">
-            <form action="{{ path('app_admin_order_status', {'id': order.id}) }}" method="post" class="row g-3 align-items-end">
-                <div class="col-md-4">
-                    <label for="status" class="form-label">Nouveau statut</label>
-                    <select id="status" name="status" class="form-select">
-                        <option value="PENDING" {{ order.status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
-                        <option value="PAID" {{ order.status == 'PAID' ? 'selected' : '' }}>PAID</option>
-                        <option value="SHIPPED" {{ order.status == 'SHIPPED' ? 'selected' : '' }}>SHIPPED</option>
-                        <option value="CANCELLED" {{ order.status == 'CANCELLED' ? 'selected' : '' }}>CANCELLED</option>
-                    </select>
-                </div>
-
-                <div class="col-md-auto">
-                    <button type="submit" class="btn btn-warning">
-                        Mettre à jour
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="card shadow-sm border-0">
-        <div class="card-header bg-white border-0 pb-0">
-            <h2 class="h5 mb-0">Articles commandés</h2>
-        </div>
-
-        <div class="card-body">
+    {% set itemsTable %}
+        <div class="d-none d-md-block">
             <div class="table-responsive">
-                <table class="table align-middle mb-0">
+                <table class="table table-striped align-middle mb-0">
                     <thead>
                         <tr>
                             <th>Produit</th>
@@ -90,11 +136,21 @@
                     <tbody>
                         {% for item in order.orderItems %}
                             <tr>
-                                <td>{{ item.productName }}</td>
-                                <td>{{ item.quantity }}</td>
+                                <td>
+                                    <div class="admin-order-item-name">
+                                        <span class="admin-order-item-name__title">{{ item.productName }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="admin-order-qty-badge">{{ item.quantity }}</span>
+                                </td>
                                 <td>{{ item.unitPriceHt|number_format(2, ',', ' ') }} €</td>
                                 <td>{{ item.taxRate }} %</td>
-                                <td>{{ item.totalTtc|number_format(2, ',', ' ') }} €</td>
+                                <td>
+                                    <span class="badge rounded-pill admin-order-total-badge">
+                                        {{ item.totalTtc|number_format(2, ',', ' ') }} €
+                                    </span>
+                                </td>
                             </tr>
                         {% else %}
                             <tr>
@@ -107,7 +163,65 @@
                 </table>
             </div>
         </div>
-    </div>
 
+        <div class="d-md-none admin-order-items-mobile">
+            {% for item in order.orderItems %}
+                <article class="admin-order-item-card">
+                    <div class="admin-order-item-card__top">
+                        <h3 class="admin-order-item-card__title">{{ item.productName }}</h3>
+                        <span class="admin-order-qty-badge">{{ item.quantity }}</span>
+                    </div>
+
+                    <div class="admin-order-item-card__grid">
+                        <div class="admin-order-item-card__meta">
+                            <span class="admin-order-item-card__label">Prix HT</span>
+                            <span class="admin-order-item-card__value">{{ item.unitPriceHt|number_format(2, ',', ' ') }} €</span>
+                        </div>
+
+                        <div class="admin-order-item-card__meta">
+                            <span class="admin-order-item-card__label">TVA</span>
+                            <span class="admin-order-item-card__value">{{ item.taxRate }} %</span>
+                        </div>
+
+                        <div class="admin-order-item-card__meta admin-order-item-card__meta--total">
+                            <span class="admin-order-item-card__label">Total TTC</span>
+                            <span class="badge rounded-pill admin-order-total-badge">
+                                {{ item.totalTtc|number_format(2, ',', ' ') }} €
+                            </span>
+                        </div>
+                    </div>
+                </article>
+            {% else %}
+                <div class="text-muted text-center py-4">
+                    Aucun article trouvé pour cette commande.
+                </div>
+            {% endfor %}
+        </div>
+    {% endset %}
+
+    {% set emptyItemsState %}
+        <div class="admin-empty-state">
+            <div class="admin-empty-state__icon">
+                <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+            </div>
+
+            <h3 class="admin-empty-state__title">Aucun article trouvé</h3>
+
+            <p class="admin-empty-state__text">
+                Cette commande ne contient actuellement aucune ligne exploitable dans l’administration.
+            </p>
+        </div>
+    {% endset %}
+
+    <div class="mt-4">
+        {% include 'components/admin/table_card.html.twig' with {
+            title: 'Articles commandés',
+            subtitle: 'Retrouvez le détail des produits, quantités et montants liés à cette commande.',
+            actions: null,
+            table: order.orderItems|length ? itemsTable : null,
+            empty_state: order.orderItems|length ? null : emptyItemsState,
+            body_class: order.orderItems|length ? 'is-flush' : ''
+        } %}
+    </div>
 </div>
 {% endblock %}

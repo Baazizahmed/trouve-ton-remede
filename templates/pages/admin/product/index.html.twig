@@ -24,72 +24,117 @@
             <div class="alert alert-success">{{ message }}</div>
         {% endfor %}
 
-        <div class="table-responsive">
-            <table class="table table-striped align-middle text-center mb-0">
-                <thead class="table-primary">
-                    <tr>
-                        <th class="d-none d-lg-table-cell">ID</th>
-                        <th>Image</th>
-                        <th>Nom</th>
-                        <th class="d-none d-lg-table-cell">Slug</th>
-                        <th>Prix HT</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product in products %}
+        {% set tableContent %}
+            <div class="table-responsive">
+                <table class="table table-striped align-middle text-center mb-0">
+                    <thead>
                         <tr>
-                            <td class="d-none d-lg-table-cell">{{ product.id }}</td>
-
-                            <td>
-                                {% if product.imageName %}
-                                    <img
-                                        src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
-                                        alt="{{ product.name }}"
-                                        class="img-fluid rounded"
-                                        style="width: 60px; height: 60px; object-fit: cover;"
-                                    >
-                                {% else %}
-                                    <span class="text-muted small">Aucune image</span>
-                                {% endif %}
-                            </td>
-
-                            <td class="text-start fw-semibold">{{ product.name }}</td>
-
-                            <td class="d-none d-lg-table-cell">{{ product.slug }}</td>
-
-                            <td>{{ product.price }} €</td>
-
-                            <td>
-                                <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
-                                    <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}"
-                                       class="btn btn-sm btn-warning">
-                                        Modifier
-                                    </a>
-
-                                    <form action="{{ path('app_admin_product_delete', {'id': product.id}) }}"
-                                          method="post"
-                                          class="d-inline">
-                                        <input type="hidden"
-                                               name="_token"
-                                               value="{{ csrf_token('delete_product_' ~ product.id) }}">
-
-                                        <button type="submit"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Supprimer ce produit ?')">
-                                            Supprimer
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            <th class="d-none d-lg-table-cell">ID</th>
+                            <th>Image</th>
+                            <th>Nom</th>
+                            <th class="d-none d-lg-table-cell">Slug</th>
+                            <th>Prix HT</th>
+                            <th>Actions</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6" class="text-center text-muted py-4">Aucun produit.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td class="d-none d-lg-table-cell">{{ product.id }}</td>
+
+                                <td>
+                                    <div class="admin-product-thumb">
+                                        {% if product.imageName %}
+                                            <img
+                                                src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                                alt="{{ product.name }}"
+                                                class="admin-product-thumb__image"
+                                            >
+                                        {% else %}
+                                            <span class="admin-product-thumb__placeholder">
+                                                <i class="fa-regular fa-image" aria-hidden="true"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+
+                                <td class="text-start">
+                                    <div class="admin-product-name">
+                                        <span class="admin-product-name__title">{{ product.name }}</span>
+                                        <span class="admin-product-name__meta d-lg-none">#{{ product.id }}</span>
+                                    </div>
+                                </td>
+
+                                <td class="d-none d-lg-table-cell">
+                                    <code class="admin-product-slug">{{ product.slug }}</code>
+                                </td>
+
+                                <td>
+                                    <span class="badge rounded-pill admin-price-badge">
+                                        {{ product.price|number_format(2, ',', ' ') }} €
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="admin-table-actions">
+                                        <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}"
+                                           class="btn btn-sm admin-action-btn admin-action-btn--edit">
+                                            <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i>
+                                            <span>Modifier</span>
+                                        </a>
+
+                                        <form action="{{ path('app_admin_product_delete', {'id': product.id}) }}"
+                                              method="post"
+                                              class="d-inline">
+                                            <input type="hidden"
+                                                   name="_token"
+                                                   value="{{ csrf_token('delete_product_' ~ product.id) }}">
+
+                                            <button type="submit"
+                                                    class="btn btn-sm admin-action-btn admin-action-btn--delete"
+                                                    onclick="return confirm('Supprimer ce produit ?')">
+                                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
+                                                <span>Supprimer</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endset %}
+
+        {% set emptyState %}
+            <div class="admin-empty-state">
+                <div class="admin-empty-state__icon">
+                    <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+                </div>
+
+                <h3 class="admin-empty-state__title">Aucun produit pour le moment</h3>
+
+                <p class="admin-empty-state__text">
+                    Commencez par créer votre premier produit pour alimenter le catalogue de la boutique.
+                </p>
+
+                <a href="{{ path('app_admin_product_new') }}" class="btn btn-primary">
+                    <i class="fa-solid fa-plus me-2"></i>
+                    Ajouter un produit
+                </a>
+            </div>
+        {% endset %}
+
+        <div class="mt-4">
+            {% include 'components/admin/table_card.html.twig' with {
+                title: 'Catalogue produits',
+                subtitle: 'Retrouvez ici l’ensemble des produits disponibles dans l’administration.',
+                actions: null,
+                table: products|length ? tableContent : null,
+                empty_state: products|length ? null : emptyState,
+                body_class: products|length ? 'is-flush' : ''
+            } %}
         </div>
     </div>
 {% endblock %}
