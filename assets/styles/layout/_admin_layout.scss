@@ -1,0 +1,208 @@
+.admin-layout {
+  background: #f5f7fb;
+  color: #0f172a;
+}
+
+.admin-topbar {
+  background: #2f7d32;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+
+  &__inner {
+    min-height: 4rem;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  &__brand-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  &__brand-text {
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  &__btn {
+    border-radius: 0.75rem;
+    padding: 0.45rem 0.85rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+
+    &--light {
+      background: #fff;
+      color: #0f172a;
+
+      &:hover {
+        background: #f8fafc;
+        color: #0f172a;
+      }
+    }
+
+    &--danger {
+      background: #dc3545;
+      color: #fff;
+
+      &:hover {
+        background: #c82333;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.admin-shell {
+  min-height: calc(100vh - 4rem);
+}
+
+.admin-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+
+  &__inner {
+    position: sticky;
+    top: 4rem;
+    min-height: calc(100vh - 4rem);
+    padding: 1rem 0.75rem 1.25rem;
+  }
+
+  &__nav {
+    gap: 0.2rem;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 2.9rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 0.95rem;
+    color: #475569;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: #eff4ff;
+      color: #0f172a;
+      text-decoration: none;
+    }
+
+    &.is-active {
+      background: linear-gradient(135deg, #1f6feb 0%, #2563eb 100%);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+    }
+  }
+
+  &__icon {
+    width: 1.35rem;
+    display: inline-flex;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  &__section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 1.15rem 0 0.75rem;
+    padding: 0 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  &__section-line {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 999px;
+    background: #cbd5e1;
+    flex-shrink: 0;
+  }
+
+  &__divider {
+    height: 1px;
+    margin: 1rem 0;
+    background: #e5e7eb;
+  }
+}
+
+.admin-main-content {
+  padding: 1.5rem 1.5rem 2rem;
+}
+
+@media (max-width: 991.98px) {
+  .admin-topbar {
+    &__inner {
+      gap: 0.75rem;
+    }
+
+    &__actions {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+  }
+
+  .admin-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+
+    &__inner {
+      position: static;
+      min-height: auto;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .admin-main-content {
+    padding: 1rem 0.75rem 1.5rem;
+  }
+
+  .admin-topbar {
+    &__brand-text {
+      font-size: 0.95rem;
+    }
+
+    &__btn {
+      padding: 0.4rem 0.7rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  .admin-sidebar {
+    &__link {
+      min-height: 2.7rem;
+      padding: 0.72rem 0.8rem;
+      font-size: 0.95rem;
+    }
+  }
+}
