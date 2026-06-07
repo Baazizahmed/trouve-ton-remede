@@ -1,12 +1,14 @@
+/* assets/styles/components/admin/_stat_card.scss */
+
 .admin-stat-card {
   position: relative;
   height: 100%;
   min-height: 188px;
   padding: 1.35rem;
   border-radius: 1.1rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: linear-gradient(180deg, #ffffff 0%, #fcfdfb 100%);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba($texte-principal, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fcfcf9 100%);
+  box-shadow: 0 10px 28px rgba(33, 52, 36, 0.06);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
@@ -35,8 +37,8 @@
     align-items: center;
     justify-content: center;
     font-size: 1.15rem;
-    background: rgba(15, 23, 42, 0.06);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    background: rgba($texte-principal, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
   }
 
   &__trend {
@@ -45,8 +47,8 @@
     justify-content: center;
     padding: 0.32rem 0.65rem;
     border-radius: 999px;
-    background: rgba(15, 23, 42, 0.06);
-    color: #475569;
+    background: rgba($texte-principal, 0.06);
+    color: $texte-secondaire;
     font-size: 0.76rem;
     font-weight: 700;
     line-height: 1;
@@ -64,14 +66,14 @@
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #64748b;
+    color: $texte-secondaire;
   }
 
   &__value {
     font-size: clamp(2rem, 2.4vw, 2.7rem);
     line-height: 1;
     font-weight: 800;
-    color: #0f172a;
+    color: $texte-principal;
     letter-spacing: -0.03em;
   }
 
@@ -79,49 +81,49 @@
     max-width: 24ch;
     font-size: 0.92rem;
     line-height: 1.45;
-    color: #64748b;
+    color: $texte-secondaire;
   }
 
   &--link:hover,
   &--link:focus-visible {
     transform: translateY(-3px);
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
-    border-color: rgba(15, 23, 42, 0.14);
+    box-shadow: 0 16px 36px rgba(33, 52, 36, 0.10);
+    border-color: rgba($texte-principal, 0.14);
   }
 
   &--primary {
-    color: #2563eb;
+    color: $primary;
 
     .admin-stat-card__icon {
-      background: rgba(37, 99, 235, 0.12);
-      color: #2563eb;
+      background: rgba($primary, 0.12);
+      color: $primary;
     }
   }
 
   &--success {
-    color: #2f855a;
+    color: $success;
 
     .admin-stat-card__icon {
-      background: rgba(47, 133, 90, 0.12);
-      color: #2f855a;
+      background: rgba($success, 0.12);
+      color: $success;
     }
   }
 
   &--warning {
-    color: #b7791f;
+    color: $warning;
 
     .admin-stat-card__icon {
-      background: rgba(183, 121, 31, 0.14);
-      color: #b7791f;
+      background: rgba($warning, 0.14);
+      color: darken($warning, 10%);
     }
   }
 
   &--info {
-    color: #0f766e;
+    color: $info;
 
     .admin-stat-card__icon {
-      background: rgba(15, 118, 110, 0.14);
-      color: #0f766e;
+      background: rgba($info, 0.14);
+      color: $info;
     }
   }
 }
@@ -145,19 +147,19 @@
   height: 100%;
   padding: 1.15rem 1.2rem;
   border-radius: 1rem;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
-  color: #0f172a;
+  border: 1px solid rgba($texte-principal, 0.08);
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(33, 52, 36, 0.05);
+  color: $texte-principal;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
   &:hover {
-    color: #0f172a;
+    color: $texte-principal;
     text-decoration: none;
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
-    border-color: rgba(15, 23, 42, 0.12);
+    box-shadow: 0 14px 30px rgba(33, 52, 36, 0.08);
+    border-color: rgba($texte-principal, 0.12);
   }
 
   &__icon {
@@ -167,8 +169,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: rgba(47, 133, 90, 0.1);
-    color: #2f855a;
+    background: rgba($primary, 0.10);
+    color: $primary;
     flex-shrink: 0;
   }
 
@@ -181,18 +183,18 @@
   &__title {
     font-size: 1rem;
     font-weight: 700;
-    color: #0f172a;
+    color: $texte-principal;
   }
 
   &__text {
     font-size: 0.9rem;
     line-height: 1.45;
-    color: #64748b;
+    color: $texte-secondaire;
   }
 
   &__arrow {
     margin-left: auto;
-    color: #94a3b8;
+    color: rgba($texte-secondaire, 0.7);
     flex-shrink: 0;
   }
 }

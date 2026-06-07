@@ -1,7 +1,9 @@
 /* assets/styles/components/admin/_action_buttons.scss */
+
 .admin-action-buttons {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.75rem;
 }
 
@@ -22,14 +24,31 @@
 }
 
 .admin-action-buttons .btn {
-  min-height: 42px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
+  padding-inline: 0.95rem;
   white-space: nowrap;
+  border-radius: 0.8rem;
+  font-weight: 600;
+}
+
+.admin-action-buttons .btn i,
+.admin-action-buttons .btn svg {
+  flex-shrink: 0;
 }
 
 @media (max-width: 767.98px) {
+  .admin-action-buttons {
+    gap: 0.65rem;
+  }
+
+  .admin-action-buttons--between {
+    justify-content: flex-start;
+  }
+
   .admin-action-buttons--stack-mobile {
     flex-direction: column;
     align-items: stretch;

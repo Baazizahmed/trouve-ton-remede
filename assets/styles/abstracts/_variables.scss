@@ -1,30 +1,36 @@
-// 🌿 Palette plantes médicinales + e‑commerce
+// 🌿 Palette premium plantes médicinales + e-commerce
 
-// Couleurs marque / nature
-$primary: #2e7d32;          // vert naturel principal (navbar, boutons)
-$primary-dark: #1b5e20;     // hover / boutons
+// Couleur ancre
+$primary: #456f43;           // vert sauge foncé, plus élégant
+$primary-dark: #35563a;      // hover / active / topbar forte
+$primary-soft: #6f8f6b;      // état secondaire / icônes / micro-accents
 
-$secondary: #81c784;        // vert doux (hover, accents)
-$accent: #a5d6a7;           // badges, petits éléments
+// Accents naturels
+$secondary: #9bb592;         // sauge doux
+$accent: #c7d8bf;            // badges doux, fonds accentués
+$accent-deep: #7f9a77;       // tags, petites puces, état intermédiaire
 
 // Fonds
-$fond-page: #f6f8f5;        // fond très doux global
-$fond-nature: #eef5ea;      // sections "nature" (bienfaits, story)
-$beige-naturel: #f5f1e8;    // cartes produits, encarts
+$fond-page: #f7f6f2;         // fond global plus noble
+$fond-nature: #eef2ea;       // section bénéfices / univers nature
+$beige-naturel: #f3eee4;     // cartes, encarts, surfaces chaudes
+$surface-muted: #ebe7de;     // variante de surface / tableaux / zones secondaires
 
 // Texte
-$texte-principal: #1f2933;  // titres
-$texte-secondaire: #4b5563; // paragraphes
-$texte-gris-fonce: #555555; // si déjà utilisé ailleurs
+$texte-principal: #28251d;   // plus chaud qu’un gris froid
+$texte-secondaire: #6b6f68;  // texte secondaire doux
+$texte-gris-fonce: #4f514c;  // compatibilité anciens blocs
 
 // Bordures
-$border: #e5e7eb;
+$border: #d9d6cf;
+$border-strong: #c8c3ba;
 
 // États
-$success: #43a047;
-$danger: #e53935;
-$warning: #fbc02d;
-$info: #29b6f6;
+$success: #4e8a46;
+$danger: #c65a55;
+$warning: #c9961a;
+$info: #4f8ca3;
 
-// Optionnel : bouton CTA bien visible
-$cta-orange: #f97316;
+// CTA e-commerce
+$cta-orange: #c86b2a;        // terre cuite / ambre brûlé
+$cta-orange-dark: #a9551d;   // hover CTA
