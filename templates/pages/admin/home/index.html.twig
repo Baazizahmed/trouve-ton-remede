@@ -1,151 +1,172 @@
 {% extends 'themes/base_admin.html.twig' %}
 
-{% block title %}Dashboard admin
-{% endblock %}
+{% block title %}Dashboard admin{% endblock %}
+{% block description %}Dashboard administrateur{% endblock %}
 
 {% block main %}
-	<div class="admin-dashboard">
-		<div
-			class="container my-4">{# HEADER ADMIN #}
-			{% set currentHour = "now"|date('H') %}
+    {% set currentHour = "now"|date('H') %}
 
-			<div class="mb-5 text-center text-md-start">
-				<h1 class="fw-bold display-5">
-					<i class="fa-solid fa-gauge-high me-2"></i>
-					{% if currentHour < 18 %}
-						Bonne journée
-					{% else %}
-						Bonne soirée
-					{% endif %}
-					{{ app.user.firstName }}
-				</h1>
-				<p class="text-muted mt-2 mb-0">
-					Gérez le blog, les produits et les commandes de TrouveTonRemede depuis ce tableau de bord.
-				</p>
-			</div>
+    <div class="container-fluid px-2 px-md-3 mt-4 admin-dashboard">
 
+        {% include 'components/admin/page_header.html.twig' with {
+            badge: 'Administration',
+            title: currentHour < 18
+                ? 'Bonne journée ' ~ app.user.firstName
+                : 'Bonne soirée ' ~ app.user.firstName,
+            subtitle: 'Gérez le blog, la boutique et les commandes de TrouveTonRemede depuis votre tableau de bord.'
+        } %}
 
-			{# BLOG #}
-			<div class="mb-4">
-				<h2 class="h5 text-muted mb-3">
-					<i class="fa-solid fa-blog me-2"></i>
-					Vue d'ensemble du blog
-				</h2>
+        <section class="mb-5">
+            <h2 class="h5 text-muted mb-3">
+                <i class="fa-solid fa-blog me-2"></i>
+                Vue d’ensemble du blog
+            </h2>
 
-				<div class="row g-3">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-newspaper',
+                        label: 'Articles',
+                        value: posts_count,
+                        variant: 'primary',
+                        description: 'Tous les articles du blog',
+                        href: path('app_admin_post_index')
+                    } only %}
+                </div>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-newspaper fa-2x text-primary mb-2"></i>
-								<h3 class="card-title h6">Articles</h3>
-								<p class="display-6 mb-0 fw-bold">{{ posts_count }}</p>
-							</div>
-						</div>
-					</div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-folder-open',
+                        label: 'Catégories',
+                        value: categories_count,
+                        variant: 'success',
+                        description: 'Organisation du blog',
+                        href: path('app_admin_category_index')
+                    } only %}
+                </div>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-folder-open fa-2x text-success mb-2"></i>
-								<h3 class="card-title h6">Catégories</h3>
-								<p class="display-6 mb-0 fw-bold">{{ categories_count }}</p>
-							</div>
-						</div>
-					</div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-comments',
+                        label: 'Commentaires',
+                        value: comments_count,
+                        variant: 'warning',
+                        description: 'Messages reçus',
+                        href: path('app_admin_comment_index')
+                    } only %}
+                </div>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-comments fa-2x text-warning mb-2"></i>
-								<h3 class="card-title h6">Commentaires</h3>
-								<p class="display-6 mb-0 fw-bold">{{ comments_count }}</p>
-							</div>
-						</div>
-					</div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-users',
+                        label: 'Utilisateurs',
+                        value: users_count,
+                        variant: 'info',
+                        description: 'Comptes enregistrés',
+                        href: path('app_admin_user_index')
+                    } only %}
+                </div>
+            </div>
+        </section>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-users fa-2x text-info mb-2"></i>
-								<h3 class="card-title h6">Utilisateurs</h3>
-								<p class="display-6 mb-0 fw-bold">{{ users_count }}</p>
-							</div>
-						</div>
-					</div>
+        <section class="mb-5">
+            <h2 class="h5 text-muted mb-3">
+                <i class="fa-solid fa-store me-2"></i>
+                Vue d’ensemble de la boutique
+            </h2>
 
-				</div>
-			</div>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-leaf',
+                        label: 'Produits',
+                        value: products_count,
+                        variant: 'success',
+                        description: 'Produits au catalogue',
+                        href: path('app_admin_product_index')
+                    } only %}
+                </div>
 
-			{# BOUTIQUE #}
-			<div class="mb-4">
-				<h2 class="h5 text-muted mb-3">
-					<i class="fa-solid fa-store me-2"></i>
-					Vue d'ensemble de la boutique
-				</h2>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-basket-shopping',
+                        label: 'Commandes',
+                        value: orders_count,
+                        variant: 'info',
+                        description: 'Toutes les commandes',
+                        href: path('app_admin_order_index')
+                    } only %}
+                </div>
 
-				<div class="row g-3">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-clock',
+                        label: 'En attente',
+                        value: pending_orders_count,
+                        variant: 'warning',
+                        description: 'À traiter',
+                        href: path('app_admin_order_index')
+                    } only %}
+                </div>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 bg-success-subtle h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-leaf fa-2x text-success mb-2"></i>
-								<h3 class="card-title h6">Produits</h3>
-								<p class="display-6 mb-0 fw-bold">{{ products_count }}</p>
-							</div>
-						</div>
-					</div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    {% include 'components/admin/stat_card.html.twig' with {
+                        icon: 'fa-solid fa-credit-card',
+                        label: 'Payées',
+                        value: paid_orders_count,
+                        variant: 'primary',
+                        description: 'Commandes payées',
+                        href: path('app_admin_order_index')
+                    } only %}
+                </div>
+            </div>
+        </section>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 bg-info-subtle h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-basket-shopping fa-2x text-info mb-2"></i>
-								<h3 class="card-title h6">Commandes totales</h3>
-								<p class="display-6 mb-0 fw-bold">{{ orders_count }}</p>
-							</div>
-						</div>
-					</div>
+        <section>
+            <h2 class="h5 text-muted mb-3">
+                <i class="fa-solid fa-bolt me-2"></i>
+                Actions rapides
+            </h2>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 bg-warning-subtle h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-clock fa-2x text-warning mb-2"></i>
-								<h3 class="card-title h6">En attente</h3>
-								<p class="display-6 mb-0 fw-bold">{{ pending_orders_count }}</p>
-							</div>
-						</div>
-					</div>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <a href="{{ path('app_admin_product_index') }}" class="admin-quick-action-card">
+                        <span class="admin-quick-action-card__icon">
+                            <i class="fa-solid fa-leaf"></i>
+                        </span>
 
-					<div class="col-md-3">
-						<div class="card shadow-sm border-0 bg-primary-subtle h-100">
-							<div class="card-body text-center">
-								<i class="fa-solid fa-credit-card fa-2x text-primary mb-2"></i>
-								<h3 class="card-title h6">Commandes payées</h3>
-								<p class="display-6 mb-0 fw-bold">{{ paid_orders_count }}</p>
-							</div>
-						</div>
-					</div>
+                        <span class="admin-quick-action-card__content">
+                            <span class="admin-quick-action-card__title">Gérer les produits</span>
+                            <span class="admin-quick-action-card__text">
+                                Accéder au catalogue et aux fiches produits.
+                            </span>
+                        </span>
 
-				</div>
-			</div>
+                        <span class="admin-quick-action-card__arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
 
-			{# ACTIONS RAPIDES #}
-			<div class="row mt-4">
-				<div class="col-md-6">
-					<a href="{{ path('app_admin_product_index') }}" class="btn btn-success w-100 py-3 shadow-sm">
-						<i class="fa-solid fa-leaf me-2"></i>
-						Gérer les produits
-					</a>
-				</div>
+                <div class="col-12 col-md-6">
+                    <a href="{{ path('app_admin_order_index') }}" class="admin-quick-action-card">
+                        <span class="admin-quick-action-card__icon">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </span>
 
-				<div class="col-md-6">
-					<a href="{{ path('app_admin_order_index') }}" class="btn btn-primary w-100 py-3 shadow-sm">
-						<i class="fa-solid fa-basket-shopping me-2"></i>
-						Gérer les commandes
-					</a>
-				</div>
-			</div>
+                        <span class="admin-quick-action-card__content">
+                            <span class="admin-quick-action-card__title">Gérer les commandes</span>
+                            <span class="admin-quick-action-card__text">
+                                Voir les commandes en attente et les commandes payées.
+                            </span>
+                        </span>
 
-		</div>
-	</div>
+                        <span class="admin-quick-action-card__arrow">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}

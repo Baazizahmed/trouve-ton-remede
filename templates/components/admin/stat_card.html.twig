@@ -1,0 +1,40 @@
+{% set statVariant = variant|default('primary') %}
+{% set statDescription = description|default(null) %}
+{% set statHref = href|default(null) %}
+{% set statTrend = trend|default(null) %}
+
+{% set statCardClass = 'admin-stat-card admin-stat-card--' ~ statVariant %}
+{% if statHref %}
+    {% set statCardClass = statCardClass ~ ' admin-stat-card--link' %}
+{% endif %}
+
+{% set statContent %}
+    <article class="{{ statCardClass }}">
+        <div class="admin-stat-card__top">
+            <div class="admin-stat-card__icon" aria-hidden="true">
+                <i class="{{ icon }}"></i>
+            </div>
+
+            {% if statTrend %}
+                <span class="admin-stat-card__trend">{{ statTrend }}</span>
+            {% endif %}
+        </div>
+
+        <div class="admin-stat-card__content">
+            <p class="admin-stat-card__label mb-2">{{ label }}</p>
+            <p class="admin-stat-card__value mb-1">{{ value }}</p>
+
+            {% if statDescription %}
+                <p class="admin-stat-card__description mb-0">{{ statDescription }}</p>
+            {% endif %}
+        </div>
+    </article>
+{% endset %}
+
+{% if statHref %}
+    <a href="{{ statHref }}" class="admin-stat-card__link-wrapper">
+        {{ statContent }}
+    </a>
+{% else %}
+    {{ statContent }}
+{% endif %}
