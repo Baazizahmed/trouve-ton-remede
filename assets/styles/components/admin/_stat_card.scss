@@ -1,0 +1,232 @@
+.admin-stat-card {
+  position: relative;
+  height: 100%;
+  min-height: 188px;
+  padding: 1.35rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fcfdfb 100%);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 4px;
+    background: currentColor;
+    opacity: 0.14;
+  }
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.1rem;
+  }
+
+  &__icon {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    background: rgba(15, 23, 42, 0.06);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  }
+
+  &__trend {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.32rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.06);
+    color: #475569;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  &__value {
+    font-size: clamp(2rem, 2.4vw, 2.7rem);
+    line-height: 1;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.03em;
+  }
+
+  &__description {
+    max-width: 24ch;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: #64748b;
+  }
+
+  &--link:hover,
+  &--link:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.1);
+    border-color: rgba(15, 23, 42, 0.14);
+  }
+
+  &--primary {
+    color: #2563eb;
+
+    .admin-stat-card__icon {
+      background: rgba(37, 99, 235, 0.12);
+      color: #2563eb;
+    }
+  }
+
+  &--success {
+    color: #2f855a;
+
+    .admin-stat-card__icon {
+      background: rgba(47, 133, 90, 0.12);
+      color: #2f855a;
+    }
+  }
+
+  &--warning {
+    color: #b7791f;
+
+    .admin-stat-card__icon {
+      background: rgba(183, 121, 31, 0.14);
+      color: #b7791f;
+    }
+  }
+
+  &--info {
+    color: #0f766e;
+
+    .admin-stat-card__icon {
+      background: rgba(15, 118, 110, 0.14);
+      color: #0f766e;
+    }
+  }
+}
+
+.admin-stat-card__link-wrapper {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.admin-quick-action-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.15rem 1.2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  color: #0f172a;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    color: #0f172a;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    border-color: rgba(15, 23, 42, 0.12);
+  }
+
+  &__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 133, 90, 0.1);
+    color: #2f855a;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  &__text {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #64748b;
+  }
+
+  &__arrow {
+    margin-left: auto;
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .admin-stat-card {
+    min-height: 170px;
+    padding: 1.1rem;
+
+    &__top {
+      margin-bottom: 0.9rem;
+    }
+
+    &__icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.85rem;
+    }
+
+    &__value {
+      font-size: 2rem;
+    }
+
+    &__description {
+      font-size: 0.86rem;
+      max-width: none;
+    }
+  }
+
+  .admin-quick-action-card {
+    padding: 1rem;
+
+    &__text {
+      font-size: 0.86rem;
+    }
+  }
+}
