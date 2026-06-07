@@ -1,0 +1,152 @@
+.admin-form-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+    margin-bottom: 2rem;
+
+    &__header {
+        padding: 1.5rem 1.5rem 1rem;
+        border-bottom: 1px solid #f1f3f5;
+        background: linear-gradient(180deg, #ffffff 0%, #fcfcfd 100%);
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    &__subtitle {
+        margin: 0.4rem 0 0;
+        font-size: 0.95rem;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    &__body {
+        padding: 1.5rem;
+    }
+
+    &__fields {
+        display: grid;
+        gap: 1.25rem;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.75rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid #f1f3f5;
+    }
+
+    &__helper {
+        font-size: 0.875rem;
+        color: #6b7280;
+        line-height: 1.5;
+        max-width: 420px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.45rem;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        border-radius: 0.75rem;
+        border: 1px solid #d1d5db;
+        box-shadow: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+        }
+    }
+
+    textarea.form-control {
+        min-height: 140px;
+    }
+
+    .form-text {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.45rem;
+    }
+
+    .invalid-feedback,
+    .text-danger.small {
+        display: block;
+        font-size: 0.875rem;
+    }
+}
+
+.admin-action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    &--end {
+        justify-content: flex-end;
+    }
+
+    &--start {
+        justify-content: flex-start;
+    }
+
+    &--center {
+        justify-content: center;
+    }
+}
+
+.btn-admin-primary {
+    background-color: #198754;
+    border-color: #198754;
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 0.72rem 1.2rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover,
+    &:focus {
+        background-color: #157347;
+        border-color: #146c43;
+        color: #fff;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-form-card {
+        &__header,
+        &__body {
+            padding: 1rem;
+        }
+
+        &__footer {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        &__helper {
+            max-width: 100%;
+        }
+    }
+
+    .admin-action-buttons--stack-mobile {
+        flex-direction: column-reverse;
+        align-items: stretch;
+
+        .btn {
+            width: 100%;
+        }
+    }
+}

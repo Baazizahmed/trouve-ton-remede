@@ -4,15 +4,22 @@
 
 {% block description %}Nouvel article{% endblock %}
 
+{% block admin_topbar_context %}
+    <span class="admin-topbar__context">Contenus</span>
+{% endblock %}
+
 {% block jQuery %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
 {% endblock %}
 
 {% block select2 %}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#admin_post_form_tags').select2({
                 width: '100%',
                 placeholder: 'Sélectionnez un ou plusieurs tags'
@@ -37,105 +44,148 @@
         actions: header_actions
     } %}
 
-    <div class="card border-0 shadow-sm mt-4">
-        <div class="card-body p-4 p-lg-5">
-            {{ form_start(form) }}
+    <div class="admin-form-card mt-4">
+        <div class="admin-form-card__header">
+            <h2 class="admin-form-card__title">Contenu de l’article</h2>
+            <p class="admin-form-card__subtitle">
+                Renseignez le contenu principal, puis organisez l’article avec sa catégorie, ses tags et son image.
+            </p>
+        </div>
+
+        <div class="admin-form-card__body">
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
 
                 <div class="row g-4">
                     <div class="col-12 col-lg-8">
-                        <h2 class="h5 mb-4">Contenu principal</h2>
+                        <div class="admin-form-card__section">
+                            <h3 class="admin-form-card__section-title">Contenu principal</h3>
 
-                        <div class="mb-4">
-                            {{ form_label(form.title, 'Titre', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.title) }}</div>
-                            {{ form_widget(form.title, {
-                                attr: {
-                                    class: 'form-control',
-                                    autofocus: 'autofocus',
-                                    placeholder: 'Titre de l’article'
-                                }
-                            }) }}
-                        </div>
+                            <div class="admin-form-card__fields">
+                                <div>
+                                    {{ form_label(form.title, 'Titre', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.title) }}</div>
+                                    {{ form_widget(form.title, {
+                                        attr: {
+                                            class: 'form-control',
+                                            autofocus: 'autofocus',
+                                            placeholder: 'Titre de l’article'
+                                        }
+                                    }) }}
+                                </div>
 
-                        <div class="mb-4">
-                            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.description) }}</div>
-                            {{ form_widget(form.description, {
-                                attr: {
-                                    class: 'form-control',
-                                    rows: 3,
-                                    placeholder: 'Résumé court de l’article'
-                                }
-                            }) }}
-                        </div>
+                                <div>
+                                    {{ form_label(form.description, 'Description', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.description) }}</div>
+                                    {{ form_widget(form.description, {
+                                        attr: {
+                                            class: 'form-control',
+                                            rows: 3,
+                                            placeholder: 'Résumé court de l’article'
+                                        }
+                                    }) }}
+                                    <div class="form-text">
+                                        Ce texte peut servir d’introduction ou d’aperçu dans les listes.
+                                    </div>
+                                </div>
 
-                        <div class="mb-4">
-                            {{ form_label(form.content, 'Contenu', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.content) }}</div>
-                            {{ form_widget(form.content, {
-                                attr: {
-                                    class: 'form-control',
-                                    rows: 10,
-                                    placeholder: 'Rédigez le contenu complet de l’article'
-                                }
-                            }) }}
+                                <div>
+                                    {{ form_label(form.content, 'Contenu', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.content) }}</div>
+                                    {{ form_widget(form.content, {
+                                        attr: {
+                                            class: 'form-control',
+                                            rows: 10,
+                                            placeholder: 'Rédigez le contenu complet de l’article'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <h2 class="h5 mb-4">Organisation</h2>
+                        <div class="admin-form-card__aside">
+                            <h3 class="admin-form-card__section-title">Organisation</h3>
 
-                        <div class="mb-4">
-                            {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.category) }}</div>
-                            {{ form_widget(form.category, {
-                                attr: {
-                                    class: 'form-control'
-                                }
-                            }) }}
-                        </div>
+                            <div class="admin-form-card__fields">
+                                <div>
+                                    {{ form_label(form.category, 'Catégorie', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.category) }}</div>
+                                    {{ form_widget(form.category, {
+                                        attr: {
+                                            class: 'form-select'
+                                        }
+                                    }) }}
+                                </div>
 
-                        <div class="mb-4">
-                            {{ form_label(form.tags, 'Tags', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.tags) }}</div>
-                            {{ form_widget(form.tags, {
-                                attr: {
-                                    class: 'form-control'
-                                }
-                            }) }}
-                        </div>
+                                <div>
+                                    {{ form_label(form.tags, 'Tags', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.tags) }}</div>
+                                    {{ form_widget(form.tags, {
+                                        attr: {
+                                            class: 'form-control'
+                                        }
+                                    }) }}
+                                    <div class="form-text">
+                                        Utilisez des tags utiles pour le classement et la recherche.
+                                    </div>
+                                </div>
 
-                        <div class="mb-4">
-                            {{ form_label(form.keywords, 'Mots clés', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.keywords) }}</div>
-                            {{ form_widget(form.keywords, {
-                                attr: {
-                                    class: 'form-control',
-                                    placeholder: 'plantes, bienfaits, infusion...'
-                                }
-                            }) }}
-                        </div>
+                                <div>
+                                    {{ form_label(form.keywords, 'Mots clés', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.keywords) }}</div>
+                                    {{ form_widget(form.keywords, {
+                                        attr: {
+                                            class: 'form-control',
+                                            placeholder: 'plantes, bienfaits, infusion...'
+                                        }
+                                    }) }}
+                                </div>
 
-                        <div class="mb-4">
-                            {{ form_label(form.imageFile, 'Image', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                            <div class="text-danger small mb-1">{{ form_errors(form.imageFile) }}</div>
-                            {{ form_widget(form.imageFile, {
-                                attr: {
-                                    class: 'form-control'
-                                }
-                            }) }}
+                                <div>
+                                    {{ form_label(form.imageFile, 'Image', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="text-danger small mb-1">{{ form_errors(form.imageFile) }}</div>
+                                    {{ form_widget(form.imageFile, {
+                                        attr: {
+                                            class: 'form-control'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-4 pt-4 border-top">
-                    <p class="text-muted small mb-0">
-                        Vérifiez le contenu, la catégorie et les tags avant publication.
+                <div class="admin-form-card__footer">
+                    <p class="admin-form-card__helper mb-0">
+                        Vérifiez le contenu, la catégorie et les tags avant sauvegarde.
                     </p>
 
-                    <button formnovalidate type="submit" class="btn btn-primary px-4">
-                        Sauvegarder l’article
-                    </button>
+                    {% include 'components/admin/action_buttons.html.twig' with {
+                        align: 'end',
+                        stack_mobile: true,
+                        tertiary_label: 'Retour à la liste',
+                        tertiary_href: path('app_admin_post_index'),
+                        tertiary_icon: 'arrow-left',
+                        primary_label: 'Sauvegarder l’article',
+                        primary_type: 'submit',
+                        primary_icon: 'floppy-disk',
+                        primary_class: 'btn btn-admin-primary px-4'
+                    } %}
                 </div>
 
             {{ form_end(form) }}

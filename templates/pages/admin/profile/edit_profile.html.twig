@@ -3,6 +3,10 @@
 {% block title %}Modifier mon profil{% endblock %}
 {% block description %}Modifier mon profil{% endblock %}
 
+{% block admin_topbar_context %}
+    <span class="admin-topbar__context">Mon compte</span>
+{% endblock %}
+
 {% block main %}
 <div class="container mt-4">
 
@@ -20,12 +24,14 @@
     } %}
 
     {% set info_card_content %}
-        {{ form_start(form) }}
+        {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
 
             <div class="row g-4">
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_label(form.firstName, 'Prénom', {
+                            label_attr: { class: 'form-label fw-semibold' }
+                        }) }}
                         <div class="text-danger small mb-1">{{ form_errors(form.firstName) }}</div>
                         {{ form_widget(form.firstName, {
                             attr: {
@@ -39,7 +45,9 @@
 
                 <div class="col-12 col-md-6">
                     <div class="mb-3">
-                        {{ form_label(form.lastName, 'Nom', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_label(form.lastName, 'Nom', {
+                            label_attr: { class: 'form-label fw-semibold' }
+                        }) }}
                         <div class="text-danger small mb-1">{{ form_errors(form.lastName) }}</div>
                         {{ form_widget(form.lastName, {
                             attr: {
@@ -52,7 +60,9 @@
 
                 <div class="col-12">
                     <div class="mb-3">
-                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                        {{ form_label(form.email, 'Email', {
+                            label_attr: { class: 'form-label fw-semibold' }
+                        }) }}
                         <div class="text-danger small mb-1">{{ form_errors(form.email) }}</div>
                         {{ form_widget(form.email, {
                             attr: {
@@ -60,6 +70,9 @@
                                 placeholder: 'Votre adresse email'
                             }
                         }) }}
+                        <div class="form-text">
+                            Utilisez une adresse email valide et régulièrement consultée.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,6 +86,7 @@
                     primary_label: 'Enregistrer les modifications',
                     primary_type: 'submit',
                     primary_icon: 'floppy-disk',
+                    primary_class: 'btn btn-admin-primary px-4',
                     align: 'end',
                     stack_mobile: true
                 } %}
