@@ -3,6 +3,10 @@
 {% block title %}Dashboard admin{% endblock %}
 {% block description %}Dashboard administrateur{% endblock %}
 
+{% block admin_topbar_context %}
+    <span class="admin-topbar__context">Vue d’ensemble</span>
+{% endblock %}
+
 {% block main %}
     {% set currentHour = "now"|date('H') %}
 
