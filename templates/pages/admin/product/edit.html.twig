@@ -3,6 +3,10 @@
 {% block title %}Modifier {{ product.name }}{% endblock %}
 {% block description %}Modifier {{ product.name }}{% endblock %}
 
+{% block admin_topbar_context %}
+    <span class="admin-topbar__context">Catalogue</span>
+{% endblock %}
+
 {% block main %}
 <div class="container my-4 my-md-5 product-edit-page">
 
@@ -19,102 +23,187 @@
         actions: header_actions
     } %}
 
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-body p-3 p-md-4 p-lg-5">
-            {{ form_start(form) }}
+    <div class="admin-form-card mt-4">
+        <div class="admin-form-card__header">
+            <h2 class="admin-form-card__title">Informations du produit</h2>
+            <p class="admin-form-card__subtitle">
+                Mettez à jour les informations commerciales, descriptives et visuelles du produit.
+            </p>
+        </div>
 
-            <div class="row g-4">
-                <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.name) }}</div>
-                    </div>
-                </div>
+        <div class="admin-form-card__body">
+            {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
 
-                <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.slug, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.slug) }}</div>
-                    </div>
-                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-xl-8">
+                        <div class="admin-form-card__section">
+                            <h3 class="admin-form-card__section-title">Contenu principal</h3>
 
-                <div class="col-12">
-                    <div class="form-group">
-                        {{ form_label(form.description, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
-                    </div>
-                </div>
+                            <div class="admin-form-card__fields">
+                                <div class="row g-4">
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            {{ form_label(form.name, null, {
+                                                label_attr: { class: 'form-label fw-semibold' }
+                                            }) }}
+                                            {{ form_widget(form.name, {
+                                                attr: {
+                                                    class: 'form-control',
+                                                    autofocus: 'autofocus',
+                                                    placeholder: 'Nom du produit'
+                                                }
+                                            }) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(form.name) }}</div>
+                                        </div>
+                                    </div>
 
-                <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.price, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        <div class="input-group">
-                            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
-                            <span class="input-group-text">€</span>
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            {{ form_label(form.slug, null, {
+                                                label_attr: { class: 'form-label fw-semibold' }
+                                            }) }}
+                                            {{ form_widget(form.slug, {
+                                                attr: {
+                                                    class: 'form-control',
+                                                    placeholder: 'slug-du-produit'
+                                                }
+                                            }) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(form.slug) }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div>
+                                            {{ form_label(form.description, null, {
+                                                label_attr: { class: 'form-label fw-semibold' }
+                                            }) }}
+                                            {{ form_widget(form.description, {
+                                                attr: {
+                                                    class: 'form-control',
+                                                    rows: 4,
+                                                    placeholder: 'Description du produit'
+                                                }
+                                            }) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(form.description) }}</div>
+                                            <div class="form-text">
+                                                Rédigez une description claire, utile et orientée usage client.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            {{ form_label(form.benefits, null, {
+                                                label_attr: { class: 'form-label fw-semibold' }
+                                            }) }}
+                                            {{ form_widget(form.benefits, {
+                                                attr: {
+                                                    class: 'form-control',
+                                                    rows: 4,
+                                                    placeholder: 'Bienfaits principaux du produit'
+                                                }
+                                            }) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(form.benefits) }}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div>
+                                            {{ form_label(form.usage, null, {
+                                                label_attr: { class: 'form-label fw-semibold' }
+                                            }) }}
+                                            {{ form_widget(form.usage, {
+                                                attr: {
+                                                    class: 'form-control',
+                                                    rows: 4,
+                                                    placeholder: 'Conseils d’utilisation'
+                                                }
+                                            }) }}
+                                            <div class="text-danger small mt-1">{{ form_errors(form.usage) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-danger small mt-1">{{ form_errors(form.price) }}</div>
                     </div>
-                </div>
 
-                <div class="col-12 col-md-6 product-image-field">
-                    <div class="form-group">
-                        {{ form_label(form.imageFile.file, 'Nouvelle image', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.imageFile.file, {'attr': {'class': 'form-control'}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.imageFile.file) }}</div>
+                    <div class="col-12 col-xl-4">
+                        <div class="admin-form-card__aside">
+                            <h3 class="admin-form-card__section-title">Prix et image</h3>
 
-                        {% if product.imageName %}
-                            <div class="product-image-field__current mt-3">
-                                <span class="product-image-field__caption d-block mb-2 text-muted small">Image actuelle</span>
-                                <img
-                                    src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
-                                    alt="{{ product.name }}"
-                                    class="product-image-field__img img-fluid rounded border"
-                                >
+                            <div class="admin-form-card__fields">
+                                <div>
+                                    {{ form_label(form.price, null, {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    <div class="input-group">
+                                        {{ form_widget(form.price, {
+                                            attr: {
+                                                class: 'form-control',
+                                                placeholder: '0.00'
+                                            }
+                                        }) }}
+                                        <span class="input-group-text">€</span>
+                                    </div>
+                                    <div class="text-danger small mt-1">{{ form_errors(form.price) }}</div>
+                                </div>
+
+                                <div class="product-image-field">
+                                    {{ form_label(form.imageFile.file, 'Nouvelle image', {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    {{ form_widget(form.imageFile.file, {
+                                        attr: { class: 'form-control' }
+                                    }) }}
+                                    <div class="text-danger small mt-1">{{ form_errors(form.imageFile.file) }}</div>
+
+                                    {% if product.imageName %}
+                                        <div class="admin-form-card__image-preview mt-3">
+                                            <span class="d-block mb-2 text-muted small">Image actuelle</span>
+                                            <img
+                                                src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
+                                                alt="{{ product.name }}"
+                                                class="img-fluid rounded"
+                                            >
+                                        </div>
+                                    {% endif %}
+
+                                    {% if form.imageFile.delete is defined %}
+                                        <div class="form-check mt-3">
+                                            {{ form_widget(form.imageFile.delete, {
+                                                attr: { class: 'form-check-input' }
+                                            }) }}
+                                            {{ form_label(form.imageFile.delete, 'Supprimer l’image', {
+                                                label_attr: { class: 'form-check-label' }
+                                            }) }}
+                                        </div>
+                                        <div class="text-danger small mt-1">{{ form_errors(form.imageFile.delete) }}</div>
+                                    {% endif %}
+                                </div>
                             </div>
-                        {% endif %}
-
-                        {% if form.imageFile.delete is defined %}
-                            <div class="product-image-field__delete form-check mt-3">
-                                {{ form_widget(form.imageFile.delete, {'attr': {'class': 'form-check-input'}}) }}
-                                {{ form_label(form.imageFile.delete, 'Supprimer l’image', {'label_attr': {'class': 'form-check-label'}}) }}
-                            </div>
-                            <div class="text-danger small mt-1">{{ form_errors(form.imageFile.delete) }}</div>
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.benefits, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.benefits, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.benefits) }}</div>
-                    </div>
+                <div class="admin-form-card__footer">
+                    <p class="admin-form-card__helper mb-0">
+                        Vérifiez les informations du produit avant d’enregistrer les modifications.
+                    </p>
+
+                    {% include 'components/admin/action_buttons.html.twig' with {
+                        align: 'end',
+                        stack_mobile: true,
+                        tertiary_label: 'Retour à la liste',
+                        tertiary_href: path('app_admin_product_index'),
+                        tertiary_icon: 'arrow-left',
+                        primary_label: 'Enregistrer les modifications',
+                        primary_type: 'submit',
+                        primary_icon: 'floppy-disk',
+                        primary_class: 'btn btn-admin-primary px-4'
+                    } %}
                 </div>
 
-                <div class="col-12 col-md-6">
-                    <div class="form-group">
-                        {{ form_label(form.usage, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
-                        {{ form_widget(form.usage, {'attr': {'class': 'form-control', 'rows': 4}}) }}
-                        <div class="text-danger small mt-1">{{ form_errors(form.usage) }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-edit-actions d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 gap-md-3 mt-4 pt-4 border-top">
-                <p class="text-muted small mb-0">
-                    Vérifiez les informations du produit avant d’enregistrer.
-                </p>
-
-                <button type="submit" class="btn btn-warning px-4 product-edit-actions__btn">
-                    <i class="fa-solid fa-floppy-disk me-1"></i>
-                    Enregistrer les modifications
-                </button>
-            </div>
-
-            {{ form_rest(form) }}
+                {{ form_rest(form) }}
             {{ form_end(form, { render_rest: false }) }}
         </div>
     </div>

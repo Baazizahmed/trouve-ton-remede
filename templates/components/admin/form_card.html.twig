@@ -1,0 +1,16 @@
+{% set cardTitle = title|default('Formulaire') %}
+{% set cardSubtitle = subtitle|default(null) %}
+
+<div class="admin-form-card">
+    <div class="admin-form-card__header">
+        <h2 class="admin-form-card__title">{{ cardTitle }}</h2>
+
+        {% if cardSubtitle %}
+            <p class="admin-form-card__subtitle">{{ cardSubtitle }}</p>
+        {% endif %}
+    </div>
+
+    <div class="admin-form-card__body">
+        {% block content %}{% endblock %}
+    </div>
+</div>

@@ -3,6 +3,10 @@
 {% block title %}Modifier les paramètres du site{% endblock %}
 {% block description %}Modifier les paramètres du site{% endblock %}
 
+{% block admin_topbar_context %}
+    <span class="admin-topbar__context">Paramètres</span>
+{% endblock %}
+
 {% block main %}
 <div class="container mt-4">
 
@@ -31,11 +35,13 @@
             </div>
 
             <div class="col-lg-8">
-                {{ form_start(form) }}
+                {{ form_start(form, { attr: { novalidate: 'novalidate' } }) }}
 
                     <div class="row g-4">
                         <div class="col-12">
-                            {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_label(form.email, 'Email', {
+                                label_attr: { class: 'form-label fw-semibold' }
+                            }) }}
                             <div class="text-danger small mb-1">{{ form_errors(form.email) }}</div>
                             {{ form_widget(form.email, {
                                 attr: {
@@ -47,7 +53,9 @@
                         </div>
 
                         <div class="col-12">
-                            {{ form_label(form.phone, 'Numéro de téléphone', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_label(form.phone, 'Numéro de téléphone', {
+                                label_attr: { class: 'form-label fw-semibold' }
+                            }) }}
                             <div class="text-danger small mb-1">{{ form_errors(form.phone) }}</div>
                             {{ form_widget(form.phone, {
                                 attr: {
@@ -55,6 +63,9 @@
                                     placeholder: '07 00 00 00 00'
                                 }
                             }) }}
+                            <div class="form-text">
+                                Utilisez des coordonnées à jour, visibles et facilement exploitables côté boutique.
+                            </div>
                         </div>
                     </div>
 
@@ -67,6 +78,7 @@
                             primary_label: 'Enregistrer les modifications',
                             primary_type: 'submit',
                             primary_icon: 'floppy-disk',
+                            primary_class: 'btn btn-admin-primary px-4',
                             align: 'end',
                             stack_mobile: true
                         } %}
