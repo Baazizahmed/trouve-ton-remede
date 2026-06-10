@@ -4,7 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{% block title %}{% endblock %} - Espace utilisateur | Oumi</title>
+        <title>
+            {% block title %}{% endblock %}
+            - Espace utilisateur | Oumi
+        </title>
         <meta name="description" content="{% block description %}{% endblock %}">
         <meta name="robots" content="index,follow">
         <meta name="author" content="Oumi">
@@ -55,10 +58,11 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="userNavbarNav">
-                    <ul class="navbar-nav user-topbar__nav ms-auto align-items-lg-center">
+                <div class="collapse navbar-collapse user-topbar__collapse" id="userNavbarNav">
+                    <ul class="navbar-nav user-topbar__nav">
                         <li class="nav-item">
                             <a class="nav-link {{ pathClient == path('app_user_home') ? 'active' : '' }}"
+                               {% if pathClient == path('app_user_home') %}aria-current="page"{% endif %}
                                href="{{ path('app_user_home') }}">
                                 <i class="fa-solid fa-house me-2" aria-hidden="true"></i>
                                 Accueil
@@ -67,6 +71,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link {{ pathClient == path('app_user_profile_index') ? 'active' : '' }}"
+                               {% if pathClient == path('app_user_profile_index') %}aria-current="page"{% endif %}
                                href="{{ path('app_user_profile_index') }}">
                                 <i class="fa-solid fa-user me-2" aria-hidden="true"></i>
                                 Mon profil
@@ -75,6 +80,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link {{ pathClient == path('app_cart_index') ? 'active' : '' }}"
+                               {% if pathClient == path('app_cart_index') %}aria-current="page"{% endif %}
                                href="{{ path('app_cart_index') }}">
                                 <i class="fa-solid fa-basket-shopping me-2" aria-hidden="true"></i>
                                 Panier
@@ -86,40 +92,35 @@
 
                         <li class="nav-item">
                             <a class="nav-link {{ pathClient == path('app_order_index') ? 'active' : '' }}"
+                               {% if pathClient == path('app_order_index') %}aria-current="page"{% endif %}
                                href="{{ path('app_order_index') }}">
                                 <i class="fa-solid fa-box me-2" aria-hidden="true"></i>
                                 Mes commandes
                             </a>
                         </li>
+                    </ul>
 
-                        <li class="nav-item user-topbar__divider d-none d-lg-block" aria-hidden="true"></li>
-
+                    <div class="user-topbar__actions">
                         {% if app.user and is_granted('ROLE_ADMIN') %}
-                            <li class="nav-item ms-lg-2">
-                                <a class="btn btn-sm user-topbar__btn user-topbar__btn--soft"
-                                   href="{{ path('app_admin_home') }}">
-                                    <i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>
-                                    Admin
-                                </a>
-                            </li>
+                            <a class="btn btn-sm user-topbar__btn user-topbar__btn--soft"
+                               href="{{ path('app_admin_home') }}">
+                                <i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>
+                                Admin
+                            </a>
                         {% endif %}
 
-                        <li class="nav-item ms-lg-2">
-                            <a class="btn btn-sm user-topbar__btn user-topbar__btn--ghost"
-                               href="{{ path('app_visitor_welcome') }}">
-                                <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>
-                                Retour au site
-                            </a>
-                        </li>
+                        <a class="btn btn-sm user-topbar__btn user-topbar__btn--ghost"
+                           href="{{ path('app_visitor_welcome') }}">
+                            <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>
+                            Retour au site
+                        </a>
 
-                        <li class="nav-item ms-lg-2">
-                            <a class="btn btn-sm user-topbar__btn user-topbar__btn--danger"
-                               href="{{ path('app_logout') }}">
-                                <i class="fa-solid fa-right-from-bracket me-2" aria-hidden="true"></i>
-                                Déconnexion
-                            </a>
-                        </li>
-                    </ul>
+                        <a class="btn btn-sm user-topbar__btn user-topbar__btn--danger"
+                           href="{{ path('app_logout') }}">
+                            <i class="fa-solid fa-right-from-bracket me-2" aria-hidden="true"></i>
+                            Déconnexion
+                        </a>
+                    </div>
                 </div>
             </div>
         </nav>
