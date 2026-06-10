@@ -1,27 +1,77 @@
-.section-order-show {
-  background-color: $fond-nature;
-  padding-bottom: 4rem;
+.user-order-show-page {
+  .user-order-show-card,
+  .user-order-summary {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  .user-order-show-card,
+  .user-order-summary {
+    .card-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .user-order-show-meta {
+    padding: 1rem;
+    height: 100%;
+    border-radius: 0.9rem;
+    background: rgba($primary, 0.04);
+  }
+
+  .user-order-show-table {
+    th {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #7b7b7b;
+      border-bottom-width: 1px;
+      white-space: nowrap;
+    }
+
+    td {
+      font-size: 0.96rem;
+      vertical-align: middle;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .user-order-summary {
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .badge {
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.5em 0.8em;
+  }
 }
 
-.order-card,
-.order-summary {
-  border-radius: 1rem;
-  background-color: #ffffff;
+@media (max-width: 991.98px) {
+  .user-order-show-page {
+    .user-order-summary {
+      position: static;
+    }
+  }
 }
 
-.order-table th {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  color: #888888;
-  border-bottom-width: 1px;
-}
+@media (max-width: 767.98px) {
+  .user-order-show-page {
+    .user-order-show-card,
+    .user-order-summary {
+      border-radius: 0.9rem;
 
-.order-table td {
-  font-size: 0.95rem;
-}
+      .card-body {
+        padding: 1rem;
+      }
+    }
 
-/* Couleur du # + numéro de commande */
-.order-number {
-  color: $primary-dark;
-  font-weight: 700;
+    .user-order-show-meta {
+      padding: 0.9rem;
+    }
+  }
 }
