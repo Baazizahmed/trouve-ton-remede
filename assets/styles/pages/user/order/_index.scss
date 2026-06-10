@@ -1,21 +1,77 @@
-.section-orders {
-  background-color: $fond-nature;
-  padding-bottom: 4rem;
+.user-orders-page {
+  .user-orders-empty,
+  .user-orders-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  }
+
+  .user-orders-empty {
+    &__icon {
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto;
+      border-radius: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba($primary, 0.08);
+      color: $primary;
+      font-size: 1.5rem;
+    }
+  }
+
+  .user-orders-card {
+    .card-body {
+      padding: 1.5rem;
+    }
+  }
+
+  .user-orders-table {
+    th {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #7b7b7b;
+      border-bottom-width: 1px;
+      white-space: nowrap;
+    }
+
+    td {
+      font-size: 0.96rem;
+      vertical-align: middle;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .badge {
+      border-radius: 999px;
+      font-weight: 600;
+      padding: 0.5em 0.8em;
+    }
+
+    .btn {
+      white-space: nowrap;
+    }
+  }
 }
 
-.orders-card,
-.orders-empty-card {
-  border-radius: 1rem;
-  background-color: #ffffff;
-}
+@media (max-width: 767.98px) {
+  .user-orders-page {
+    .user-orders-card,
+    .user-orders-empty {
+      border-radius: 0.9rem;
+    }
 
-.orders-table th {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  color: #888888;
-  border-bottom-width: 1px;
-}
+    .user-orders-card {
+      .card-body {
+        padding: 1rem;
+      }
+    }
 
-.orders-table td {
-  font-size: 0.95rem;
+    .user-orders-table {
+      min-width: 640px;
+    }
+  }
 }

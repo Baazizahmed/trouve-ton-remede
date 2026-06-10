@@ -1,154 +1,201 @@
-{% extends 'themes/base_visitor.html.twig' %}
+{% extends 'themes/base_user.html.twig' %}
 
 {% block title %}Commande #{{ order.id }}{% endblock %}
-
-{% block description %}
-Détail de votre commande de plantes médicinales.
-{% endblock %}
+{% block description %}Détail de votre commande de plantes médicinales.{% endblock %}
 
 {% block main %}
-    {% include 'components/visitor/header-visitor.html.twig' with {
-        h1: 'Commande ' ~ '<span class="order-number">#' ~ order.id ~ '</span>',
-        subtitle: 'Retrouvez le détail de votre commande de plantes et les montants associés.'
+<div class="container my-5 user-order-show-page">
+
+    {% set headerActions %}
+        <a href="{{ path('app_order_index') }}" class="btn btn-outline-primary">
+            <i class="fa-solid fa-arrow-left me-2"></i>
+            Mes commandes
+        </a>
+    {% endset %}
+
+    {% include 'components/user/page_header.html.twig' with {
+        eyebrow: 'Espace utilisateur',
+        title: 'Commande #' ~ order.id,
+        subtitle: 'Retrouvez le détail de votre commande, les articles achetés et le récapitulatif des montants.',
+        icon: 'fa-solid fa-receipt',
+        centered: true,
+        actions: headerActions
     } %}
 
-    <section class="py-5 section-order-show">
-        <div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mb-4 text-center">
+            {{ message }}
+        </div>
+    {% endfor %}
 
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success mb-3">{{ message }}</div>
-            {% endfor %}
+    <div class="row g-4">
+        <div class="col-lg-8">
 
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="card shadow-sm border-0 order-card mb-4">
-                        <div class="card-body">
-                            <h2 class="h5 fw-bold mb-3">
-                                Informations de la commande
-                                <span class="order-number ms-2">#{{ order.id }}</span>
-                            </h2>
+            <div class="card border-0 user-order-show-card">
+                <div class="card-body">
+                    <h2 class="h4 mb-4">Informations de la commande</h2>
 
-                            <p class="mb-1">
-                                <strong>Statut :</strong>
-                                <span class="badge
-                                    {% if order.status == 'PENDING' %}
-                                        bg-warning text-dark
-                                    {% elseif order.status == 'CANCELLED' %}
-                                        bg-danger
-                                    {% else %}
-                                        bg-success
-                                    {% endif %}">
-                                    {{ order.status }}
-                                </span>
-                            </p>
-                            <p class="mb-1">
-                                <strong>Date :</strong>
-                                {{ order.createdAt|date('d/m/Y H:i') }}
-                            </p>
-                            <p class="mb-0">
-                                <strong>Total TTC :</strong>
-                                {{ order.totalTtc|number_format(2, ',', ' ') }} €
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card shadow-sm border-0 order-card">
-                        <div class="card-body">
-                            <h2 class="h5 fw-bold mb-3">Articles commandés</h2>
-
-                            <div class="table-responsive">
-                                <table class="table align-middle order-table mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Produit</th>
-                                            <th class="text-center">Quantité</th>
-                                            <th class="text-end">Prix HT</th>
-                                            <th class="text-center">TVA</th>
-                                            <th class="text-end">Total TTC</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in order.orderItems %}
-                                            <tr>
-                                                <td>{{ item.productName }}</td>
-                                                <td class="text-center">{{ item.quantity }}</td>
-                                                <td class="text-end">
-                                                    {{ item.unitPriceHt|number_format(2, ',', ' ') }} €
-                                                </td>
-                                                <td class="text-center">{{ item.taxRate }} %</td>
-                                                <td class="text-end">
-                                                    {{ item.totalTtc|number_format(2, ',', ' ') }} €
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="3" class="text-end fw-bold">Sous-total HT :</td>
-                                            <td colspan="2" class="text-end">
-                                                {{ order.subtotalHt|number_format(2, ',', ' ') }} €
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-end fw-bold">TVA :</td>
-                                            <td colspan="2" class="text-end">
-                                                {{ order.taxAmount|number_format(2, ',', ' ') }} €
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" class="text-end fw-bold">Total TTC :</td>
-                                            <td colspan="2" class="text-end fw-bold">
-                                                {{ order.totalTtc|number_format(2, ',', ' ') }} €
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="user-order-show-meta">
+                                <span class="text-muted d-block mb-1">Référence</span>
+                                <strong>#{{ order.id }}</strong>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mt-4 d-flex flex-wrap gap-2">
-                        <a href="{{ path('app_order_index') }}" class="btn btn-outline-secondary">
-                            ← Mes commandes
-                        </a>
-                        <a href="{{ path('app_visitor_product_index') }}" class="btn btn-cta">
-                            Continuer mes achats
-                        </a>
-                    </div>
-                </div>
-
-                {# Colonne latérale : rappel synthétique #}
-                <div class="col-lg-4 mt-4 mt-lg-0">
-                    <div class="card shadow-sm border-0 order-summary">
-                        <div class="card-body">
-                            <h2 class="h6 fw-bold mb-3">Résumé</h2>
-
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Sous-total HT</span>
-                                <span>{{ order.subtotalHt|number_format(2, ',', ' ') }} €</span>
+                        <div class="col-md-4">
+                            <div class="user-order-show-meta">
+                                <span class="text-muted d-block mb-1">Date</span>
+                                <strong>{{ order.createdAt|date('d/m/Y à H:i') }}</strong>
                             </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">TVA</span>
-                                <span>{{ order.taxAmount|number_format(2, ',', ' ') }} €</span>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="user-order-show-meta">
+                                <span class="text-muted d-block mb-1">Statut</span>
+                                {% if order.status in ['paid', 'PAID'] %}
+                                    <span class="badge bg-success">Payée</span>
+                                {% elseif order.status in ['pending', 'PENDING'] %}
+                                    <span class="badge bg-warning text-dark">En attente</span>
+                                {% elseif order.status in ['cancelled', 'CANCELLED'] %}
+                                    <span class="badge bg-danger">Annulée</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        {{ order.status|replace({'_': ' '})|lower|capitalize }}
+                                    </span>
+                                {% endif %}
                             </div>
-
-                            <hr>
-
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="fw-bold">Total TTC</span>
-                                <span class="fw-bold">
-                                    {{ order.totalTtc|number_format(2, ',', ' ') }} €
-                                </span>
-                            </div>
-
-                            <p class="form-text text-muted mt-3 mb-0">
-                                Conservez cette page ou l’email de confirmation pour vos archives.
-                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <div class="card border-0 user-order-show-card mt-4">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
+                        <div>
+                            <h2 class="h4 mb-1">Articles commandés</h2>
+                            <p class="text-muted mb-0">
+                                {{ order.orderItems|length }} article{{ order.orderItems|length > 1 ? 's' : '' }} dans cette commande.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table align-middle mb-0 user-order-show-table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produit</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-end">Prix HT</th>
+                                    <th class="text-center">TVA</th>
+                                    <th class="text-end">Total TTC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.orderItems %}
+                                    <tr>
+                                        <td class="fw-semibold">{{ item.productName }}</td>
+                                        <td class="text-center">{{ item.quantity }}</td>
+                                        <td class="text-end">{{ item.unitPriceHt|number_format(2, ',', ' ') }} €</td>
+                                        <td class="text-center">{{ item.taxRate }} %</td>
+                                        <td class="text-end fw-semibold">{{ item.totalTtc|number_format(2, ',', ' ') }} €</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-grid gap-3 d-md-none">
+                        {% for item in order.orderItems %}
+                            <div class="border rounded-3 p-3">
+                                <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+                                    <strong>{{ item.productName }}</strong>
+                                    <span class="fw-semibold text-success">
+                                        {{ item.totalTtc|number_format(2, ',', ' ') }} €
+                                    </span>
+                                </div>
+
+                                <div class="small text-muted">
+                                    Quantité : {{ item.quantity }}<br>
+                                    Prix HT : {{ item.unitPriceHt|number_format(2, ',', ' ') }} €<br>
+                                    TVA : {{ item.taxRate }} %
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="border-top mt-4 pt-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Sous-total HT</span>
+                            <span>{{ order.subtotalHt|number_format(2, ',', ' ') }} €</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">TVA</span>
+                            <span>{{ order.taxAmount|number_format(2, ',', ' ') }} €</span>
+                        </div>
+                        <div class="d-flex justify-content-between fw-bold fs-5 mt-3">
+                            <span>Total TTC</span>
+                            <span class="text-success">{{ order.totalTtc|number_format(2, ',', ' ') }} €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+                <a href="{{ path('app_order_index') }}" class="btn btn-outline-secondary">
+                    Retour aux commandes
+                </a>
+                <a href="{{ path('app_visitor_product_index') }}" class="btn btn-primary">
+                    Continuer mes achats
+                </a>
+            </div>
         </div>
-    </section>
+
+        <div class="col-lg-4">
+            <div class="card border-0 user-order-summary">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Résumé</h2>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Commande</span>
+                        <span>#{{ order.id }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Date</span>
+                        <span>{{ order.createdAt|date('d/m/Y') }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Articles</span>
+                        <span>{{ order.orderItems|length }}</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Sous-total HT</span>
+                        <span>{{ order.subtotalHt|number_format(2, ',', ' ') }} €</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">TVA</span>
+                        <span>{{ order.taxAmount|number_format(2, ',', ' ') }} €</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3 pt-2 fw-bold">
+                        <span>Total TTC</span>
+                        <span class="text-success">{{ order.totalTtc|number_format(2, ',', ' ') }} €</span>
+                    </div>
+
+                    <p class="text-muted small mt-4 mb-0">
+                        Conservez cette page ainsi que votre email de confirmation pour vos archives.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
