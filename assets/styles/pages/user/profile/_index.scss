@@ -1,0 +1,114 @@
+.user-profile-page {
+  .user-page-header {
+    margin-bottom: 1.75rem;
+
+    &__actions {
+      margin-top: 0.25rem;
+
+      .btn {
+        min-height: 2.75rem;
+        padding-inline: 1.1rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .user-profile-card {
+    height: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(31, 41, 55, 0.06);
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+
+    .card-body {
+      padding: 1.25rem;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #4b5563;
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    p.text-muted {
+      line-height: 1.6;
+    }
+  }
+
+  .user-profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 4.2rem;
+    padding: 0.9rem 1rem;
+    border-radius: 0.9rem;
+    background: #f8f8f7;
+    border: 1px solid rgba(31, 41, 55, 0.06);
+
+    span {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #7b7b7b;
+    }
+
+    strong {
+      display: block;
+      color: #1f2937;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+  }
+
+  .user-profile-card .btn {
+    min-height: 2.8rem;
+    border-radius: 0.7rem;
+    font-weight: 600;
+  }
+
+  .user-profile-card .btn-outline-secondary {
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #7a8b72;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .user-profile-page {
+    .user-profile-card .card-body {
+      padding: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .user-profile-page {
+    .user-page-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .user-profile-card {
+      border-radius: 0.9rem;
+
+      .card-body {
+        padding: 1rem;
+      }
+    }
+
+    .user-profile-info {
+      min-height: auto;
+      padding: 0.85rem 0.95rem;
+    }
+
+    .user-profile-card .btn {
+      width: 100%;
+    }
+  }
+}
