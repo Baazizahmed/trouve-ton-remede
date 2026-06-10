@@ -1,0 +1,123 @@
+.user-stat-card {
+  display: block;
+  height: 100%;
+  padding: 1.35rem 1.4rem;
+  background: #ffffff;
+  border: 1px solid rgba(36, 48, 36, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    height: 100%;
+  }
+
+  &__label {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #7a8176;
+  }
+
+  &__main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__value {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #243024;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.95rem;
+    flex-shrink: 0;
+    font-size: 1.15rem;
+
+    &--primary {
+      background: rgba(69, 111, 67, 0.12);
+      color: #456f43;
+    }
+
+    &--danger {
+      background: rgba(200, 93, 84, 0.12);
+      color: #c85d54;
+    }
+
+    &--info {
+      background: rgba(79, 140, 163, 0.12);
+      color: #4f8ca3;
+    }
+
+    &--success {
+      background: rgba(78, 138, 70, 0.12);
+      color: #4e8a46;
+    }
+
+    &--warning {
+      background: rgba(201, 150, 26, 0.14);
+      color: #b07d13;
+    }
+  }
+
+  &__description {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: #7a8176;
+  }
+
+  &--link {
+    &:hover,
+    &:focus {
+      transform: translateY(-2px);
+      color: inherit;
+      border-color: rgba(69, 111, 67, 0.18);
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+      text-decoration: none;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .user-stat-card {
+    padding: 1.1rem 1.1rem;
+
+    &__label {
+      font-size: 0.88rem;
+    }
+
+    &__value {
+      font-size: 1.75rem;
+    }
+
+    &__icon {
+      width: 2.7rem;
+      height: 2.7rem;
+      border-radius: 0.85rem;
+      font-size: 1rem;
+    }
+
+    &__description {
+      font-size: 0.84rem;
+    }
+  }
+}

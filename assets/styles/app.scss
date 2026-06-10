@@ -29,6 +29,9 @@ $border-color: $border;
 @import "./components/admin/table_card";
 @import "./components/admin/stat_card";
 @import "./components/admin/form_card";
+@import "./components/user/page_header";
+@import "./components/user/stat_card";
+@import "./components/user/quick_action_card";
 
 
 
@@ -51,6 +54,7 @@ $border-color: $border;
 @import "./pages/user/cart/index";
 @import "./pages/user/order/index";
 @import "./pages/user/order/show";
+@import "./pages/user/home/index";
 
 
 

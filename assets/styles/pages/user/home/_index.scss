@@ -1,0 +1,80 @@
+.user-dashboard {
+  .alert {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  }
+
+  .card {
+    border-radius: 1rem;
+  }
+
+  .user-dashboard-stats .card,
+  .user-dashboard-shortcuts .card,
+  .user-dashboard-orders.card {
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  }
+
+  .user-dashboard-stats .card-body {
+    padding: 1.5rem;
+  }
+
+  .user-dashboard-stats h2 {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .user-dashboard-shortcuts .card {
+    display: flex;
+  }
+
+  .user-dashboard-shortcuts .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem;
+  }
+
+  .user-dashboard-shortcuts .btn {
+    margin-top: auto;
+  }
+
+  .user-dashboard-orders {
+    overflow: hidden;
+  }
+
+  .user-dashboard-orders .card-body {
+    padding: 1.5rem;
+  }
+
+  .user-dashboard-orders .table {
+    margin-bottom: 0;
+  }
+
+  .user-dashboard-orders .badge {
+    border-radius: 999px;
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .user-dashboard {
+    .container {
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+
+    .user-dashboard-stats .card-body,
+    .user-dashboard-shortcuts .card-body,
+    .user-dashboard-orders .card-body {
+      padding: 1.15rem;
+    }
+
+    .user-dashboard-orders .table th:nth-child(2),
+    .user-dashboard-orders .table td:nth-child(2) {
+      display: none;
+    }
+  }
+}
