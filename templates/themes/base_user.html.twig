@@ -1,160 +1,143 @@
 <!DOCTYPE html>
 <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<head>
+        <title>{% block title %}{% endblock %} - Espace utilisateur | Oumi</title>
+        <meta name="description" content="{% block description %}{% endblock %}">
+        <meta name="robots" content="index,follow">
+        <meta name="author" content="Oumi">
+        <meta name="theme-color" content="#456f43">
 
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-		<title>
-			{% block title %}{% endblock %}
-			- Espace utilisateur | Oumi</title>
-		<meta name="description" content="{% block description %}{% endblock %}">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png">
 
-		<meta name="robots" content="index,follow">
-		<meta
-		name="author" content="Oumi">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"/>
 
-		{# Google Fonts #}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
 
-		<link
-		href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
 
-		{# Favicon #}
-		<link rel="icon" type="image/png" href="/favicon-96x96.png">
+    <body class="body-user">
+        {% set pathClient = app.request.pathInfo %}
+        {% set cartCount = cartCounter.getItemCount() %}
 
-		<meta
-		name="theme-color" content="#2f7d32">
+        <nav class="navbar navbar-expand-lg user-topbar">
+            <div class="container user-topbar__inner">
+                <a class="navbar-brand user-topbar__brand" href="{{ path('app_user_home') }}">
+                    <span class="user-topbar__brand-icon">
+                        <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+                    </span>
+                    <span class="user-topbar__brand-text">
+                        TrouveTonRemede
+                    </span>
+                </a>
 
-		{# Font Awesome #}
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+                <button class="navbar-toggler user-topbar__toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#userNavbarNav"
+                        aria-controls="userNavbarNav"
+                        aria-expanded="false"
+                        aria-label="Ouvrir la navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-		{% endblock %}
+                <div class="collapse navbar-collapse" id="userNavbarNav">
+                    <ul class="navbar-nav user-topbar__nav ms-auto align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link {{ pathClient == path('app_user_home') ? 'active' : '' }}"
+                               href="{{ path('app_user_home') }}">
+                                <i class="fa-solid fa-house me-2" aria-hidden="true"></i>
+                                Accueil
+                            </a>
+                        </li>
 
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
+                        <li class="nav-item">
+                            <a class="nav-link {{ pathClient == path('app_user_profile_index') ? 'active' : '' }}"
+                               href="{{ path('app_user_profile_index') }}">
+                                <i class="fa-solid fa-user me-2" aria-hidden="true"></i>
+                                Mon profil
+                            </a>
+                        </li>
 
-	</head>
+                        <li class="nav-item">
+                            <a class="nav-link {{ pathClient == path('app_cart_index') ? 'active' : '' }}"
+                               href="{{ path('app_cart_index') }}">
+                                <i class="fa-solid fa-basket-shopping me-2" aria-hidden="true"></i>
+                                Panier
+                                {% if cartCount > 0 %}
+                                    <span class="user-topbar__count-badge">{{ cartCount }}</span>
+                                {% endif %}
+                            </a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a class="nav-link {{ pathClient == path('app_order_index') ? 'active' : '' }}"
+                               href="{{ path('app_order_index') }}">
+                                <i class="fa-solid fa-box me-2" aria-hidden="true"></i>
+                                Mes commandes
+                            </a>
+                        </li>
 
-	<body class="body-user">
+                        <li class="nav-item user-topbar__divider d-none d-lg-block" aria-hidden="true"></li>
 
-		{% set pathClient = app.request.pathInfo %}
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item ms-lg-2">
+                                <a class="btn btn-sm user-topbar__btn user-topbar__btn--soft"
+                                   href="{{ path('app_admin_home') }}">
+                                    <i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>
+                                    Admin
+                                </a>
+                            </li>
+                        {% endif %}
 
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-sm user-topbar__btn user-topbar__btn--ghost"
+                               href="{{ path('app_visitor_welcome') }}">
+                                <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>
+                                Retour au site
+                            </a>
+                        </li>
 
-		{# NAVBAR #}
-		<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-sm user-topbar__btn user-topbar__btn--danger"
+                               href="{{ path('app_logout') }}">
+                                <i class="fa-solid fa-right-from-bracket me-2" aria-hidden="true"></i>
+                                Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-			<div class="container">
+        <main class="user-layout__main py-4">
+            {% block main %}{% endblock %}
+        </main>
 
-				<a class="navbar-brand fw-bold" href="{{ path('app_visitor_welcome') }}">
-					🌿 TrouveTonRemede
-				</a>
+        <footer class="user-footer">
+            <div class="container user-footer__inner text-center">
+                <p class="user-footer__title mb-1">
+                    Espace utilisateur TrouveTonRemede
+                </p>
 
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-
-					<span class="navbar-toggler-icon"></span>
-
-				</button>
-
-
-				<div class="collapse navbar-collapse" id="navbarNav">
-
-					<ul class="navbar-nav ms-auto align-items-lg-center">
-
-						<li class="nav-item">
-							<a class="nav-link {{ pathClient == path('app_user_home') ? 'active' : '' }}" href="{{ path('app_user_home') }}">
-								🏠 Accueil
-							</a>
-						</li>
-
-
-						<li class="nav-item">
-							<a class="nav-link {{ pathClient == path('app_user_profile_index') ? 'active' : '' }}" href="{{ path('app_user_profile_index') }}">
-								👤 Mon profil
-							</a>
-						</li>
-
-
-						<li class="nav-item">
-							<a class="nav-link {{ app.request.pathInfo == path('app_cart_index') ? 'active' : '' }}" href="{{ path('app_cart_index') }}">
-								🛒 Panier
-								{% set count = cartCounter.getItemCount() %}
-								{% if count > 0 %}
-									<span class="badge text-bg-primary ms-1">{{ count }}</span>
-								{% endif %}
-							</a>
-						</li>
-
-
-						<li class="nav-item">
-							<a class="nav-link {{ pathClient == path('app_order_index') ? 'active' : '' }}" href="{{ path('app_order_index') }}">
-								📦 Mes commandes
-							</a>
-						</li>
-
-
-						{% if app.user and is_granted('ROLE_ADMIN') %}
-							<li class="nav-item ms-lg-2">
-								<a class="btn btn-light btn-sm" href="{{ path('app_admin_home') }}">
-									Admin
-								</a>
-							</li>
-						{% endif %}
-
-
-						<li class="nav-item ms-lg-2">
-							<a class="btn btn-outline-light btn-sm" href="{{ path('app_visitor_welcome') }}">
-								← Retour au site
-							</a>
-						</li>
-
-
-						<li class="nav-item ms-lg-2">
-							<a class="btn btn-danger btn-sm" href="{{ path('app_logout') }}">
-								Déconnexion
-							</a>
-						</li>
-
-					</ul>
-
-				</div>
-
-			</div>
-
-		</nav>
-
-
-		{# MAIN #}
-		<main class="py-4"> {% block main %}{% endblock %}
-
-			</main>
-
-
-			{# FOOTER #}
-			<footer class="bg-light py-3 mt-5">
-
-				<div class="container text-center">
-
-					<p class="mb-1">
-						🌿 Espace utilisateur Oumi
-					</p>
-
-					<small class="text-muted">
-						©
-						{{ "now"|date("Y") }}
-						— Projet DWWM
-					</small>
-
-				</div>
-
-			</footer>
-
-
-		</body>
-	</html>
+                <small class="user-footer__meta">
+                    © {{ "now"|date("Y") }} — Herboristerie & boutique bien-être
+                </small>
+            </div>
+        </footer>
+    </body>
+</html>

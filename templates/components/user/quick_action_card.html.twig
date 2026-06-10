@@ -1,0 +1,30 @@
+{% set actionTitle = title|default('') %}
+{% set actionText = text|default(null) %}
+{% set actionHref = href|default('#') %}
+{% set actionLabel = action_label|default('Ouvrir') %}
+{% set actionIcon = icon|default('fa-solid fa-arrow-right') %}
+{% set actionVariant = variant|default('primary') %}
+{% set actionButtonStyle = button_style|default('solid') %}
+
+{% set actionCardClass = 'user-quick-action-card user-quick-action-card--' ~ actionVariant %}
+{% set actionButtonClass = 'user-quick-action-card__btn user-quick-action-card__btn--' ~ actionButtonStyle %}
+
+<div class="{{ actionCardClass }}">
+    <div class="user-quick-action-card__icon">
+        <i class="{{ actionIcon }}" aria-hidden="true"></i>
+    </div>
+
+    <div class="user-quick-action-card__body">
+        <h3 class="user-quick-action-card__title">{{ actionTitle }}</h3>
+
+        {% if actionText %}
+            <p class="user-quick-action-card__text">{{ actionText }}</p>
+        {% endif %}
+    </div>
+
+    <div class="user-quick-action-card__footer">
+        <a href="{{ actionHref }}" class="{{ actionButtonClass }}">
+            {{ actionLabel }}
+        </a>
+    </div>
+</div>

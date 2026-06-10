@@ -1,0 +1,41 @@
+{% set statLabel = label|default('') %}
+{% set statValue = value|default(0) %}
+{% set statIcon = icon|default('fa-solid fa-chart-column') %}
+{% set statDescription = description|default(null) %}
+{% set statHref = href|default(null) %}
+{% set statIconVariant = icon_variant|default('primary') %}
+
+{% set statCardClass = 'user-stat-card' %}
+{% if statHref %}
+    {% set statCardClass = statCardClass ~ ' user-stat-card--link' %}
+{% endif %}
+
+{% set statIconClass = 'user-stat-card__icon user-stat-card__icon--' ~ statIconVariant %}
+
+{% if statHref %}
+    <a href="{{ statHref }}" class="{{ statCardClass }}">
+{% else %}
+    <div class="{{ statCardClass }}">
+{% endif %}
+
+    <div class="user-stat-card__content">
+        <p class="user-stat-card__label">{{ statLabel }}</p>
+
+        <div class="user-stat-card__main">
+            <h3 class="user-stat-card__value">{{ statValue }}</h3>
+
+            <span class="{{ statIconClass }}">
+                <i class="{{ statIcon }}" aria-hidden="true"></i>
+            </span>
+        </div>
+
+        {% if statDescription %}
+            <p class="user-stat-card__description">{{ statDescription }}</p>
+        {% endif %}
+    </div>
+
+{% if statHref %}
+    </a>
+{% else %}
+    </div>
+{% endif %}
