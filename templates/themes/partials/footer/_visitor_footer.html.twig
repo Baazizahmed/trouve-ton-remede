@@ -1,0 +1,85 @@
+{% set setting = settingProvider.getSetting() %}
+
+{% set footerTop %}
+    <div class="site-footer__grid">
+        <div class="site-footer__column">
+            <h2 class="site-footer__heading">Boutique</h2>
+            <ul class="site-footer__links">
+                <li><a href="{{ path('app_visitor_product_index') }}">Produits</a></li>
+                <li><a href="{{ path('app_cart_index') }}">Panier</a></li>
+                <li><a href="{{ path('app_order_index') }}">Mes commandes</a></li>
+            </ul>
+        </div>
+
+        <div class="site-footer__column">
+            <h2 class="site-footer__heading">Conseils & aide</h2>
+            <ul class="site-footer__links">
+                <li><a href="{{ path('app_visitor_blog_index') }}">Blog</a></li>
+                <li><a href="{{ path('app_visitor_contact_create') }}">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="site-footer__column">
+            <h2 class="site-footer__heading">Contact</h2>
+            <ul class="site-footer__links site-footer__contact-list">
+                {% if setting and setting.phone is not empty %}
+                    <li>
+                        <a
+                            class="site-footer__contact-link"
+                            href="https://wa.me/{{ setting.phone|replace({
+                                ' ': '',
+                                '.': '',
+                                '-': '',
+                                '(': '',
+                                ')': '',
+                                '+': ''
+                            }) }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <i class="fa-brands fa-whatsapp site-footer__icon" aria-hidden="true"></i>
+                            <span>WhatsApp</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if setting and setting.email is not empty %}
+                    <li>
+                        <a
+                            class="site-footer__contact-link"
+                            href="mailto:{{ setting.email }}"
+                        >
+                            <i class="fa-solid fa-envelope site-footer__icon" aria-hidden="true"></i>
+                            <span>{{ setting.email }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if setting and setting.phone is not empty %}
+                    <li>
+                        <a
+                            class="site-footer__contact-link"
+                            href="tel:{{ setting.phone|replace({
+                                ' ': '',
+                                '.': '',
+                                '-': '',
+                                '(': '',
+                                ')': ''
+                            }) }}"
+                        >
+                            <i class="fa-solid fa-phone site-footer__icon" aria-hidden="true"></i>
+                            <span>{{ setting.phone }}</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endset %}
+
+{{ include('themes/partials/footer/_footer_base.html.twig', {
+    footerClass: 'site-footer--visitor',
+    footerTop: footerTop,
+    footerBrand: 'TrouveTonRemede — Bien-être par les plantes',
+    footerMeta: '© ' ~ "now"|date("Y") ~ ' TrouveTonRemede — Tous droits réservés'
+}) }}

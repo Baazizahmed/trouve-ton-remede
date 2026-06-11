@@ -128,17 +128,7 @@
         <main class="user-layout__main py-4">
             {% block main %}{% endblock %}
         </main>
-
-        <footer class="user-footer">
-            <div class="container user-footer__inner text-center">
-                <p class="user-footer__title mb-1">
-                    Espace utilisateur TrouveTonRemede
-                </p>
-
-                <small class="user-footer__meta">
-                    © {{ "now"|date("Y") }} — Herboristerie & boutique bien-être
-                </small>
-            </div>
-        </footer>
+        {# FOOTER #}
+        {{ include('themes/partials/footer/_user_footer.html.twig') }}
     </body>
 </html>

@@ -3,6 +3,7 @@ twig:
 
     globals:
         cartCounter: '@App\Service\CartCounter'
+        settingProvider: '@App\Service\TwigSettingProvider'
 
 when@test:
     twig:
