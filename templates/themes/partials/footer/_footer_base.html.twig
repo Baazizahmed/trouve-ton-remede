@@ -1,0 +1,25 @@
+<footer class="site-footer {{ footerClass|default('') }}">
+    <div class="container site-footer__inner">
+        {% if footerTop is defined and footerTop %}
+            <div class="site-footer__top">
+                {{ footerTop|raw }}
+            </div>
+        {% endif %}
+
+        <div class="site-footer__bottom">
+            <div class="site-footer__bottom-inner">
+                {% if footerBrand is defined and footerBrand %}
+                    <p class="site-footer__brand">
+                        {{ footerBrand }}
+                    </p>
+                {% endif %}
+
+                {% if footerMeta is defined and footerMeta %}
+                    <p class="site-footer__meta">
+                        {{ footerMeta }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>

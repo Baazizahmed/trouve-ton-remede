@@ -1,0 +1,28 @@
+{% set footerTop %}
+    <div class="site-footer__grid site-footer__grid--admin">
+        <div class="site-footer__column">
+            <h2 class="site-footer__heading">Administration</h2>
+            <ul class="site-footer__links site-footer__links--inline">
+                <li>
+                    <a class="site-footer__contact-link" href="{{ path('app_visitor_welcome') }}">
+                        <i class="fa-solid fa-arrow-left site-footer__icon" aria-hidden="true"></i>
+                        <span>Retour au site</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="site-footer__contact-link" href="{{ path('app_user_home') }}">
+                        <i class="fa-solid fa-user site-footer__icon" aria-hidden="true"></i>
+                        <span>Espace utilisateur</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endset %}
+
+{{ include('themes/partials/footer/_footer_base.html.twig', {
+    footerClass: 'site-footer--admin',
+    footerTop: footerTop,
+    footerBrand: 'Administration Oumi',
+    footerMeta: '© ' ~ "now"|date("Y") ~ ' — Back-office TrouveTonRemede'
+}) }}
