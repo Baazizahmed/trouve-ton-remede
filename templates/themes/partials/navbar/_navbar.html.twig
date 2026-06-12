@@ -1,0 +1,8 @@
+{# templates/themes/partials/navbar/_navbar.html.twig #}
+{% if is_granted('ROLE_ADMIN') %}
+    {% include 'themes/partials/navbar/_admin_navbar.html.twig' %}
+{% elseif app.user %}
+    {% include 'themes/partials/navbar/_user_navbar.html.twig' %}
+{% else %}
+    {% include 'themes/partials/navbar/_visitor_navbar.html.twig' %}
+{% endif %}

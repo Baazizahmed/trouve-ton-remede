@@ -5,7 +5,11 @@
   color: $texte-principal;
 
   &__inner {
-    padding: 3.25rem 0 1.25rem;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 3.25rem 1rem 1.25rem;
+    box-sizing: border-box;
   }
 
   &__top {
@@ -163,7 +167,7 @@
     background: $surface-muted;
 
     .site-footer__inner {
-      padding: 1rem 0 0.85rem;
+      padding: 1rem 1rem 0.85rem;
     }
 
     .site-footer__top {
@@ -190,7 +194,7 @@
 @media (max-width: 991.98px) {
   .site-footer {
     &__inner {
-      padding: 2.75rem 0 1.15rem;
+      padding: 2.75rem 1rem 1.15rem;
     }
 
     &__grid {
@@ -207,7 +211,7 @@
 @media (max-width: 767.98px) {
   .site-footer {
     &__inner {
-      padding: 2rem 0 1rem;
+      padding: 2rem 1rem 1rem;
     }
 
     &__top {
@@ -254,6 +258,15 @@
     &__meta,
     &__brand {
       font-size: 0.95rem;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .site-footer {
+    &__inner {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
     }
   }
 }

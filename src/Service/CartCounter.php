@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CartCounter
@@ -17,8 +18,9 @@ class CartCounter
         $token = $this->tokenStorage->getToken();
         $user = $token ? $token->getUser() : null;
 
-        // getOrCreateCart() renvoie toujours un Cart, jamais null
-        $cart = $this->cartService->getOrCreateCart($user);
+        $cart = $this->cartService->getOrCreateCart(
+            $user instanceof User ? $user : null
+        );
 
         $count = 0;
 
