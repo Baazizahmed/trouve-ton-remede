@@ -1,0 +1,74 @@
+{# templates/themes/partials/navbar/_navbar_base.html.twig #}
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set hasCartAction = nav_actions|filter(action => action.route == 'app_cart_index')|length > 0 %}
+{% set cartItemCount = hasCartAction ? cartCounter.getItemCount() : 0 %}
+
+<nav class="ttr-navbar {{ navbar_class|default('') }}" data-navbar>
+    <div class="ttr-navbar__container">
+        <a href="{{ path(home_route) }}" class="ttr-navbar__brand">
+            <span class="ttr-navbar__logo" aria-hidden="true">TR</span>
+            <span class="ttr-navbar__brand-text">TrouveTonRemede</span>
+        </a>
+
+        <button
+            class="ttr-navbar__toggle"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="ttr-navbar-menu"
+            data-navbar-toggle
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="ttr-navbar__panel" id="ttr-navbar-menu" data-navbar-menu>
+            <div class="ttr-navbar__nav">
+                {% for link in nav_links %}
+                    {% set isActive = false %}
+
+                    {% if link.active_prefix is defined and currentRoute starts with link.active_prefix %}
+                        {% set isActive = true %}
+                    {% elseif link.route is defined and currentRoute == link.route %}
+                        {% set isActive = true %}
+                    {% endif %}
+
+                    <a
+                        href="{{ path(link.route) }}"
+                        class="ttr-navbar__link {{ isActive ? 'is-active' : '' }}"
+                    >
+                        {{ link.label }}
+                    </a>
+                {% endfor %}
+            </div>
+
+            <div class="ttr-navbar__actions">
+                {% for action in nav_actions %}
+                    {% set isActionActive = false %}
+
+                    {% if action.active_prefix is defined and currentRoute starts with action.active_prefix %}
+                        {% set isActionActive = true %}
+                    {% elseif action.route is defined and currentRoute == action.route %}
+                        {% set isActionActive = true %}
+                    {% endif %}
+
+                    <a
+                        href="{{ path(action.route) }}"
+                        class="ttr-navbar__action {{ action.class|default('') }} {{ isActionActive ? 'is-active' : '' }}"
+                    >
+                        {% if action.icon is defined %}
+                            <i class="{{ action.icon }}" aria-hidden="true"></i>
+                        {% endif %}
+
+                        <span>{{ action.label }}</span>
+
+                        {% if action.route == 'app_cart_index' and cartItemCount > 0 %}
+                            <span class="ttr-navbar__badge">{{ cartItemCount }}</span>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</nav>

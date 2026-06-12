@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Repository\CartItemRepository;
 use App\Repository\CartRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,44 +22,52 @@ class CartService
     ) {
     }
 
-    // Récupère ou crée un panier pour l'utilisateur ou la session
-    public function getOrCreateCart(?UserInterface $user): Cart
+    public function findOpenCart(?UserInterface $user): ?Cart
     {
         $session = $this->requestStack->getSession();
         $sessionId = $session->getId();
 
-        if ($user) {
-            $cart = $this->cartRepository->findOneBy([
+        if ($user instanceof User) {
+            return $this->cartRepository->findOneBy([
                 'user' => $user,
                 'status' => 'OPEN',
             ]);
+        }
+
+        return $this->cartRepository->findOneBy([
+            'sessionId' => $sessionId,
+            'status' => 'OPEN',
+        ]);
+    }
+
+    public function getOrCreateCart(?UserInterface $user): Cart
+    {
+        $cart = $this->findOpenCart($user);
+
+        if ($cart) {
+            return $cart;
+        }
+
+        $session = $this->requestStack->getSession();
+        $sessionId = $session->getId();
+
+        $cart = new Cart();
+        $cart->setStatus('OPEN');
+        $cart->setCreatedAt(new \DateTimeImmutable());
+        $cart->setUpdatedAt(new \DateTimeImmutable());
+
+        if ($user instanceof User) {
+            $cart->setUser($user);
         } else {
-            $cart = $this->cartRepository->findOneBy([
-                'sessionId' => $sessionId,
-                'status' => 'OPEN',
-            ]);
+            $cart->setSessionId($sessionId);
         }
 
-        if (!$cart) {
-            $cart = new Cart();
-            $cart->setStatus('OPEN');
-            $cart->setCreatedAt(new \DateTimeImmutable());
-            $cart->setUpdatedAt(new \DateTimeImmutable());
-
-            if ($user instanceof \App\Entity\User) {
-                $cart->setUser($user);
-            } else {
-                $cart->setSessionId($sessionId);
-            }
-
-            $this->em->persist($cart);
-            $this->em->flush();
-        }
+        $this->em->persist($cart);
+        $this->em->flush();
 
         return $cart;
     }
 
-    // Ajouter un produit au panier
     public function addProduct(Cart $cart, Product $product, int $quantity = 1): void
     {
         $cartItem = $this->cartItemRepository->findOneBy([
@@ -81,7 +90,6 @@ class CartService
         $this->em->flush();
     }
 
-    // Supprimer un produit du panier
     public function removeProduct(Cart $cart, CartItem $cartItem): void
     {
         $cart->removeCartItem($cartItem);
@@ -89,7 +97,6 @@ class CartService
         $this->em->flush();
     }
 
-    // Modifier la quantité d'un produit
     public function updateQuantity(CartItem $cartItem, int $quantity): void
     {
         if ($quantity <= 0) {
@@ -101,7 +108,6 @@ class CartService
         $this->em->flush();
     }
 
-    // Calculer le total du panier
     public function getTotal(Cart $cart): float
     {
         $total = 0;
@@ -113,17 +119,13 @@ class CartService
         return $total;
     }
 
-    // Vider le panier après validation de la commande
     public function clearCart(Cart $cart): void
     {
         foreach ($cart->getCartItems() as $item) {
             $this->em->remove($item);
         }
 
-        // Vide la collection côté objet
         $cart->getCartItems()->clear();
-
-        // Marque le panier comme commandé (plus considéré comme OPEN)
         $cart->setStatus('ORDERED');
         $cart->setUpdatedAt(new \DateTimeImmutable());
 

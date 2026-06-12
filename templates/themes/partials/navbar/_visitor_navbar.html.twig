@@ -1,0 +1,40 @@
+{# templates/themes/partials/navbar/_visitor_navbar.html.twig #}
+{% set nav_links = [
+    {
+        label: 'Produits',
+        route: 'app_visitor_product_index',
+        active_prefix: 'app_visitor_product_'
+    },
+    {
+        label: 'Blog',
+        route: 'app_visitor_blog_index',
+        active_prefix: 'app_visitor_blog_'
+    },
+    {
+        label: 'Contact',
+        route: 'app_visitor_contact_create',
+        active_prefix: 'app_visitor_contact_'
+    }
+] %}
+
+{% set nav_actions = [
+    {
+        label: 'Connexion',
+        route: 'app_login',
+        class: 'site-navbar__action--ghost'
+    },
+    {
+        label: 'Panier',
+        route: 'app_cart_index',
+        class: 'site-navbar__action--cart',
+        icon: 'fa-solid fa-cart-shopping',
+        active_prefix: 'app_cart_'
+    }
+] %}
+
+{% include 'themes/partials/navbar/_navbar_base.html.twig' with {
+    home_route: 'app_visitor_welcome',
+    navbar_class: 'site-navbar--visitor',
+    nav_links: nav_links,
+    nav_actions: nav_actions
+} %}

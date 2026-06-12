@@ -23,5 +23,8 @@
         "dev": "npx encore dev",
         "watch": "npx encore dev --watch",
         "build": "npx encore production --progress"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^7.2.0"
     }
 }

@@ -1,0 +1,21 @@
+{# templates/themes/partials/navbar/_admin_navbar.html.twig #}
+{% set nav_links = [
+    { label: 'Dashboard', route: 'app_admin_home', active_prefix: 'app_admin_home' },
+    { label: 'Produits', route: 'app_admin_product_index', active_prefix: 'app_admin_product_' },
+    { label: 'Commandes', route: 'app_admin_order_index', active_prefix: 'app_admin_order_' },
+    { label: 'Utilisateurs', route: 'app_admin_user_index', active_prefix: 'app_admin_user_' },
+    { label: 'Articles', route: 'app_admin_post_index', active_prefix: 'app_admin_post_' }
+] %}
+
+{% set nav_actions = [
+    { label: 'boutique', route: 'app_visitor_product_index', class: 'ttr-navbar__action--ghost', icon: 'fa-solid fa-store' },
+    { label: 'blog', route: 'app_visitor_blog_index', class: 'ttr-navbar__action--ghost', icon: 'fa-solid fa-newspaper' },
+    { label: 'Déconnexion', route: 'app_logout', class: 'ttr-navbar__action--primary', icon: 'fa-solid fa-right-from-bracket' }
+] %}
+
+{% include 'themes/partials/navbar/_navbar_base.html.twig' with {
+    home_route: 'app_admin_home',
+    navbar_class: 'ttr-navbar--admin',
+    nav_links: nav_links,
+    nav_actions: nav_actions
+} %}
