@@ -1,212 +1,201 @@
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{% block title %}{% endblock %} - Admin | Oumi</title>
-    <meta name="description" content="{% block description %}{% endblock %}">
-    <meta name="author" content="Oumi Alshifa">
+		<title>
+			{% block title %}{% endblock %}
+			- Admin | Oumi</title>
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<meta name="author" content="Oumi Alshifa">
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png">
+        {# Favicon #}
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+		<link rel="shortcut icon" href="/favicon.ico"/>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+		<link rel="manifest" href="/site.webmanifest"/>
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          crossorigin="anonymous"
-          referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-    {% block dataTables %}{% endblock %}
+		{% block dataTables %}{% endblock %}
 
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-</head>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
 
-<body class="admin-layout">
-    {% set currentRoute = app.request.attributes.get('_route') %}
+	<body class="admin-layout">
+		{% set currentRoute = app.request.attributes.get('_route') %}
 
-    <header class="admin-topbar sticky-top">
-        <div class="container-fluid admin-topbar__inner">
-            <div class="admin-topbar__start">
-                <a class="admin-topbar__brand" href="{{ path('app_admin_home') }}">
-                    <span class="admin-topbar__brand-icon">
-                        <i class="fa-solid fa-gears" aria-hidden="true"></i>
-                    </span>
-                    <span class="admin-topbar__brand-text">Admin Oumi</span>
-                </a>
-            </div>
+		<header class="admin-topbar sticky-top">
+			<div class="container-fluid admin-topbar__inner">
+				<div class="admin-topbar__start">
+					<a class="admin-topbar__brand" href="{{ path('app_admin_home') }}">
+						<span class="admin-topbar__brand-icon">
+							<i class="fa-solid fa-gears" aria-hidden="true"></i>
+						</span>
+						<span class="admin-topbar__brand-text">Admin Oumi</span>
+					</a>
+				</div>
 
-            <div class="admin-topbar__center">
-                {% block admin_topbar_context %}
-                    <span class="admin-topbar__context">Administration</span>
-                {% endblock %}
-            </div>
+				<div class="admin-topbar__center">
+					{% block admin_topbar_context %}
+						<span class="admin-topbar__context">Administration</span>
+					{% endblock %}
+				</div>
 
-            <div class="admin-topbar__actions">
-                <a class="btn btn-sm admin-topbar__btn admin-topbar__btn--light"
-                   href="{{ path('app_visitor_welcome') }}">
-                    Retour au site
-                </a>
+				<div class="admin-topbar__actions">
+					<a class="btn btn-sm admin-topbar__btn admin-topbar__btn--light" href="{{ path('app_visitor_welcome') }}">
+						Retour au site
+					</a>
 
-                <a class="btn btn-sm admin-topbar__btn admin-topbar__btn--danger"
-                   href="{{ path('app_logout') }}">
-                    Déconnexion
-                </a>
-            </div>
-        </div>
-    </header>
+					<a class="btn btn-sm admin-topbar__btn admin-topbar__btn--danger" href="{{ path('app_logout') }}">
+						Déconnexion
+					</a>
+				</div>
+			</div>
+		</header>
 
-    <div class="container-fluid">
-        <div class="row admin-shell">
-            <nav class="col-md-3 col-lg-2 admin-sidebar" aria-label="Navigation d’administration">
-                <div class="admin-sidebar__inner">
-                    <ul class="nav flex-column admin-sidebar__nav">
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute == 'app_admin_home' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_home') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-house" aria-hidden="true"></i>
-                                </span>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
+		<div class="container-fluid">
+			<div class="row admin-shell">
+				<nav class="col-md-3 col-lg-2 admin-sidebar" aria-label="Navigation d’administration">
+					<div class="admin-sidebar__inner">
+						<ul class="nav flex-column admin-sidebar__nav">
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute == 'app_admin_home' ? 'is-active' : '' }}" href="{{ path('app_admin_home') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-house" aria-hidden="true"></i>
+									</span>
+									<span>Dashboard</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_category_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_category_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-folder" aria-hidden="true"></i>
-                                </span>
-                                <span>Catégories</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_category_' ? 'is-active' : '' }}" href="{{ path('app_admin_category_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-folder" aria-hidden="true"></i>
+									</span>
+									<span>Catégories</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_post_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_post_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-feather" aria-hidden="true"></i>
-                                </span>
-                                <span>Articles</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_post_' ? 'is-active' : '' }}" href="{{ path('app_admin_post_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-feather" aria-hidden="true"></i>
+									</span>
+									<span>Articles</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_tag_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_tag_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-tags" aria-hidden="true"></i>
-                                </span>
-                                <span>Tags</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_tag_' ? 'is-active' : '' }}" href="{{ path('app_admin_tag_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-tags" aria-hidden="true"></i>
+									</span>
+									<span>Tags</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_contact_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_contact_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                                </span>
-                                <span>Contacts</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_contact_' ? 'is-active' : '' }}" href="{{ path('app_admin_contact_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-envelope" aria-hidden="true"></i>
+									</span>
+									<span>Contacts</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_user_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_user_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-users" aria-hidden="true"></i>
-                                </span>
-                                <span>Utilisateurs</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_user_' ? 'is-active' : '' }}" href="{{ path('app_admin_user_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-users" aria-hidden="true"></i>
+									</span>
+									<span>Utilisateurs</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_comment_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_comment_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-comments" aria-hidden="true"></i>
-                                </span>
-                                <span>Commentaires</span>
-                            </a>
-                        </li>
-                    </ul>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_comment_' ? 'is-active' : '' }}" href="{{ path('app_admin_comment_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-comments" aria-hidden="true"></i>
+									</span>
+									<span>Commentaires</span>
+								</a>
+							</li>
+						</ul>
 
-                    <div class="admin-sidebar__section-title">
-                        <span class="admin-sidebar__section-line"></span>
-                        <span>Boutique</span>
-                    </div>
+						<div class="admin-sidebar__section-title">
+							<span class="admin-sidebar__section-line"></span>
+							<span>Boutique</span>
+						</div>
 
-                    <ul class="nav flex-column admin-sidebar__nav">
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_product_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_product_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-leaf" aria-hidden="true"></i>
-                                </span>
-                                <span>Produits</span>
-                            </a>
-                        </li>
+						<ul class="nav flex-column admin-sidebar__nav">
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_product_' ? 'is-active' : '' }}" href="{{ path('app_admin_product_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-leaf" aria-hidden="true"></i>
+									</span>
+									<span>Produits</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_order_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_order_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
-                                </span>
-                                <span>Commandes</span>
-                            </a>
-                        </li>
-                    </ul>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_order_' ? 'is-active' : '' }}" href="{{ path('app_admin_order_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+									</span>
+									<span>Commandes</span>
+								</a>
+							</li>
+						</ul>
 
-                    <div class="admin-sidebar__divider"></div>
+						<div class="admin-sidebar__divider"></div>
 
-                    <ul class="nav flex-column admin-sidebar__nav">
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_profile_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_profile_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-user" aria-hidden="true"></i>
-                                </span>
-                                <span>Mon profil</span>
-                            </a>
-                        </li>
+						<ul class="nav flex-column admin-sidebar__nav">
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_profile_' ? 'is-active' : '' }}" href="{{ path('app_admin_profile_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-user" aria-hidden="true"></i>
+									</span>
+									<span>Mon profil</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_setting_' ? 'is-active' : '' }}"
-                               href="{{ path('app_admin_setting_index') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-gear" aria-hidden="true"></i>
-                                </span>
-                                <span>Paramètres</span>
-                            </a>
-                        </li>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_admin_setting_' ? 'is-active' : '' }}" href="{{ path('app_admin_setting_index') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-gear" aria-hidden="true"></i>
+									</span>
+									<span>Paramètres</span>
+								</a>
+							</li>
 
-                        <li class="nav-item">
-                            <a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_user_' ? 'is-active' : '' }}"
-                               href="{{ path('app_user_home') }}">
-                                <span class="admin-sidebar__icon">
-                                    <i class="fa-solid fa-house-user" aria-hidden="true"></i>
-                                </span>
-                                <span>Espace utilisateur</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+							<li class="nav-item">
+								<a class="nav-link admin-sidebar__link {{ currentRoute starts with 'app_user_' ? 'is-active' : '' }}" href="{{ path('app_user_home') }}">
+									<span class="admin-sidebar__icon">
+										<i class="fa-solid fa-house-user" aria-hidden="true"></i>
+									</span>
+									<span>Espace utilisateur</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 admin-main-content">
-                {% block main %}{% endblock %}
-            </main>
-        </div>
-    </div>
-    {# FOOTER #}
-    {{ include('themes/partials/footer/_admin_footer.html.twig') }}
+				<main class="col-md-9 ms-sm-auto col-lg-10 admin-main-content"> {% block main %}{% endblock %}
+					</main>
+				</div>
+			</div>
+			{# FOOTER #}
+			{{ include('themes/partials/footer/_admin_footer.html.twig') }}
 
-    {% block jQuery %}{% endblock %}
-</body>
-</html>
+			{% block jQuery %}{% endblock %}
+		</body>
+	</html>

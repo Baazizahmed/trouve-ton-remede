@@ -1,53 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>
-            {% block title %}{% endblock %}
-            - TrouveTonRemede
-        </title>
-        <meta name="description" content="{% block description %}{% endblock %}">
+		<title>
+			{% block title %}{% endblock %}
+			- TrouveTonRemede
+		</title>
+		<meta name="description" content="{% block description %}{% endblock %}">
+        {# Meta tags #}
+		<meta name="robots" content="index,follow">
+		<meta name="author" content="TrouveTonRemede">
+        {# Meta tags #}
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 
-        <meta name="robots" content="index,follow">
-        <meta name="author" content="TrouveTonRemede">
+		{# Favicon #}
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+		<link rel="shortcut icon" href="/favicon.ico"/>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+		<link rel="manifest" href="/site.webmanifest"/>
+        {# Font Awesome #}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
-            rel="stylesheet"
-        >
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        <link rel="icon" type="image/png" href="/favicon-96x96.png">
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
 
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-              integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-              crossorigin="anonymous"
-              referrerpolicy="no-referrer" />
+		{% block j_Query %}{% endblock %}
+		{% block specific_js %}{% endblock %}
+		{% block knp_paginator_rel_links %}{% endblock %}
+	</head>
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<body class="body-visitor">
+		{% include 'themes/partials/navbar/_navbar.html.twig' %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+		<main class="main-visitor"> {% block main %}{% endblock %}
+			</main>
 
-        {% block j_Query %}{% endblock %}
-        {% block specific_js %}{% endblock %}
-        {% block knp_paginator_rel_links %}{% endblock %}
-    </head>
-
-    <body class="body-visitor">
-        {% include 'themes/partials/navbar/_navbar.html.twig' %}
-
-        <main class="main-visitor">
-            {% block main %}{% endblock %}
-        </main>
-
-        {{ include('themes/partials/footer/_visitor_footer.html.twig') }}
-    </body>
-</html>
+			{{ include('themes/partials/footer/_visitor_footer.html.twig') }}
+		</body>
+	</html>
