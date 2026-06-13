@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>
-            {% block title %}{% endblock %}
-            - Espace utilisateur | Oumi
-        </title>
-        <meta name="description" content="{% block description %}{% endblock %}">
-        <meta name="robots" content="index,follow">
-        <meta name="author" content="Oumi">
-        <meta name="theme-color" content="#456f43">
+		<title>
+			{% block title %}{% endblock %}
+			- Espace utilisateur | Oumi
+		</title>
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<meta name="robots" content="index,follow">
+		<meta name="author" content="Oumi">
+		<meta name="theme-color" content="#456f43">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        <link rel="icon" type="image/png" href="/favicon-96x96.png">
+		{# Favicon #}
+		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+		<link rel="shortcut icon" href="/favicon.ico"/>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+		<link rel="manifest" href="/site.webmanifest"/>
 
-        <link rel="stylesheet"
-              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-              crossorigin="anonymous"
-              referrerpolicy="no-referrer"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
 
-    <body class="body-user">
-        {% set pathClient = app.request.pathInfo %}
-        {% set cartCount = cartCounter.getItemCount() %}
+	<body class="body-user">
+		{% set pathClient = app.request.pathInfo %}
+		{% set cartCount = cartCounter.getItemCount() %}
 
-        {% include 'themes/partials/navbar/_navbar.html.twig' %}
+		{% include 'themes/partials/navbar/_navbar.html.twig' %}
 
-        <main class="user-layout__main py-4">
-            {% block main %}{% endblock %}
-        </main>
-        {# FOOTER #}
-        {{ include('themes/partials/footer/_user_footer.html.twig') }}
-    </body>
-</html>
+		<main class="user-layout__main py-4"> {% block main %}{% endblock %}
+			</main>
+			{# FOOTER #}
+			{{ include('themes/partials/footer/_user_footer.html.twig') }}
+		</body>
+	</html>

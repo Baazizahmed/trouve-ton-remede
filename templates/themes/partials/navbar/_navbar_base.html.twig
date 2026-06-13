@@ -1,15 +1,25 @@
 {# templates/themes/partials/navbar/_navbar_base.html.twig #}
+
+{# Route courante pour gérer l'état actif des liens #}
 {% set currentRoute = app.request.attributes.get('_route') %}
+
+{# On ne calcule le compteur panier que si l'action panier est présente dans la navbar #}
 {% set hasCartAction = nav_actions|filter(action => action.route == 'app_cart_index')|length > 0 %}
 {% set cartItemCount = hasCartAction ? cartCounter.getItemCount() : 0 %}
 
 <nav class="ttr-navbar {{ navbar_class|default('') }}" data-navbar>
     <div class="ttr-navbar__container">
-        <a href="{{ path(home_route) }}" class="ttr-navbar__brand">
-            <span class="ttr-navbar__logo" aria-hidden="true">TR</span>
-            <span class="ttr-navbar__brand-text">TrouveTonRemede</span>
+
+        {# Logo commun cliquable vers la home de la variante courante #}
+        <a href="{{ path(home_route) }}" class="ttr-navbar__brand" aria-label="Retour à l’accueil">
+            <img
+                src="{{ asset('images/static/welcome/TrouveTonRemede1.png') }}"
+                alt="TrouveTonRemede"
+                class="ttr-navbar__brand-image"
+            >
         </a>
 
+        {# Bouton burger affiché sur mobile / tablette #}
         <button
             class="ttr-navbar__toggle"
             type="button"
@@ -23,46 +33,48 @@
             <span></span>
         </button>
 
+        {# Panneau principal contenant navigation + actions #}
         <div class="ttr-navbar__panel" id="ttr-navbar-menu" data-navbar-menu>
+
+            {# Liens de navigation principaux #}
             <div class="ttr-navbar__nav">
                 {% for link in nav_links %}
                     {% set isActive = false %}
 
+                    {# Un lien est actif si la route correspond exactement
+                       ou si elle commence par un préfixe défini #}
                     {% if link.active_prefix is defined and currentRoute starts with link.active_prefix %}
                         {% set isActive = true %}
                     {% elseif link.route is defined and currentRoute == link.route %}
                         {% set isActive = true %}
                     {% endif %}
 
-                    <a
-                        href="{{ path(link.route) }}"
-                        class="ttr-navbar__link {{ isActive ? 'is-active' : '' }}"
-                    >
+                    <a href="{{ path(link.route) }}" class="ttr-navbar__link {{ isActive ? 'is-active' : '' }}">
                         {{ link.label }}
                     </a>
                 {% endfor %}
             </div>
 
+            {# Actions secondaires : connexion, dashboard, panier, etc. #}
             <div class="ttr-navbar__actions">
                 {% for action in nav_actions %}
                     {% set isActionActive = false %}
 
+                    {# Même logique d'état actif pour les actions #}
                     {% if action.active_prefix is defined and currentRoute starts with action.active_prefix %}
                         {% set isActionActive = true %}
                     {% elseif action.route is defined and currentRoute == action.route %}
                         {% set isActionActive = true %}
                     {% endif %}
 
-                    <a
-                        href="{{ path(action.route) }}"
-                        class="ttr-navbar__action {{ action.class|default('') }} {{ isActionActive ? 'is-active' : '' }}"
-                    >
+                    <a href="{{ path(action.route) }}" class="ttr-navbar__action {{ action.class|default('') }} {{ isActionActive ? 'is-active' : '' }}">
                         {% if action.icon is defined %}
                             <i class="{{ action.icon }}" aria-hidden="true"></i>
                         {% endif %}
 
                         <span>{{ action.label }}</span>
 
+                        {# Badge affiché uniquement pour le panier si le compteur > 0 #}
                         {% if action.route == 'app_cart_index' and cartItemCount > 0 %}
                             <span class="ttr-navbar__badge">{{ cartItemCount }}</span>
                         {% endif %}
