@@ -35,6 +35,9 @@ class Product
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
+    #[ORM\Column(options: ['default' => 0])]
+    private int $stock = 0;
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -44,7 +47,7 @@ class Product
     /**
      * Fichier image non mappé en base, géré par VichUploader.
      */
-    #[Vich\UploadableField(mapping : 'product_image', fileNameProperty : 'imageName')]
+    #[Vich\UploadableField(mapping: 'product_image', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     /**
@@ -101,8 +104,19 @@ class Product
 
     public function setPrice(float $price): static
     {
-        // On stocke en string car colonne DECIMAL, mais on tape en float côté PHP
         $this->price = (string) $price;
+
+        return $this;
+    }
+
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): static
+    {
+        $this->stock = $stock;
 
         return $this;
     }
@@ -139,7 +153,6 @@ class Product
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {
-            // Important : forcer un changement pour que Doctrine déclenche l’update
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
