@@ -129,7 +129,7 @@
 
                     <div class="col-12 col-xl-4">
                         <div class="admin-form-card__aside">
-                            <h3 class="admin-form-card__section-title">Prix et image</h3>
+                            <h3 class="admin-form-card__section-title">Prix, stock et image</h3> {# MODIF : titre harmonisé #}
 
                             <div class="admin-form-card__fields">
                                 <div>
@@ -146,6 +146,23 @@
                                         <span class="input-group-text">€</span>
                                     </div>
                                     <div class="text-danger small mt-1">{{ form_errors(form.price) }}</div>
+                                </div>
+
+                                <div> {# AJOUT : champ stock dans le formulaire admin create #}
+                                    {{ form_label(form.stock, null, {
+                                        label_attr: { class: 'form-label fw-semibold' }
+                                    }) }}
+                                    {{ form_widget(form.stock, {
+                                        attr: {
+                                            class: 'form-control',
+                                            min: 0,
+                                            placeholder: 'Ex : 12'
+                                        }
+                                    }) }}
+                                    <div class="text-danger small mt-1">{{ form_errors(form.stock) }}</div>
+                                    <div class="form-text">
+                                        Indiquez la quantité actuellement disponible pour ce produit.
+                                    </div>
                                 </div>
 
                                 <div>

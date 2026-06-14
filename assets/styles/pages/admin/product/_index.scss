@@ -1,0 +1,26 @@
+.admin-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.admin-stock-badge--in {
+  background-color: #d1f7dc;
+  color: #146c43;
+}
+
+.admin-stock-badge--low {
+  background-color: #fff3cd;
+  color: #9a6700;
+}
+
+.admin-stock-badge--out {
+  background-color: #e9ecef;
+  color: #a14a4a;
+}
