@@ -68,6 +68,28 @@ final class ProductController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/stock', name: 'app_admin_product_stock_update', methods: ['POST'])] // AJOUT : route dédiée à la mise à jour rapide du stock
+    public function updateStock(Product $product, Request $request, EntityManagerInterface $em): Response
+    {
+        // AJOUT : sécurisation CSRF spécifique à la ligne produit
+        if (!$this->isCsrfTokenValid('update_stock_'.$product->getId(), (string) $request->request->get('_token'))) {
+            $this->addFlash('error', 'Jeton invalide. Merci de réessayer.');
+
+            return $this->redirectToRoute('app_admin_product_index');
+        }
+
+        // AJOUT : récupération du stock avec garde-fou pour éviter les valeurs négatives
+        $stock = max(0, (int) $request->request->get('stock', 0));
+
+        $product->setStock($stock);
+        $product->setUpdatedAt(new \DateTimeImmutable()); // AJOUT : on garde updatedAt cohérent avec la modif admin
+        $em->flush();
+
+        $this->addFlash('success', 'Stock mis à jour avec succès.');
+
+        return $this->redirectToRoute('app_admin_product_index');
+    }
+
     #[Route('/{id}/supprimer', name: 'app_admin_product_delete', methods: ['POST'])]
     public function delete(Product $product, EntityManagerInterface $em, Request $request): Response
     {

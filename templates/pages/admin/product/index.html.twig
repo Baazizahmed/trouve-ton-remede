@@ -28,6 +28,10 @@
             <div class="alert alert-success">{{ message }}</div>
         {% endfor %}
 
+        {% for message in app.flashes('error') %} {# AJOUT : gestion des erreurs CSRF / validation #}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
         {% set tableContent %}
             <div class="table-responsive">
                 <table class="table table-striped align-middle text-center mb-0">
@@ -38,7 +42,7 @@
                             <th>Nom</th>
                             <th class="d-none d-lg-table-cell">Slug</th>
                             <th>Prix HT</th>
-                            <th>Stock</th> {# AJOUT : colonne stock visible dans le listing admin #}
+                            <th>Stock</th> {# MODIF : colonne stock enrichie avec édition rapide #}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -82,20 +86,74 @@
                                 </td>
 
                                 <td>
-                                    {# AJOUT : état du stock harmonisé côté admin #}
-                                    {% if product.stock <= 0 %}
-                                        <span class="admin-stock-badge admin-stock-badge--out">
-                                            Rupture
-                                        </span>
-                                    {% elseif product.stock <= 5 %}
-                                        <span class="admin-stock-badge admin-stock-badge--low">
-                                            Stock faible ({{ product.stock }})
-                                        </span>
-                                    {% else %}
-                                        <span class="admin-stock-badge admin-stock-badge--in">
-                                            Stock : {{ product.stock }}
-                                        </span>
-                                    {% endif %}
+                                    {# AJOUT : mini formulaire inline pour ajuster le stock directement depuis le listing admin #}
+                                    <form
+                                        action="{{ path('app_admin_product_stock_update', { id: product.id }) }}"
+                                        method="post"
+                                        class="admin-stock-inline-form"
+                                    >
+                                        <input
+                                            type="hidden"
+                                            name="_token"
+                                            value="{{ csrf_token('update_stock_' ~ product.id) }}"
+                                        >
+
+                                        <div class="admin-stock-inline">
+                                            {# AJOUT : bouton - pour diminuer la quantité visuellement avant validation #}
+                                            <button
+                                                type="button"
+                                                class="admin-stock-inline__btn"
+                                                onclick="this.parentNode.querySelector('.admin-stock-inline__input').stepDown()"
+                                                aria-label="Diminuer le stock de {{ product.name }}"
+                                            >
+                                                -
+                                            </button>
+
+                                            {# AJOUT : quantité éditable directement #}
+                                            <input
+                                                type="number"
+                                                name="stock"
+                                                value="{{ product.stock }}"
+                                                min="0"
+                                                class="admin-stock-inline__input"
+                                                aria-label="Stock de {{ product.name }}"
+                                            >
+
+                                            {# AJOUT : bouton + pour augmenter la quantité visuellement avant validation #}
+                                            <button
+                                                type="button"
+                                                class="admin-stock-inline__btn"
+                                                onclick="this.parentNode.querySelector('.admin-stock-inline__input').stepUp()"
+                                                aria-label="Augmenter le stock de {{ product.name }}"
+                                            >
+                                                +
+                                            </button>
+
+                                            {# AJOUT : validation explicite pour rester simple et fiable #}
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-admin-primary admin-stock-inline__submit"
+                                            >
+                                                Valider
+                                            </button>
+                                        </div>
+
+                                        <div class="admin-stock-inline__status">
+                                            {% if product.stock <= 0 %}
+                                                <span class="admin-stock-badge admin-stock-badge--out">
+                                                    Rupture
+                                                </span>
+                                            {% elseif product.stock <= 5 %}
+                                                <span class="admin-stock-badge admin-stock-badge--low">
+                                                    Stock faible
+                                                </span>
+                                            {% else %}
+                                                <span class="admin-stock-badge admin-stock-badge--in">
+                                                    En stock
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </form>
                                 </td>
 
                                 <td>
