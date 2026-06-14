@@ -70,19 +70,38 @@ class CartService
 
     public function addProduct(Cart $cart, Product $product, int $quantity = 1): void
     {
+        if ($product->getStock() <= 0) {
+            return;
+        }
+
+        if ($quantity <= 0) {
+            return;
+        }
+
         $cartItem = $this->cartItemRepository->findOneBy([
             'cart' => $cart,
             'product' => $product,
         ]);
 
         if ($cartItem) {
-            $cartItem->setQuantity($cartItem->getQuantity() + $quantity);
+            $newQuantity = $cartItem->getQuantity() + $quantity;
+
+            if ($newQuantity > $product->getStock()) {
+                $newQuantity = $product->getStock();
+            }
+
+            $cartItem->setQuantity($newQuantity);
         } else {
+            if ($quantity > $product->getStock()) {
+                $quantity = $product->getStock();
+            }
+
             $cartItem = new CartItem();
             $cartItem->setCart($cart);
             $cartItem->setProduct($product);
             $cartItem->setQuantity($quantity);
             $cartItem->setUnitPrice($product->getPrice());
+
             $this->em->persist($cartItem);
         }
 
@@ -99,12 +118,23 @@ class CartService
 
     public function updateQuantity(CartItem $cartItem, int $quantity): void
     {
+        $product = $cartItem->getProduct();
+
         if ($quantity <= 0) {
             $this->em->remove($cartItem);
         } else {
-            $cartItem->setQuantity($quantity);
+            if ($quantity > $product->getStock()) {
+                $quantity = $product->getStock();
+            }
+
+            if ($quantity <= 0) {
+                $this->em->remove($cartItem);
+            } else {
+                $cartItem->setQuantity($quantity);
+            }
         }
 
+        $cartItem->getCart()->setUpdatedAt(new \DateTimeImmutable());
         $this->em->flush();
     }
 
