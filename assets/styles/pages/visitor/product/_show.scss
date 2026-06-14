@@ -40,3 +40,19 @@
   font-size: 0.98rem;
   color: $texte-secondaire;
 }
+
+.product-stock-note {
+  font-weight: 600;
+}
+
+.product-stock-note--in {
+  color: #146c43;
+}
+
+.product-stock-note--low {
+  color: #9a6700;
+}
+
+.product-stock-note--out {
+  color: #a14a4a;
+}
