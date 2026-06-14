@@ -20,6 +20,21 @@
             subtitle: 'Gérez le blog, la boutique et les commandes de TrouveTonRemede depuis votre tableau de bord.'
         } %}
 
+        {# AJOUT : accès rapide mis en avant vers le listing produit pour la gestion stock #}
+        <section class="mb-4">
+            <div class="alert alert-light border d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+                <div>
+                    <strong>Stock produits :</strong> accédez rapidement au catalogue pour ajuster les quantités et repérer les ruptures.
+                </div>
+                <div>
+                    <a href="{{ path('app_admin_product_index') }}" class="btn btn-sm btn-primary">
+                        <i class="fa-solid fa-boxes-stacked me-2"></i>
+                        Ouvrir le catalogue produits
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <section class="mb-5">
             <h2 class="h5 text-muted mb-3">
                 <i class="fa-solid fa-blog me-2"></i>

@@ -38,11 +38,11 @@
                     <thead>
                         <tr>
                             <th class="d-none d-lg-table-cell">ID</th>
-                            <th>Image</th>
+                            <th class="admin-products-table__col-image">Image</th> {# MODIF : classe ajoutée pour masquer la colonne en tablette #}
                             <th>Nom</th>
                             <th class="d-none d-lg-table-cell">Slug</th>
                             <th>Prix HT</th>
-                            <th>Stock</th> {# MODIF : colonne stock enrichie avec édition rapide #}
+                            <th>Stock</th> {# MODIF : colonne stock enrichie avec statut plus lisible + quantité exacte #}
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,7 +52,7 @@
                             <tr>
                                 <td class="d-none d-lg-table-cell">{{ product.id }}</td>
 
-                                <td>
+                                <td class="admin-products-table__cell-image"> {# MODIF : classe ajoutée pour masquer la cellule image en tablette #}
                                     <div class="admin-product-thumb">
                                         {% if product.imageName %}
                                             <img
@@ -86,11 +86,11 @@
                                 </td>
 
                                 <td>
-                                    {# AJOUT : mini formulaire inline pour ajuster le stock directement depuis le listing admin #}
+                                    {# MODIF : ajout d’un état visuel spécifique quand le stock est à 0 #}
                                     <form
                                         action="{{ path('app_admin_product_stock_update', { id: product.id }) }}"
                                         method="post"
-                                        class="admin-stock-inline-form"
+                                        class="admin-stock-inline-form {% if product.stock <= 0 %}admin-stock-inline-form--out{% endif %}"
                                     >
                                         <input
                                             type="hidden"
@@ -141,16 +141,33 @@
                                         <div class="admin-stock-inline__status">
                                             {% if product.stock <= 0 %}
                                                 <span class="admin-stock-badge admin-stock-badge--out">
+                                                    <span class="admin-stock-badge__dot" aria-hidden="true"></span> {# AJOUT : repère visuel #}
                                                     Rupture
+                                                    <span class="admin-stock-badge__count">· 0 unité</span> {# AJOUT : quantité exacte affichée #}
                                                 </span>
                                             {% elseif product.stock <= 5 %}
                                                 <span class="admin-stock-badge admin-stock-badge--low">
+                                                    <span class="admin-stock-badge__dot" aria-hidden="true"></span> {# AJOUT : repère visuel #}
                                                     Stock faible
+                                                    <span class="admin-stock-badge__count">· {{ product.stock }} unité{% if product.stock > 1 %}s{% endif %}</span> {# AJOUT : quantité exacte affichée #}
                                                 </span>
                                             {% else %}
                                                 <span class="admin-stock-badge admin-stock-badge--in">
+                                                    <span class="admin-stock-badge__dot" aria-hidden="true"></span> {# AJOUT : repère visuel #}
                                                     En stock
+                                                    <span class="admin-stock-badge__count">· {{ product.stock }} unité{% if product.stock > 1 %}s{% endif %}</span> {# AJOUT : quantité exacte affichée #}
                                                 </span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="admin-stock-inline__hint">
+                                            {# AJOUT : aide textuelle discrète pour rendre l’état plus explicite #}
+                                            {% if product.stock <= 0 %}
+                                                Produit actuellement indisponible à la vente.
+                                            {% elseif product.stock <= 5 %}
+                                                Pensez à anticiper le réassort.
+                                            {% else %}
+                                                Stock disponible pour la boutique.
                                             {% endif %}
                                         </div>
                                     </form>
