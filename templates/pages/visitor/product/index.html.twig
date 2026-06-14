@@ -16,9 +16,7 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
 {# SECTION AVANTAGES #}
 <section class="products-benefits py-5">
     <div class="container">
-
         <div class="row g-4">
-
             <div class="col-md-4">
                 <div class="benefit-card h-100">
                     <div class="benefit-icon">
@@ -66,19 +64,14 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                     </p>
                 </div>
             </div>
-
         </div>
-
     </div>
 </section>
 
 {# SECTION PRODUITS #}
 <section class="section-products-index py-5">
-
     <div class="container">
-
         <div class="products-heading mb-5">
-
             <span class="products-badge">
                 🌿 La sélection d’Oumi
             </span>
@@ -91,22 +84,15 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                 Découvrez une sélection naturelle pour accompagner votre quotidien :
                 sommeil, digestion, immunité, détente et équilibre.
             </p>
-
         </div>
 
         {% if products is not empty %}
-
             <div class="row g-4">
-
                 {% for product in products %}
-
                     <div class="col-xl-3 col-lg-4 col-md-6">
-
                         <article class="card-produit h-100">
-
                             {# IMAGE #}
                             <div class="card-produit__image-wrapper">
-
                                 {% if product.imageName %}
                                     <img
                                         src="{{ asset('images/dynamic/products/' ~ product.imageName) }}"
@@ -127,15 +113,23 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                                         Découvrir
                                     </a>
                                 </div>
-
                             </div>
 
                             {# CONTENU #}
                             <div class="card-produit__body">
-
-                                <div class="card-produit__badge">
-                                    Naturel
-                                </div>
+                                {% if product.stock <= 0 %}
+                                    <div class="card-produit__badge card-produit__badge--out">
+                                        Rupture de stock
+                                    </div>
+                                {% elseif product.stock <= 5 %}
+                                    <div class="card-produit__badge card-produit__badge--low">
+                                        Bientôt en rupture
+                                    </div>
+                                {% else %}
+                                    <div class="card-produit__badge card-produit__badge--in">
+                                        En stock
+                                    </div>
+                                {% endif %}
 
                                 <h3 class="card-produit__title">
                                     {{ product.name }}
@@ -146,7 +140,6 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                                 </p>
 
                                 <div class="card-produit__footer">
-
                                     <div>
                                         <span class="card-produit__price">
                                             {{ product.price|number_format(2, ',', ' ') }} €
@@ -157,30 +150,31 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                                         </small>
                                     </div>
 
-                                    <a
-                                        href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
-                                        class="btn btn-success rounded-pill px-3"
-                                    >
-                                        Voir
-                                    </a>
-
+                                    {% if product.stock <= 0 %}
+                                        <a
+                                            href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
+                                            class="btn btn-outline-secondary rounded-pill px-3"
+                                        >
+                                            Voir
+                                        </a>
+                                    {% else %}
+                                        <a
+                                            href="{{ path('app_visitor_product_show', {'slug': product.slug}) }}"
+                                            class="btn btn-success rounded-pill px-3"
+                                        >
+                                            Voir
+                                        </a>
+                                    {% endif %}
                                 </div>
-
                             </div>
-
                         </article>
-
                     </div>
-
                 {% endfor %}
-
             </div>
 
             {# CTA BAS PAGE #}
             <div class="products-cta mt-5">
-
                 <div class="products-cta-box">
-
                     <h2 class="products-cta-title">
                         Besoin d’aide pour choisir une plante ?
                     </h2>
@@ -191,7 +185,6 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                     </p>
 
                     <div class="d-flex justify-content-center gap-3 flex-wrap">
-
                         <a
                             href="{{ path('app_visitor_blog_index') }}"
                             class="btn btn-outline-success rounded-pill px-4"
@@ -205,17 +198,11 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                         >
                             Contacter Oumi
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
         {% else %}
-
             <div class="products-empty">
-
                 <div class="products-empty-icon">
                     🌿
                 </div>
@@ -235,13 +222,9 @@ Découvrez la sélection de plantes naturelles d’Oumi pour votre bien-être.
                 >
                     Lire les conseils bien-être
                 </a>
-
             </div>
-
         {% endif %}
-
     </div>
-
 </section>
 
 {% endblock %}
