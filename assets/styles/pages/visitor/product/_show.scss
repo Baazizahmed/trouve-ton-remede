@@ -41,6 +41,37 @@
   color: $texte-secondaire;
 }
 
+.product-page-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.product-page-badge--selection {
+  background-color: rgba($primary, 0.1);
+  color: $primary;
+}
+
+.product-page-badge--in {
+  background-color: #d1f7dc;
+  color: #146c43;
+}
+
+.product-page-badge--low {
+  background-color: #fff3cd;
+  color: #9a6700;
+}
+
+.product-page-badge--out {
+  background-color: #e9ecef;
+  color: #a14a4a;
+}
+
 .product-stock-note {
   font-weight: 600;
 }
