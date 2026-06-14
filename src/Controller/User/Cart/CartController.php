@@ -38,7 +38,21 @@ class CartController extends AbstractController
             throw $this->createNotFoundException('Produit non trouvé.');
         }
 
-        $quantity = (int) $request->request->get('quantity', 1);
+        if ($product->getStock() <= 0) {
+            $this->addFlash('warning', 'Ce produit est actuellement en rupture de stock.');
+
+            return $this->redirectToRoute('app_visitor_product_show', [
+                'slug' => $product->getSlug(),
+            ]);
+        }
+
+        $quantity = max(1, (int) $request->request->get('quantity', 1));
+
+        if ($quantity > $product->getStock()) {
+            $quantity = $product->getStock();
+            $this->addFlash('warning', 'La quantité demandée dépasse le stock disponible. La quantité a été ajustée.');
+        }
+
         $cart = $this->cartService->getOrCreateCart($this->getUser());
         $this->cartService->addProduct($cart, $product, $quantity);
 
@@ -74,6 +88,20 @@ class CartController extends AbstractController
         }
 
         $quantity = (int) $request->request->get('quantity', 1);
+        $product = $cartItem->getProduct();
+
+        if ($product->getStock() <= 0) {
+            $this->cartService->updateQuantity($cartItem, 0);
+            $this->addFlash('warning', 'Ce produit est désormais en rupture de stock et a été retiré du panier.');
+
+            return $this->redirectToRoute('app_cart_index');
+        }
+
+        if ($quantity > $product->getStock()) {
+            $quantity = $product->getStock();
+            $this->addFlash('warning', 'La quantité demandée dépasse le stock disponible. La quantité a été ajustée.');
+        }
+
         $this->cartService->updateQuantity($cartItem, $quantity);
 
         $this->addFlash('success', 'Quantité mise à jour.');
