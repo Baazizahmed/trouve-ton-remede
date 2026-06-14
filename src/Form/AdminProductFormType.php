@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType; // AJOUT : champ stock admin
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -46,8 +47,15 @@ class AdminProductFormType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix',
-                'currency' => false, // tu gères le symbole dans le template
+                'currency' => false,
                 'scale' => 2,
+            ])
+            ->add('stock', IntegerType::class, [ // AJOUT : gestion du stock côté admin
+                'label' => 'Stock disponible',
+                'attr' => [
+                    'min' => 0,
+                    'placeholder' => 'Ex : 12',
+                ],
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
