@@ -16,11 +16,8 @@ $border-color: $border;
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
 
-
-
 // Base
 @import "./base/typography";
-
 
 // components
 @import "./components/visitor/header_visitor";
@@ -33,17 +30,11 @@ $border-color: $border;
 @import "./components/user/stat_card";
 @import "./components/user/quick_action_card";
 
-
-
-
-
 // layout
 @import "./layout/login-form";
 @import "./layout/footer";
 @import "./layout/admin_layout";
 @import "./layout/navbar";
-
-
 
 // Pages
 @import "./pages/visitor/blog/index";
@@ -58,11 +49,7 @@ $border-color: $border;
 @import "./pages/user/home/index";
 @import "./pages/user/profile/index";
 @import "./pages/user/profile/edit";
-@import "./pages/admin/product/index";
-
-
-
-
+@import "./pages/admin/product/index"; // MODIF : styles dédiés au listing admin produit + gestion inline du stock
 
 // Themes
 @import "./themes/base_visitor";

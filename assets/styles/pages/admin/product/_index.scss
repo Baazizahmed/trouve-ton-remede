@@ -24,3 +24,72 @@
   background-color: #e9ecef;
   color: #a14a4a;
 }
+
+/* AJOUT : bloc inline d’édition rapide du stock dans le listing admin */
+.admin-stock-inline-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* AJOUT : ligne de contrôle quantité + boutons +/- + validation */
+.admin-stock-inline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* AJOUT : boutons - et + harmonisés avec le style admin */
+.admin-stock-inline__btn {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #d7d2c8;
+  border-radius: 0.65rem;
+  background-color: #fff;
+  color: #4f5b46;
+  font-weight: 700;
+  line-height: 1;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f4f1eb;
+    border-color: #c8c1b6;
+  }
+}
+
+/* AJOUT : input quantité centré et compact */
+.admin-stock-inline__input {
+  width: 4.5rem;
+  min-width: 4.5rem;
+  text-align: center;
+  border: 1px solid #d7d2c8;
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.5rem;
+  background-color: #fff;
+  color: #3b3a36;
+  font-weight: 600;
+}
+
+/* AJOUT : bouton valider compact */
+.admin-stock-inline__submit {
+  white-space: nowrap;
+}
+
+/* AJOUT : zone badge sous les contrôles */
+.admin-stock-inline__status {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+  .admin-stock-inline {
+    flex-direction: column;
+  }
+
+  .admin-stock-inline__submit {
+    width: 100%;
+  }
+}
